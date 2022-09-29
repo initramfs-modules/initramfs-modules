@@ -26,7 +26,7 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { dockerfile: 'Dockerfile-Alpine',            tag: 'gentoo:latest' }
+                    - { dockerfile: 'Dockerfile-alpine',            tag: 'alpine:latest' }
         steps:
             -   name: Check out the repo
                 uses: actions/checkout@v2

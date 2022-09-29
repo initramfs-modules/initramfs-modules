@@ -2,7 +2,7 @@ FROM docker.io/alpine
 
 RUN echo 'export DRACUT_NO_XATTR=1 KVERSION=$(cd /lib/modules; ls -1 | tail -1)' > /etc/profile.d/dracut-test.sh
 
-# Grab latest dracut from alpine testing
+# Grab dracut from alpine testing
 RUN apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
 # dependencies to run tests
