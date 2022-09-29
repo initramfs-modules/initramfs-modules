@@ -1,0 +1,31 @@
+name: Test
+
+on:
+    workflow_dispatch:
+        inputs:
+            test:
+                description: 'Test to run'
+                default: '80'
+                required: true
+            container:
+                type: choice
+                description: 'distro'
+                default: 'alpine'
+                options:
+                    - "alpine"
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        timeout-minutes: 45
+        container:
+            image: ghcr.io/${{ github.repository_owner }}/${{ inputs.container }}
+            options: "--privileged -v /dev:/dev"
+        steps:
+            -   name: "Checkout Repository"
+                uses: actions/checkout@v2
+                with:
+                    fetch-depth: 0
+
+            -   name: "${{ inputs.container }} TEST-${{ inputs.test }}"
+                run: ./tests/test.sh "TEST-${{ inputs.test }}" ${{ inputs.test }}
