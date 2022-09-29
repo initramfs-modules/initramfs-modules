@@ -28,4 +28,7 @@ jobs:
                     fetch-depth: 0
 
             -   name: "${{ inputs.container }} TEST-${{ inputs.test }}"
-                run: ./tests/test.sh "TEST-${{ inputs.test }}" ${{ inputs.test }}
+                run: rsync -av /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
+
+            -   name: "${{ inputs.container }} TEST-${{ inputs.test }}"
+                run: ./test/test.sh "TEST-${{ inputs.test }}" ${{ inputs.test }}

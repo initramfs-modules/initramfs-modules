@@ -82,8 +82,8 @@ test_setup() {
     # create an initramfs that will create the target root filesystem.
     # We do it this way so that we do not risk trashing the host mdraid
     # devices, volume groups, encrypted partitions, etc.
-    "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
-        --modules "mdev qemu" \
+    dracut -l -i "$TESTDIR"/overlay / \
+        --modules "mdev-alpine qemu" \
         --drivers "ext4 sd_mod" \
         --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
         --force "$TESTDIR"/initramfs.makeroot "$KVERSION" || return 1
@@ -119,7 +119,7 @@ test_setup() {
         inst_hook shutdown-emergency 000 ./hard-off.sh
         inst_hook emergency 000 ./hard-off.sh
     )
-    "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
+    dracut -l -i "$TESTDIR"/overlay / \
         --modules "mdev-alpine qemu" \
         --omit "rngd" \
         --drivers "ext4 sd_mod" \
