@@ -1,0 +1,12 @@
+.PHONY: all setup clean run
+
+all:
+	@$(MAKE) -s --no-print-directory -C ../.. all
+	@V=$(V) basedir="$(realpath ../..)" testdir="$(realpath ../)" ./test.sh --all
+setup:
+	@$(MAKE) --no-print-directory -C ../.. all
+	@basedir="$(realpath ../..)" testdir="$(realpath ../)" ./test.sh --setup
+clean:
+	@basedir="$(realpath ../..)" testdir="$(realpath ../)" ./test.sh --clean
+run:
+	@basedir="$(realpath ../..)" testdir="$(realpath ../)" ./test.sh --run
