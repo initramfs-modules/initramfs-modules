@@ -74,7 +74,6 @@ test_setup() {
         export initdir=$TESTDIR/overlay
         # shellcheck disable=SC1090
         . "$basedir"/dracut-init.sh
-        inst_multiple mkfs.ext4
         inst_hook initqueue 01 ./create-root.sh
     )
 
@@ -83,6 +82,7 @@ test_setup() {
     # devices, volume groups, encrypted partitions, etc.
     dracut -l -i "$TESTDIR"/overlay / \
         --modules "mdev-alpine test" \
+        --install "mkfs.ext4" \
         --drivers "ext4 sd_mod" \
         --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
         --force "$TESTDIR"/initramfs.makeroot "$KVERSION" || return 1
