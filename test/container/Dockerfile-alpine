@@ -6,4 +6,4 @@ RUN echo 'export DRACUT_NO_XATTR=1 KVERSION=$(cd /lib/modules; ls -1 | tail -1)'
 RUN apk add dracut zfs-dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
 # dependencies to run tests
-RUN apk add linux-lts qemu-img qemu-system-x86_64 e2fsprogs git grep mdev-conf util-linux-misc make rsync
+RUN apk add linux-virt qemu-img qemu-system-x86_64 e2fsprogs git grep mdev-conf util-linux-misc make rsync
