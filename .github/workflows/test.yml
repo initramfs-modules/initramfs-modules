@@ -27,7 +27,7 @@ jobs:
                 with:
                     fetch-depth: 0
 
-            -   name: "${{ inputs.container }} TEST-${{ inputs.test }}"
+            -   name: "Overlay system dracut modules"
                 run: rsync -av /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
 
             -   name: "${{ inputs.container }} TEST-${{ inputs.test }}"
