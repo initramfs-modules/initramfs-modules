@@ -100,20 +100,11 @@ test_setup() {
         return 1
     fi
 
-    (
-        # shellcheck disable=SC2030
-        # shellcheck disable=SC2031
-        export initdir="$TESTDIR"/overlay
-        # shellcheck disable=SC1090
-        . "$basedir"/dracut-init.sh
-        inst_multiple mkfs.ext4
-        inst_hook shutdown-emergency 000 ./hard-off.sh
-        inst_hook emergency 000 ./hard-off.sh
-    )
     dracut -l -i "$TESTDIR"/overlay / \
-        --modules "mdev-alpine qemu" \
+        --modules "mdev-alpine test" \
         --omit "rngd" \
         --drivers "ext4 sd_mod" \
+        --install "mkfs.ext4" \
         --no-hostonly --no-hostonly-cmdline \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
