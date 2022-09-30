@@ -16,7 +16,7 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
 
-    KVERSION=lts "$testdir"/run-qemu \
+    KVERSION=virt "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
         -append "root=/dev/sdb console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
@@ -99,7 +99,7 @@ test_setup() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
 
     # Invoke KVM and/or QEMU to actually create the target filesystem.
-    KVERSION=lts "$testdir"/run-qemu \
+    KVERSION=virt "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -append "root=/dev/sdb rw rootfstype=ext4 quiet console=ttyS0,115200n81 selinux=0" \
         -initrd "$TESTDIR"/initramfs.makeroot || return 1
