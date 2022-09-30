@@ -74,16 +74,15 @@ test_setup() {
         export initdir=$TESTDIR/overlay
         # shellcheck disable=SC1090
         . "$basedir"/dracut-init.sh
-        inst_multiple poweroff cp umount sync dd mkfs.ext4 find
+        inst_multiple mkfs.ext4 find
         inst_hook initqueue 01 ./create-root.sh
-        inst_hook initqueue/finished 01 ./finished-false.sh
     )
 
     # create an initramfs that will create the target root filesystem.
     # We do it this way so that we do not risk trashing the host mdraid
     # devices, volume groups, encrypted partitions, etc.
     dracut -l -i "$TESTDIR"/overlay / \
-        --modules "mdev-alpine qemu" \
+        --modules "mdev-alpine test" \
         --drivers "ext4 sd_mod" \
         --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
         --force "$TESTDIR"/initramfs.makeroot "$KVERSION" || return 1
