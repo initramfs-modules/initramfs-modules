@@ -68,15 +68,6 @@ test_setup() {
     )
 
     # second, install the files needed to make the root filesystem
-    (
-        # shellcheck disable=SC2030
-        # shellcheck disable=SC2031
-        export initdir=$TESTDIR/overlay
-        # shellcheck disable=SC1090
-        . "$basedir"/dracut-init.sh
-        inst_hook initqueue 01 ./create-root.sh
-    )
-
     # create an initramfs that will create the target root filesystem.
     # We do it this way so that we do not risk trashing the host mdraid
     # devices, volume groups, encrypted partitions, etc.
@@ -85,6 +76,7 @@ test_setup() {
         --install "mkfs.ext4" \
         --drivers "ext4 sd_mod" \
         --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
+        --include ./create-root.sh /lib/dracut/hooks/initqueue/01-create-root.sh \
         --force "$TESTDIR"/initramfs.makeroot "$KVERSION" || return 1
     rm -rf -- "$TESTDIR"/overlay
 
