@@ -2,8 +2,11 @@ FROM docker.io/alpine
 
 RUN echo 'export DRACUT_NO_XATTR=1 KVERSION=$(cd /lib/modules; ls -1 | tail -1)' > /etc/profile.d/dracut-test.sh
 
-# Grab all dracut modules
-RUN apk add dracut zfs-dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
-
 # dependencies to run tests
 RUN apk add linux-virt qemu-img qemu-system-x86_64 e2fsprogs git grep mdev-conf util-linux-misc make rsync
+
+# Uninstall mkinitfs
+RUN rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs/
+
+# Grab all dracut modules
+RUN apk add dracut zfs-dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
