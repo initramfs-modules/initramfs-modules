@@ -15,3 +15,5 @@ RUN apk add squashfs-tools binutils curl btrfs-progs openssh nfs-utils dhclient 
 RUN apk add dracut zfs-dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
 RUN cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
+RUN cp /sbin/poweroff /sbin/shutdown
+RUN cp /usr/bin/dash /bin/dash
