@@ -101,7 +101,7 @@ test_setup() {
     fi
 
     dracut -l -i "$TESTDIR"/overlay / \
-        --modules "dash mdev-alpine rootfs-block test" \
+        --modules "dash mdev-alpine rootfs-block test debug watchdog" \
         --omit "rngd" \
         --drivers "ext4 sd_mod" \
         --install "mkfs.ext4" \
