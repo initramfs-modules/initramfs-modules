@@ -4,7 +4,7 @@ trap 'poweroff -f' EXIT
 
 set -ex
 
-mkfs.ext4 -q  /dev/sdb
+mkfs.ext4 /dev/sdb
 mkdir -p /root
 mount /dev/sdb /root
 cp -a -t /root /source/*
