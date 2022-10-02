@@ -5,14 +5,13 @@ check() {
     return 255
 }
 
-depends() {
-    echo ""
-}
-
 install() {
     # see https://gitlab.alpinelinux.org/alpine/mkinitfs/-/blob/master/features.d/base.files
 
-    inst_multiple mdev nlplug-findfs cut blkid
+    # /lib/mdev/persistent-storage is dependent on blkid
+    # /lib/mdev/persistent-storage is dependent on cut
+
+    inst_multiple mdev nlplug-findfs blkid cut
 
     inst /etc/passwd
     inst /etc/group
