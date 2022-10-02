@@ -6,7 +6,7 @@ on:
         inputs:
             test:
                 description: 'Test to run'
-                default: '16 80'
+                default: '98 16 80'
                 required: true
             container:
                 type: choice
