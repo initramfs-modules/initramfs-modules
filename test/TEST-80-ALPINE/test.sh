@@ -102,7 +102,7 @@ test_setup() {
 
     dracut -l -i "$TESTDIR"/overlay / \
         --modules "mdev-alpine test" \
-        --omit "rngd udev-rules" \
+        --omit "rngd" \
         --drivers "ext4 sd_mod" \
         --install "mkfs.ext4" \
         --no-hostonly --no-hostonly-cmdline \
