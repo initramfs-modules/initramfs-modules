@@ -44,7 +44,7 @@ test_setup() {
     # We do it this way so that we do not risk trashing the host mdraid
     # devices, volume groups, encrypted partitions, etc.
     dracut -l -i "$TESTDIR"/overlay / \
-        --modules "dash mdev-alpine rootfs-block test-makeroot" \
+        --modules "busybox mdev-alpine rootfs-block test-makeroot" \
         --install "mkfs.ext4" \
         --drivers "ext4 sd_mod" \
         --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
