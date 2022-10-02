@@ -2,6 +2,7 @@
 
 # called by dracut
 install() {
+  if ! dracut_module_included "mdev-alpine"; then
     local _i
 
     # Fixme: would be nice if we didn't have to guess, which rules to grab....
@@ -95,4 +96,5 @@ install() {
 
     inst_libdir_file "libnss_files*"
 
+  fi
 }
