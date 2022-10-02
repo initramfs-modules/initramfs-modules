@@ -2,6 +2,8 @@
 
 trap 'poweroff -f' EXIT
 
+set -ex
+
 mkfs.ext4 -q  /dev/sdb
 mkdir -p /root
 mount /dev/sdb /root
