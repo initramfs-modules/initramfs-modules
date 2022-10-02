@@ -1,7 +1,7 @@
 FROM docker.io/alpine
 
 # module dependencies
-RUN apk add squashfs-tools binutils curl btrfs-progs openssh nfs-utils libnfsidmap dhclient lvm2 cryptsetup gpg open-iscsi multipath-tools losetup dash mdadm
+RUN apk add squashfs-tools binutils curl btrfs-progs openssh nfs-utils libnfsidmap dhclient lvm2 cryptsetup gpg open-iscsi multipath-tools losetup dash mdadm nbd partx sed
 
 # dependencies to run tests
 RUN apk add linux-virt qemu-img qemu-system-x86_64 e2fsprogs git mdev-conf util-linux-misc make rsync sfdisk strace grep
