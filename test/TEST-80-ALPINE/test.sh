@@ -26,46 +26,18 @@ test_run() {
 }
 
 test_setup() {
-    mkdir -p -- "$TESTDIR"/overlay/source
+    mkdir -p -- "$TESTDIR"/overlay/source "$TESTDIR"/overlay/tmp
     # Create what will eventually be our root filesystem onto an overlay
-    (
-        # shellcheck disable=SC2030
-        # shellcheck disable=SC2031
-        export initdir="$TESTDIR"/overlay/source
-        # shellcheck disable=SC1090
-        . "$basedir"/dracut-init.sh
-        (
-            cd "$initdir" || exit
-            mkdir -p -- dev sys proc etc var/run tmp
-            mkdir -p root usr/bin usr/lib usr/lib64 usr/sbin
-        )
-        inst_simple /etc/os-release
-        [[ -f /etc/machine-id ]] && read -r MACHINE_ID < /etc/machine-id
 
-        inst ./test-init.sh /sbin/init
-        inst_simple "${basedir}/modules.d/99base/dracut-lib.sh" "/lib/dracut-lib.sh"
-        inst_simple "${basedir}/modules.d/99base/dracut-dev-lib.sh" "/lib/dracut-dev-lib.sh"
-        inst_binary "${basedir}/dracut-util" "/usr/bin/dracut-util"
-        ln -s dracut-util "${initdir}/usr/bin/dracut-getarg"
-        ln -s dracut-util "${initdir}/usr/bin/dracut-getargs"
+    dracut -l --keep --tmpdir "$TESTDIR"/overlay/tmp \
+        --modules "mdev-alpine test-root" \
+        --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
+        --include ./test-init.sh /sbin/init \
+        --include "${basedir}/modules.d/99base/dracut-lib.sh" "/lib/dracut-lib.sh" \
+        --include "${basedir}/modules.d/99base/dracut-dev-lib.sh" "/lib/dracut-dev-lib.sh" \
+        --force "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
-    inst_multiple mdev nlplug-findfs cut blkid
-
-    inst /etc/passwd
-    inst /etc/group
-    inst /etc/mdev.conf
-
-    inst_dir /etc/modprobe.d
-    inst_multiple "/etc/modprobe.d/*"
-
-    inst_dir /lib/mdev
-    inst_multiple "/lib/mdev/*"
-
-        inst_multiple mkdir ln dd stty mount poweroff modprobe sed
-
-        cp -a -- /etc/ld.so.conf* "$initdir"/etc
-        ldconfig -r "$initdir"
-    )
+    mv "$TESTDIR"/overlay/tmp/dracut.*/initramfs/* "$TESTDIR"/overlay/source/ && rm -rf "$TESTDIR"/overlay/tmp
 
     # second, install the files needed to make the root filesystem
     # create an initramfs that will create the target root filesystem.
