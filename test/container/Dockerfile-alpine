@@ -1,15 +1,15 @@
 FROM docker.io/alpine
 
+# module dependencies
+RUN apk add squashfs-tools binutils curl btrfs-progs openssh nfs-utils libnfsidmap dhclient lvm2 cryptsetup gpg open-iscsi multipath-tools losetup dash
+
 # dependencies to run tests
-RUN apk add linux-virt qemu-img qemu-system-x86_64 e2fsprogs git grep mdev-conf util-linux-misc make rsync sfdisk strace dash libnfsidmap
+RUN apk add linux-virt qemu-img qemu-system-x86_64 e2fsprogs git mdev-conf util-linux-misc make rsync sfdisk strace grep
 
 # Uninstall mkinitfs
 RUN rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs /boot/initramfs-*
 
 RUN ln -sf /boot/vmlinuz-virt /boot/vmlinuz-$(cd /lib/modules; ls -1 | tail -1)
-
-# module dependencies
-RUN apk add squashfs-tools binutils curl btrfs-progs openssh nfs-utils dhclient lvm2 cryptsetup gpg open-iscsi multipath-tools
 
 # Grab all dracut modules
 RUN apk add dracut zfs-dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
