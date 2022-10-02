@@ -19,7 +19,7 @@ test_run() {
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
-        -append "root=/dev/sdb console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 rd.debug rd.shell=0 $DEBUGFAIL" \
+        -append "root=/dev/sdb rootfstype=ext4 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 rd.debug rd.shell=0 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
