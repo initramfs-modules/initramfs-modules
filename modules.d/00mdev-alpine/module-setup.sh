@@ -1,7 +1,7 @@
 #!/bin/bash
 
 depends() {
-    echo "bash rootfs-block"
+    echo ""
 }
 
 install() {
