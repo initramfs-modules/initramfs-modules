@@ -34,4 +34,4 @@ jobs:
                 run: rsync -av /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
 
             -   name: "${{ inputs.container }} TEST-${{ inputs.test }}"
-                run: ./test/test.sh "TEST-${{ inputs.test }}" ${{ inputs.test }}
+                run: ./test/test.sh "TEST" "${{ inputs.test }}"
