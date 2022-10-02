@@ -2,7 +2,7 @@
 
 # called by dracut
 install() {
-    if dracut_module_included "mdev-alpine"; then return;
+    if dracut_module_included "mdev-alpine"; then return; fi;
     local _i
 
     # Fixme: would be nice if we didn't have to guess, which rules to grab....
