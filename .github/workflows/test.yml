@@ -33,5 +33,5 @@ jobs:
             -   name: "Overlay system dracut modules"
                 run: rsync -av /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
 
-            -   name: "${{ inputs.container }} TEST-${{ inputs.test }}"
+            -   name: "${{ inputs.container }} ${{ inputs.test }}"
                 run: ./test/test.sh "TEST" "${{ inputs.test }}"
