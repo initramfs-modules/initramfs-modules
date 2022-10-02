@@ -32,7 +32,7 @@ jobs:
                 run: git clone https://github.com/dracutdevs/dracut.git && rsync -a dracut/test/TEST* /__w/initramfs-modules/initramfs-modules/test/ && rm -rf /__w/initramfs-modules/initramfs-modules/test/*SYSTEMD*
 
             -   name: "Overlay system dracut modules"
-                run: rsync -av /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
+                run: rsync -a /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
 
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
                 run: ./test/test.sh "TEST" "${{ inputs.test }}"
