@@ -1,4 +1,5 @@
 name: Test
+run-name: Test ${{ inputs.test }}
 
 on:
     workflow_dispatch:
