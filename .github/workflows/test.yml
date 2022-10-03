@@ -6,7 +6,7 @@ on:
         inputs:
             test:
                 description: 'Test to run'
-                default: '03 10 11 16 98'
+                default: '03 10 11 14 16 98'
                 required: true
             container:
                 type: choice
