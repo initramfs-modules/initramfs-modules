@@ -2,7 +2,11 @@
 
 # called by dracut
 install() {
-    if dracut_module_included "mdev-alpine"; then return; fi;
+    if ! command -v udevadm &> /dev/null; then
+      dinfo "udevadm is not available"
+      return;
+    fi;
+
     local _i
 
     # Fixme: would be nice if we didn't have to guess, which rules to grab....
