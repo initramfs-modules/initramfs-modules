@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -ex
+set -ex
 
 cd test
 
@@ -21,6 +21,4 @@ time LOGTEE_TIMEOUT_MS=590000 make \
   -k V=1 \
   check
 
-cat /__w/initramfs-modules/initramfs-modules/test/TEST-80-ALPINE/test-TEST.log
-
-find / -name "*.log"
+find /__w/initramfs-modules/initramfs-modules/test/ -name "*.log"
