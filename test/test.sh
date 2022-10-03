@@ -21,4 +21,3 @@ time LOGTEE_TIMEOUT_MS=590000 make \
   -k V=1 \
   check
 
-find /__w/initramfs-modules/initramfs-modules/test/ -name "*.log"
