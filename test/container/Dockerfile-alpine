@@ -1,4 +1,4 @@
-FROM docker.io/alpine
+FROM docker.io/alpine:latest
 
 # module dependencies
 RUN apk add squashfs-tools binutils curl btrfs-progs openssh nfs-utils libnfsidmap dhclient lvm2 cryptsetup gpg open-iscsi multipath-tools losetup dash mdadm nbd partx sed
