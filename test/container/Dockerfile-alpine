@@ -1,10 +1,19 @@
 FROM docker.io/alpine:latest
 
 # module dependencies
-RUN apk add squashfs-tools binutils curl btrfs-progs openssh nfs-utils libnfsidmap dhclient lvm2 cryptsetup gpg open-iscsi multipath-tools losetup dash mdadm nbd partx sed dmraid
+RUN apk add squashfs-tools binutils curl btrfs-progs openssh lvm2 cryptsetup gpg losetup dash mdadm partx sed dmraid
 
-# dependencies to run tests
-RUN apk add linux-virt qemu-img qemu-system-x86_64 e2fsprogs git mdev-conf util-linux-misc make rsync sfdisk strace grep cpio qemu-block-nfs qemu-modules
+# module dependencies for networking
+# RUN apk add nfs-utils libnfsidmap dhclient open-iscsi multipath-tools nbd
+
+# dracut-tests
+RUN apk add e2fsprogs grep make qemu-img qemu-system-x86_64 sfdisk strace sudo util-linux-misc
+
+# additional dependencies to run tests
+RUN apk add linux-virt git mdev-conf rsync cpio
+
+# additional dependencies to run tests for networking
+# RUN apk add qemu-block-nfs qemu-modules
 
 # Uninstall mkinitfs
 RUN rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs /boot/initramfs-*
