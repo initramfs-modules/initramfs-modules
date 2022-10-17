@@ -3,6 +3,8 @@ FROM docker.io/alpine:latest
 # module dependencies to improve on busybox
 #RUN apk add binutils losetup sed
 
+RUN apk add sed
+
 # multipath-tools - multipath
 # btrfs-progs - btrfs
 # lvm2 - lvm, lvmmerge, lvmthinpool-monitor
