@@ -1,7 +1,7 @@
 FROM docker.io/alpine:latest
 
 # module dependencies
-RUN apk add squashfs-tools binutils losetup sed
+RUN apk add binutils losetup sed
 
 # multipath-tools - multipath
 # btrfs-progs - btrfs
@@ -13,7 +13,8 @@ RUN apk add squashfs-tools binutils losetup sed
 # partx - dmraid, mdraid, multipath
 # dash - dash
 # openssh - ssh-client
-RUN apk add btrfs-progs lvm2 cryptsetup gpg mdadm dmraid multipath-tools partx dash openssh
+# squashfs-tools - squash
+RUN apk add btrfs-progs lvm2 cryptsetup gpg mdadm dmraid multipath-tools partx dash openssh squashfs-tools
 
 # module dependencies for networking
 # RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
