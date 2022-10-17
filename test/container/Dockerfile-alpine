@@ -1,7 +1,7 @@
 FROM docker.io/alpine:latest
 
-# module dependencies
-RUN apk add binutils losetup sed
+# module dependencies to improve on busybox
+#RUN apk add binutils losetup sed
 
 # multipath-tools - multipath
 # btrfs-progs - btrfs
