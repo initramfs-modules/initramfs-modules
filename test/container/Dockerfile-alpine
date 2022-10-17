@@ -1,10 +1,22 @@
 FROM docker.io/alpine:latest
 
 # module dependencies
-RUN apk add squashfs-tools binutils curl btrfs-progs openssh lvm2 cryptsetup gpg losetup dash mdadm partx sed dmraid multipath-tools
+RUN apk add squashfs-tools binutils losetup sed
+
+# multipath-tools - multipath
+# btrfs-progs - btrfs
+# lvm2 - lvm, lvmmerge, lvmthinpool-monitor
+# cryptsetup - crypt
+# gpg - crypt-gpg
+# mdadm - mdraid
+# dmraid - dmraid
+# partx - dmraid, mdraid, multipath
+# dash - dash
+# openssh - ssh-client
+RUN apk add btrfs-progs lvm2 cryptsetup gpg mdadm dmraid multipath-tools partx dash openssh
 
 # module dependencies for networking
-# RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd
+# RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
 
 # dracut-tests
 RUN apk add e2fsprogs grep make qemu-img qemu-system-x86_64 sfdisk strace sudo util-linux-misc
