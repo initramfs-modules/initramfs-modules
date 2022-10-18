@@ -30,8 +30,7 @@ jobs:
                     fetch-depth: 0
 
             -   name: "Get dracut tests"
-                # TODO: grab more from dracut-tests, e.g. run-qemu
-                run: cp -a /usr/lib/dracut/test/TEST* /__w/initramfs-modules/initramfs-modules/test/
+                run: cd /usr/lib/dracut/test/ && cp -a TEST* Makefile run-qemu test-functions /__w/initramfs-modules/initramfs-modules/test/
 
             -   name: "Overlay dracut modules"
                 run: cp -a /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
