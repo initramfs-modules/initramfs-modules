@@ -23,7 +23,7 @@ RUN apk add btrfs-progs lvm2 cryptsetup gpg mdadm dmraid multipath-tools partx d
 # RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
 
 # additional dependencies to run tests
-RUN apk add linux-virt git mdev-conf rsync cpio
+RUN apk add linux-virt mdev-conf rsync cpio
 
 # additional dependencies to run tests for networking
 # RUN apk add qemu-block-nfs qemu-modules
