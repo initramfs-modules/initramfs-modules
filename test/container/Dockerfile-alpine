@@ -4,7 +4,8 @@ FROM docker.io/alpine:latest
 
 # mdraid module - needed to pass test 14
 # sed: bad regex '(RUN|IMPORT\{program\})\+?="[[:alpha:]': Missing ']'
-RUN apk add sed
+
+RUN apk add dracut-tests --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
 # base module - switch_root
 RUN apk add util-linux-misc
