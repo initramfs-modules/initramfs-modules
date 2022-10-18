@@ -9,6 +9,8 @@ RUN apk add sed
 # base module - switch_root
 RUN apk add util-linux-misc
 
+# touch
+
 # multipath-tools - multipath
 # btrfs-progs - btrfs
 # lvm2 - lvm, lvmmerge, lvmthinpool-monitor
@@ -34,7 +36,7 @@ RUN apk add linux-virt git mdev-conf rsync cpio
 # additional dependencies to run tests for networking
 # RUN apk add qemu-block-nfs qemu-modules
 
-# Uninstall mkinitfs
+# Uninstall most mkinitfs files. mkinitfs gets pulled in by linux-virt
 RUN rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs /boot/initramfs-*
 
 RUN ln -sf /boot/vmlinuz-virt /boot/vmlinuz-$(cd /lib/modules; ls -1 | tail -1)
