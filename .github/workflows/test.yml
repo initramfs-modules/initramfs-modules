@@ -28,8 +28,9 @@ jobs:
                 with:
                     fetch-depth: 0
 
-            -   name: "Upstream tests"
-                run: git clone https://github.com/dracutdevs/dracut.git && rsync -a dracut/test/TEST* /__w/initramfs-modules/initramfs-modules/test/ && rm -rf /__w/initramfs-modules/initramfs-modules/test/*SYSTEMD* && rm -rf /__w/initramfs-modules/initramfs-modules/test/*RPM*
+            -   name: "Get tests"
+                run: rsync -av /usr/lib/dracut/test/ /__w/initramfs-modules/initramfs-modules/test/
+                #run: git clone https://github.com/dracutdevs/dracut.git && rsync -a dracut/test/TEST* /__w/initramfs-modules/initramfs-modules/test/ && rm -rf /__w/initramfs-modules/initramfs-modules/test/*SYSTEMD* && rm -rf /__w/initramfs-modules/initramfs-modules/test/*RPM*
 
             -   name: "Overlay system dracut modules"
                 run: rsync -a /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
