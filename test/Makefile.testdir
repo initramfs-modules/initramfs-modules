@@ -1,5 +1,7 @@
 .PHONY: all setup clean run
 
+# TODO use "type -P" to find basedir instead of hardcoding
+
 all:
 	@V=$(V) basedir="/usr/lib/dracut/" testdir="$(realpath ../)" ./test.sh --all
 setup:
