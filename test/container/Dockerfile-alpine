@@ -4,13 +4,7 @@ FROM docker.io/alpine:latest
 
 # mdraid module - needed to pass test 14
 # sed: bad regex '(RUN|IMPORT\{program\})\+?="[[:alpha:]': Missing ']'
-
-RUN apk add dracut-tests --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
-
-# base module - switch_root
-RUN apk add util-linux-misc
-
-# touch
+RUN apk add sed
 
 # multipath-tools - multipath
 # btrfs-progs - btrfs
@@ -28,9 +22,6 @@ RUN apk add btrfs-progs lvm2 cryptsetup gpg mdadm dmraid multipath-tools partx d
 # module dependencies for networking
 # RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
 
-# dracut-tests - mke2fs
-RUN apk add e2fsprogs grep make qemu-img qemu-system-x86_64 sfdisk strace sudo
-
 # additional dependencies to run tests
 RUN apk add linux-virt git mdev-conf rsync cpio
 
@@ -43,7 +34,7 @@ RUN rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs /boot/initramfs-*
 RUN ln -sf /boot/vmlinuz-virt /boot/vmlinuz-$(cd /lib/modules; ls -1 | tail -1)
 
 # Grab all dracut modules
-RUN apk add dracut zfs-dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
+RUN apk add dracut dracut-tests zfs-dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
 RUN cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
 RUN cp /sbin/poweroff /sbin/shutdown
