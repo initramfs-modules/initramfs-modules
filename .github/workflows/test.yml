@@ -30,10 +30,10 @@ jobs:
                     fetch-depth: 0
 
             -   name: "Get tests"
-                run: rsync -a /usr/lib/dracut/test/TEST* /__w/initramfs-modules/initramfs-modules/test/
+                run: cp -a /usr/lib/dracut/test/TEST* /__w/initramfs-modules/initramfs-modules/test/
 
             -   name: "Overlay system dracut modules"
-                run: rsync -a /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
+                run: cp -a /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
 
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
                 run: ./test/test.sh "TEST" "${{ inputs.test }}"
