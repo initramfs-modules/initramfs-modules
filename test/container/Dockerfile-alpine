@@ -1,8 +1,13 @@
 FROM docker.io/alpine:latest
 
-# module dependencies to improve on busybox, needed to pass test 14 mdraid module needs it
+# module dependencies to improve on busybox
+
+# mdraid module - needed to pass test 14
 # sed: bad regex '(RUN|IMPORT\{program\})\+?="[[:alpha:]': Missing ']'
 RUN apk add sed
+
+# base module - switch_root
+RUN apk add util-linux-misc
 
 # multipath-tools - multipath
 # btrfs-progs - btrfs
@@ -20,8 +25,8 @@ RUN apk add btrfs-progs lvm2 cryptsetup gpg mdadm dmraid multipath-tools partx d
 # module dependencies for networking
 # RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
 
-# dracut-tests
-RUN apk add e2fsprogs grep make qemu-img qemu-system-x86_64 sfdisk strace sudo util-linux-misc
+# dracut-tests - mke2fs
+RUN apk add e2fsprogs grep make qemu-img qemu-system-x86_64 sfdisk strace sudo
 
 # additional dependencies to run tests
 RUN apk add linux-virt git mdev-conf rsync cpio
