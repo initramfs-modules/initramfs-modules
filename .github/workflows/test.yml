@@ -17,7 +17,7 @@ on:
                     - "alpine"
 
 jobs:
-    test:
+    test-release:
         runs-on: ubuntu-latest
         timeout-minutes: 45
         container:
@@ -29,10 +29,11 @@ jobs:
                 with:
                     fetch-depth: 0
 
-            -   name: "Get tests"
+            -   name: "Get dracut tests"
+                # TODO: grab more from dracut-tests, e.g. run-qemu
                 run: cp -a /usr/lib/dracut/test/TEST* /__w/initramfs-modules/initramfs-modules/test/
 
-            -   name: "Overlay system dracut modules"
+            -   name: "Overlay dracut modules"
                 run: cp -a /__w/initramfs-modules/initramfs-modules/modules.d/ /usr/lib/dracut/modules.d/
 
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
