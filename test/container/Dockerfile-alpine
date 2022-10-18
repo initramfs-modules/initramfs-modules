@@ -1,8 +1,7 @@
 FROM docker.io/alpine:latest
 
-# module dependencies to improve on busybox
-#RUN apk add binutils losetup sed
-
+# module dependencies to improve on busybox, needed to pass test 14 mdraid module needs it
+# sed: bad regex '(RUN|IMPORT\{program\})\+?="[[:alpha:]': Missing ']'
 RUN apk add sed
 
 # multipath-tools - multipath
