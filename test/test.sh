@@ -8,7 +8,7 @@ RUN_ID="$1"
 TESTS=$2
 
 # shellcheck disable=SC2012
-time LOGTEE_TIMEOUT_MS=590000 make \
+time basedir="/usr/lib/dracut/" LOGTEE_TIMEOUT_MS=590000 make \
   enable_documentation=no \
   KVERSION="$(
     cd /lib/modules
