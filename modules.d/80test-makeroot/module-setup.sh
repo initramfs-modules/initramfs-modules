@@ -10,7 +10,6 @@ depends() {
 }
 
 install() {
-        inst_multiple poweroff cp umount sync dd
-
-        inst_hook initqueue/finished 01 "$moddir/finished-false.sh"
+    inst_multiple poweroff cp umount sync dd
+    inst_hook initqueue/finished 01 "$moddir/finished-false.sh"
 }

@@ -9,5 +9,5 @@ installkernel() {
 }
 
 install() {
-    inst_hook mount 99 "$moddir/mount-overlayfs.sh"
+    inst_hook mount 01 "$moddir/mount-overlayfs.sh"
 }

@@ -6,10 +6,11 @@ check() {
 }
 
 depends() {
-    echo "qemu"
+    echo "debug"
 }
 
 install() {
+    inst poweroff
     inst_hook shutdown-emergency 000 "$moddir/hard-off.sh"
     inst_hook emergency 000 "$moddir/hard-off.sh"
 }
