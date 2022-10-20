@@ -9,6 +9,5 @@ installkernel() {
 }
 
 install() {
-    inst_multiple mount rm
-    inst_script "$moddir/mount-overlayfs.sh" "/sbin/mount-overlayfs"
+    inst_hook mount 99 "$moddir/mount-overlayfs.sh"
 }
