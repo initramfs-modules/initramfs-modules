@@ -15,6 +15,7 @@ export PS1='initramfs-test:\w\$ '
 [ -f /etc/fstab ] || ln -sfn /proc/mounts /etc/fstab
 stty sane
 echo "made it to the rootfs!"
+mount -v
 if getargbool 0 rd.shell; then
     strstr "$(setsid --help)" "control" && CTTY="-c"
     setsid $CTTY sh -i
