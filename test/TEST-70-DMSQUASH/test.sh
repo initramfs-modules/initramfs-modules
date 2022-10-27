@@ -23,18 +23,6 @@ test_run() {
         -append "rd.live.overlay.overlayfs=1 root=LABEL=dracut console=ttyS0,115200n81 quiet selinux=0 rd.info rd.shell=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
-    "$testdir"/run-qemu \
-        "${disk_args[@]}" \
-        -boot order=d \
-        -append "rd.live.image rd.live.overlay.overlayfs=1 root=LABEL=dracut console=ttyS0,115200n81 quiet selinux=0 rd.info rd.shell=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
-        -initrd "$TESTDIR"/initramfs.testing
-
-    "$testdir"/run-qemu \
-        "${disk_args[@]}" \
-        -boot order=d \
-        -append "rd.live.image rd.live.overlay.overlayfs=1 rd.live.dir=testdir root=LABEL=dracut console=ttyS0,115200n81 quiet selinux=0 rd.info rd.shell=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
-        -initrd "$TESTDIR"/initramfs.testing
-
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     rootPartitions=$(sfdisk -d "$TESTDIR"/root.img | grep -c 'root\.img[0-9]')
@@ -124,10 +112,8 @@ test_setup() {
         inst_hook shutdown-emergency 000 ./hard-off.sh
         inst_hook emergency 000 ./hard-off.sh
     )
-    ls -la /usr/lib/dracut/modules.d/
-
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
-        --modules "dash overlayfs qemu" \
+        --modules "dash rootfs-block overlayfs qemu" \
         --omit "rngd" \
         --drivers "ext4 sd_mod" \
         --no-hostonly --no-hostonly-cmdline \
