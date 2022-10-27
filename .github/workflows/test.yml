@@ -7,12 +7,13 @@ on:
             test:
                 description: 'Test to run'
                 # TODO: fix test 16
-                default: '03 10 11 14 98'
+                # passing on alpine default: '03 10 11 14 98'
+                # default: 70
                 required: true
             container:
                 type: choice
                 description: 'distro'
-                default: 'alpine'
+                default: 'debian'
                 options:
                     - "alpine"
                     - "debian"
