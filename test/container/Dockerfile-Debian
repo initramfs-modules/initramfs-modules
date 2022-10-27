@@ -1,4 +1,4 @@
-FROM docker.io/debian:latest
+FROM docker.io/debian:sid
 
 MAINTAINER https://github.com/dracutdevs/dracut
 
