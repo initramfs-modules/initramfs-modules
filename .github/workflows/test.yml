@@ -15,6 +15,7 @@ on:
                 default: 'alpine'
                 options:
                     - "alpine"
+                    - "debian"
 
 jobs:
     test-release:

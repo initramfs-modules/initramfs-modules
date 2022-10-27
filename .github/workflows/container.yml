@@ -27,6 +27,7 @@ jobs:
             matrix:
                 config:
                     - { dockerfile: 'Dockerfile-alpine',            tag: 'alpine:latest' }
+                    - { dockerfile: 'Dockerfile-Debian',            tag: 'debian:latest' }
         steps:
             -   name: Check out the repo
                 uses: actions/checkout@v2
