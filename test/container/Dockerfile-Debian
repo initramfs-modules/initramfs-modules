@@ -57,6 +57,7 @@ RUN apt-get update -y -qq && apt-get upgrade -y -qq && DEBIAN_FRONTEND=nonintera
     tcpdump \
     vim \
     wget \
+    dracut-core \
     && apt-get clean
 
 # Set default command
