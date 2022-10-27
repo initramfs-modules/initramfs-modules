@@ -8,7 +8,7 @@ on:
                 description: 'Test to run'
                 # TODO: fix test 16
                 # passing on alpine default: '03 10 11 14 98'
-                # default: 70
+                default: 70
                 required: true
             container:
                 type: choice
