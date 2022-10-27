@@ -40,23 +40,6 @@ test_run() {
     rootPartitions=$(sfdisk -d "$TESTDIR"/root.img | grep -c 'root\.img[0-9]')
     [ "$rootPartitions" -eq 1 ] || return 1
 
-    "$testdir"/run-qemu \
-        "${disk_args[@]}" \
-        -boot order=d \
-        -append "rd.live.image rd.live.overlay.overlayfs=1 rd.live.overlay=LABEL=persist rd.live.dir=testdir root=LABEL=dracut console=ttyS0,115200n81 quiet selinux=0 rd.info rd.shell=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
-        -initrd "$TESTDIR"/initramfs.testing-autooverlay
-
-    rootPartitions=$(sfdisk -d "$TESTDIR"/root.img | grep -c 'root\.img[0-9]')
-    [ "$rootPartitions" -eq 2 ] || return 1
-
-    (
-        # Ensure that this test works when run with the `V=1` parameter, which runs the script with `set -o pipefail`.
-        set +o pipefail
-
-        # Verify that the string "dracut-autooverlay-success" occurs in the second partition in the image file.
-        dd if="$TESTDIR"/root.img bs=1MiB skip=80 status=none \
-            | grep -U --binary-files=binary -F -m 1 -q dracut-autooverlay-success
-    ) || return 1
 }
 
 test_setup() {
@@ -142,22 +125,13 @@ test_setup() {
         inst_hook emergency 000 ./hard-off.sh
     )
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
-        --modules "dash dmsquash-live qemu" \
+        --modules "dash overlayfs qemu" \
         --omit "rngd" \
         --drivers "ext4 sd_mod" \
         --no-hostonly --no-hostonly-cmdline \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
     ls -sh "$TESTDIR"/initramfs.testing
-
-    "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
-        --modules "dmsquash-live-autooverlay qemu" \
-        --omit "rngd" \
-        --drivers "ext4 sd_mod" \
-        --no-hostonly --no-hostonly-cmdline \
-        --force "$TESTDIR"/initramfs.testing-autooverlay "$KVERSION" || return 1
-
-    ls -sh "$TESTDIR"/initramfs.testing-autooverlay
 
     rm -rf -- "$TESTDIR"/overlay
 }
