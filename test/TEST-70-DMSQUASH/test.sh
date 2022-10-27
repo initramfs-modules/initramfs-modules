@@ -124,6 +124,8 @@ test_setup() {
         inst_hook shutdown-emergency 000 ./hard-off.sh
         inst_hook emergency 000 ./hard-off.sh
     )
+    ls -la /usr/lib/dracut/modules.d/
+
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
         --modules "dash overlayfs qemu" \
         --omit "rngd" \
