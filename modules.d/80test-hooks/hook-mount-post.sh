@@ -2,10 +2,14 @@
 
 # Expected to run after all dracut module mount hooks
 
-type getarg > /dev/null 2>&1 || . /lib/dracut-lib.sh
+# Only expected to be called if /sysroot is not yet mounted
 
-mount -v
+for root in $(getargs rootfallback=); do
+    root=$(label_uuid_to_dev "$root")
 
-#if ! ismounted "/sysroot"; then
-  die "exit"
-#fi
+    if mount "$root" /sysroot; then
+        exit 0
+    fi
+done
+
+exit 1
