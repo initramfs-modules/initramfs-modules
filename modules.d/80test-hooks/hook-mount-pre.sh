@@ -5,4 +5,4 @@
 # mv /lib/dracut/hooks/mount/99-mount-root.sh /lib/dracut/hooks/mount/79-mount-root.sh
 
 # Ignore mounting real root
-root=""
+#root=""
