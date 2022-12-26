@@ -40,6 +40,10 @@ jobs:
                     - { dockerfile: 'Dockerfile-alpine',            tag: 'alpine:latest' }
                     - { dockerfile: 'Dockerfile-debian',            tag: 'debian:latest' }
                     - { dockerfile: 'Dockerfile-gentoo',            tag: 'gentoo:latest' }
+                    - { dockerfile: 'Dockerfile-arch',              tag: 'arch:latest' }
+                    - { dockerfile: 'Dockerfile-fedora',            tag: 'fedora:latest' }
+                    - { dockerfile: 'Dockerfile-opensuse',          tag: 'opensuse:latest' }
+
         steps:
             -   name: Check out the repo
                 uses: actions/checkout@v2
