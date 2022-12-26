@@ -15,12 +15,7 @@ on:
                 description: distro
                 default: debian
                 options:
-                    - alpine
-                    - arch
                     - debian
-                    - fedora
-                    - gentoo
-                    - opensuse
 
 jobs:
     test:
@@ -31,10 +26,10 @@ jobs:
             options: "--privileged -v /dev:/dev"
         steps:
             -   name: "Checkout Repository"
-                uses: actions/checkout@v1
+                uses: actions/checkout@v3
 
             -   name: Checkout tools repo
-                uses: actions/checkout@v1
+                uses: actions/checkout@v3
                 with:
                   repository: dracutdevs/dracut
                   path: dracut
