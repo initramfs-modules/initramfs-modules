@@ -38,4 +38,5 @@ RUN emerge -qv \
     sys-fs/multipath-tools \
     sys-fs/ntfs3g \
     sys-fs/squashfs-tools \
+    sys-kernel/dracut \
     && rm -rf /var/cache/* /usr/share/doc/* /usr/share/man/*
