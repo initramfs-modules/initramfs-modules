@@ -6,9 +6,7 @@ on:
         inputs:
             test:
                 description: 'Test to run'
-                # TODO: fix test 16
-                # passing on alpine default: '03 10 11 14 98'
-                default: 70
+                default: '03 10 11 14 98'
                 required: true
             container:
                 type: choice
@@ -20,7 +18,7 @@ on:
 jobs:
     test:
         runs-on: ubuntu-latest
-        timeout-minutes: 45
+        timeout-minutes: 30
         container:
             image: ghcr.io/${{github.repository_owner}}/${{inputs.container}}
             options: "--privileged -v /dev:/dev"
@@ -41,7 +39,7 @@ jobs:
                 run: cp -an /__w/initramfs-modules/initramfs-modules/dracut/modules.d/80test* /usr/lib/dracut/modules.d/
 
             -   name: "Install initramfs dracut modules"
-                run: cp -an /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ # && rm -rf /usr/lib/dracut/modules.d/*systemd*
+                run: cp -an /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/modules.d/*systemd*
 
             -   name: "Uninstall systemd dependent dracut modules"
                 run: rm -rf /usr/lib/dracut/modules.d/*systemd*
