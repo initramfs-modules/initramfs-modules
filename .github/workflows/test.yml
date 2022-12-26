@@ -39,7 +39,8 @@ jobs:
                 run: mkdir -p /usr/lib/dracut/test/ && cd /usr/lib/dracut/test/ && cp -a TEST* Makefile run-qemu test-functions /__w/initramfs-modules/initramfs-modules/test/ || true
 
             -   name: "Overlay dracut modules"
-                run: cp -av /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/modules.d/*systemd*
+                run: cp -av /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/modules.d/*systemd* && cp -av /usr/lib/dracut/modules.d/80test* /__w/initramfs-modules/initramfs-modules/modules.d/
+
 
             -   name: "Setup running tests"
                 run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
