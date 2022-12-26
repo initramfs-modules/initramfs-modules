@@ -34,7 +34,7 @@ jobs:
                 uses: actions/checkout@v1
 
             -   name: Checkout tools repo
-                uses: actions/checkout@v3
+                uses: actions/checkout@v1
                 with:
                   repository: dracutdevs/dracut
                   path: dracut
