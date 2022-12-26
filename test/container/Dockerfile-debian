@@ -44,13 +44,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     pkg-config \
     procps \
     quilt \
-    shellcheck \
     squashfs-tools \
     strace \
     sudo \
     tcpdump \
     vim \
     wget \
+    sysvinit-core \
     && apt-get clean
 
 RUN cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
