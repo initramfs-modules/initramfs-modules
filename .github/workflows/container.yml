@@ -19,9 +19,10 @@ on:
                 default: 'debian'
                 options:
                     - "alpine"
-                    - "debian"
-                    - "gentoo"
                     - "arch"
+                    - "debian"
+                    - "fedora"
+                    - "gentoo"
                     - "fedora"
                     - "opensuse"
 
@@ -40,12 +41,12 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { tag: 'alpine' }
-                    - { tag: 'debian' }
-                    - { tag: 'gentoo' }
-                    - { tag: 'arch' }
-                    - { tag: 'fedora' }
-                    - { tag: 'opensuse' }
+                    - { tag: alpine   }
+                    - { tag: arch     }
+                    - { tag: debian   }
+                    - { tag: gentoo   }
+                    - { tag: fedora   }
+                    - { tag: opensuse }
 
         steps:
             -   name: Check out the repo
