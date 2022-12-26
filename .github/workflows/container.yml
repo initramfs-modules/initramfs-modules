@@ -11,6 +11,16 @@ on:
             - 'test/container/**'
             - '.github/workflows/container.yml'
 
+    workflow_dispatch:
+        inputs:
+            container:
+                type: choice
+                description: 'distro'
+                default: 'debian'
+                options:
+                    - "alpine"
+                    - "debian"
+
 permissions:
     packages: write
     contents: read
