@@ -12,16 +12,15 @@ RUN apk add dracut-tests --update-cache --repository https://dl-cdn.alpinelinux.
 # dracut-modules-dash - dash - dash
 # dracut-modules-dmraid - dmraid, partx - dmraid
 # dracut-modules-gpg - gpg - crypt-gpg
-# dracut-modules-mdadm - mdadm, partx - mdraid
+# dracut-modules-mdadm - mdadm, sed, partx - mdraid # sed: bad regex '(RUN|IMPORT\{program\})\+?="[[:alpha:]': Missing ']'
 # dracut-modules-lvm - lvm2 - lvm, lvmmerge, lvmthinpool-monitor
 # dracut-modules-multipath - multipath-tools, partx - multipath
 # dracut-modules-openssh - openssh, dracut-modules-network - ssh-client
 # dracut-modules-squashfs - squashfs-tools - squash
-RUN apk add btrfs-progs cryptsetup dash dmraid partx gpg mdadm lvm2 multipath-tools partx openssh squashfs-tools
+RUN apk add btrfs-progs cryptsetup dash dmraid partx gpg mdadm sed lvm2 multipath-tools openssh squashfs-tools
 
+# additional dependencies to run tests
 RUN apk add linux-virt
-
-#mdev-conf sed
 
 # module dependencies for networking
 # RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
