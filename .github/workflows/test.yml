@@ -30,29 +30,30 @@ jobs:
             image: ghcr.io/${{github.repository_owner}}/${{inputs.container}}
             options: "--privileged -v /dev:/dev"
         steps:
-            -   name: "Checkout Repository"
-                uses: actions/checkout@v2
-                with:
-                    fetch-depth: 0
+            - name: "Checkout Repository"
+                uses: actions/checkout@v3
 
             - name: Checkout tools repo
-              uses: actions/checkout@v3
-              with:
-                repository: dracutdevs/dracut
-                path: /dracut
+                uses: actions/checkout@v3
+                with:
+                  repository: dracutdevs/dracut
+                  path: dracut
 
-            -   name: "Get dracut tests"
-                run: find /__w/ && mkdir -p /usr/lib/dracut/test/ && cd /usr/lib/dracut/test/ && cp -a TEST* Makefile run-qemu test-functions /__w/initramfs-modules/initramfs-modules/test/ || true
+            - name: "Get dracut test cases"
+                run: cp -avn /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/
+#                run: find /__w/ && mkdir -p /usr/lib/dracut/test/ && cd /usr/lib/dracut/test/ && cp -a TEST* Makefile run-qemu test-functions /__w/initramfs-modules/initramfs-modules/test/ || true
 
-            -   name: "Get dracut test modules"
-                run: cp -av /usr/lib/dracut/modules.d/80test* /__w/initramfs-modules/initramfs-modules/modules.d/ || true
+            - name: "Install dracut test modules"
+                run: cp -avn /__w/initramfs-modules/initramfs-modules/dracut/modules.d/80test* /usr/lib/dracut/modules.d/
 
-            -   name: "Overlay dracut modules"
+            - name: "Install initramfs dracut modules"
                 run: cp -av /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/modules.d/*systemd*
 
+            - name: "Uninstall systemd dependent dracut modules"
+                run: rm -rf /usr/lib/dracut/modules.d/*systemd*
 
-            -   name: "Setup running tests"
+            - name: "Setup running tests"
                 run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
 
-            -   name: "${{ inputs.container }} ${{ inputs.test }}"
+            - name: "${{ inputs.container }} ${{ inputs.test }}"
                 run: ./test/test.sh "TEST" "${{ inputs.test }}"
