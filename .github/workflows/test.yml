@@ -41,7 +41,6 @@ jobs:
 
             -   name: "Get dracut test cases"
                 run: cp -avn /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/
-#                run: find /__w/ && mkdir -p /usr/lib/dracut/test/ && cd /usr/lib/dracut/test/ && cp -a TEST* Makefile run-qemu test-functions /__w/initramfs-modules/initramfs-modules/test/ || true
 
             -   name: "Install dracut test modules"
                 run: cp -avn /__w/initramfs-modules/initramfs-modules/dracut/modules.d/80test* /usr/lib/dracut/modules.d/

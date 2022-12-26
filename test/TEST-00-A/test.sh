@@ -42,7 +42,7 @@ test_setup() {
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
         --modules "test-makeroot rootfs-block qemu" \
         --drivers "ext4 sd_mod" \
-        --install "sfdisk mkfs.ext4 mksquashfs" \
+        --install "sfdisk mkfs.ext4 mksquashfs poweroff" \
         --include ./create-root.sh /lib/dracut/hooks/initqueue/01-create-root.sh \
         --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
         --force "$TESTDIR"/initramfs.makeroot "$KVERSION" || return 1
