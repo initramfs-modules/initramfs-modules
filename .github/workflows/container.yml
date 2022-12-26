@@ -20,6 +20,7 @@ on:
                 options:
                     - "alpine"
                     - "debian"
+                    - "gentoo"
 
 permissions:
     packages: write
@@ -37,7 +38,8 @@ jobs:
             matrix:
                 config:
                     - { dockerfile: 'Dockerfile-alpine',            tag: 'alpine:latest' }
-                    - { dockerfile: 'Dockerfile-Debian',            tag: 'debian:latest' }
+                    - { dockerfile: 'Dockerfile-debian',            tag: 'debian:latest' }
+                    - { dockerfile: 'Dockerfile-gentoo',            tag: 'gentoo:latest' }
         steps:
             -   name: Check out the repo
                 uses: actions/checkout@v2
