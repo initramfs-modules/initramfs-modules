@@ -31,7 +31,7 @@ jobs:
         name: container
         runs-on: ubuntu-latest
         concurrency:
-            group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.config.dockerfile }}
+            group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.config.tag }}
             cancel-in-progress: true
         strategy:
             fail-fast: false
@@ -60,6 +60,6 @@ jobs:
             -   name: Build and Push Container
                 uses: docker/build-push-action@v3
                 with:
-                    file: test/container/${{ matrix.config.dockerfile }}
+                    file: test/container/Dockerfile-${{ matrix.config.tag }}
                     tags: ghcr.io/${{env.repository_owner}}/${{ matrix.config.tag }}
                     push: ${{ github.event_name == 'push' }}
