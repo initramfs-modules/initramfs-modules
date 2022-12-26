@@ -28,7 +28,7 @@ permissions:
 
 jobs:
     push_to_registry:
-        name: Build and push containers image to GitHub Packages
+        name: container
         runs-on: ubuntu-latest
         concurrency:
             group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.config.dockerfile }}
