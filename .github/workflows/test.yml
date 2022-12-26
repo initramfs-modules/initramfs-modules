@@ -37,5 +37,8 @@ jobs:
             -   name: "Overlay dracut modules"
                 run: cp -av /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/modules.d/*systemd*
 
+            -   name: "Setup running tests"
+                run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
+
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
                 run: ./test/test.sh "TEST" "${{ inputs.test }}"

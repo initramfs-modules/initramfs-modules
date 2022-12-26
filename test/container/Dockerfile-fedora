@@ -21,7 +21,6 @@ RUN dnf -y install --setopt=install_weak_deps=False \
     xz \
     tar \
     wget \
-    rpm-build \
     make \
     git \
     bash-completion \
@@ -36,12 +35,8 @@ RUN dnf -y install --setopt=install_weak_deps=False \
     iputils \
     dbus-daemon \
     kbd \
-    NetworkManager \
-    systemd-networkd \
     squashfs-tools \
     which \
-    ShellCheck \
-    shfmt \
     parted \
     ntfsprogs \
     procps-ng \
