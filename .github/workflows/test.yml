@@ -5,8 +5,8 @@ on:
     workflow_dispatch:
         inputs:
             test:
-                description: 'Test to run'
-                default: '03 10 11 14 98'
+                description: "Array of tests to run, such as [11,12]"
+                default: "['03','10','11','14','98']"
                 required: true
             container:
                 type: choice
@@ -15,10 +15,16 @@ on:
                 options:
                     - debian
 
+env:
+    DEBUGFAIL: "${{ secrets.ACTIONS_STEP_DEBUG && 'rd.debug' }}"
+
 jobs:
     test:
         runs-on: ubuntu-latest
         timeout-minutes: 30
+        strategy:
+            matrix:
+                test: ${{ fromJSON(inputs.test) }}
         container:
             image: ghcr.io/${{github.repository_owner}}/${{inputs.container}}
             options: "--privileged -v /dev:/dev"
