@@ -1,5 +1,7 @@
 FROM registry.fedoraproject.org/fedora:latest
 
+RUN dnf -y install --setopt=install_weak_deps=False dracut qemu-system-x86-core
+
 RUN dnf -y install --setopt=install_weak_deps=False \
     dash \
     pigz \
@@ -27,8 +29,6 @@ RUN dnf -y install --setopt=install_weak_deps=False \
     sudo \
     kernel \
     dhcp-client \
-    /usr/bin/qemu-kvm \
-    /usr/bin/qemu-system-$(uname -i) \
     e2fsprogs \
     tcpdump \
     iproute \

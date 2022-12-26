@@ -19,10 +19,10 @@ RUN echo 'net-fs/nfs-utils -nfsv4' > /etc/portage/package.use/nfs-utils
 # workaround for https://bugs.gentoo.org/734022 whereby Gentoo does not support NFS4 with musl
 RUN echo 'app-emulation/qemu QEMU_SOFTMMU_TARGETS: x86_64 QEMU_USER_TARGETS: x86_64' > /etc/portage/package.use/qemu
 
-# Install needed packages for the dracut CI container
+RUN emerge -qv sys-kernel/dracut app-emulation/qemu
+
 RUN emerge -qv \
     app-arch/cpio \
-    app-emulation/qemu \
     app-shells/dash \
     net-fs/nfs-utils \
     net-misc/dhcp \
@@ -38,5 +38,4 @@ RUN emerge -qv \
     sys-fs/multipath-tools \
     sys-fs/ntfs3g \
     sys-fs/squashfs-tools \
-    sys-kernel/dracut \
     && rm -rf /var/cache/* /usr/share/doc/* /usr/share/man/*

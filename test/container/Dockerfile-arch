@@ -1,9 +1,10 @@
 FROM docker.io/archlinux
 
-# Install needed packages for the dracut CI container
+RUN pacman --noconfirm -Syu dracut qemu
+
 RUN pacman --noconfirm -Syu \
     linux dash strace dhclient asciidoc cpio pigz squashfs-tools \
-    qemu btrfs-progs mdadm dmraid nfs-utils nfsidmap lvm2 nbd \
+    btrfs-progs mdadm dmraid nfs-utils nfsidmap lvm2 nbd \
     dhcp multipath-tools vi tcpdump open-iscsi connman \
     git astyle which base-devel glibc parted ntfs-3g && yes | pacman -Scc
 
