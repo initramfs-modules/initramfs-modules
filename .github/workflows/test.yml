@@ -6,7 +6,7 @@ on:
         inputs:
             test:
                 description: "Array of tests to run, such as [11,12]"
-                default: "['03','10','11','14','98']"
+                default: "['03','10','11','98']"
                 required: true
             container:
                 type: choice
