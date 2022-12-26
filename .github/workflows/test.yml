@@ -35,13 +35,13 @@ jobs:
                   path: dracut
 
             -   name: "Get dracut test cases"
-                run: cp -avn /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/
+                run: cp -an /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/
 
             -   name: "Install dracut test modules"
-                run: cp -avn /__w/initramfs-modules/initramfs-modules/dracut/modules.d/80test* /usr/lib/dracut/modules.d/
+                run: cp -an /__w/initramfs-modules/initramfs-modules/dracut/modules.d/80test* /usr/lib/dracut/modules.d/
 
             -   name: "Install initramfs dracut modules"
-                run: cp -av /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ # && rm -rf /usr/lib/dracut/modules.d/*systemd*
+                run: cp -an /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ # && rm -rf /usr/lib/dracut/modules.d/*systemd*
 
             -   name: "Uninstall systemd dependent dracut modules"
                 run: rm -rf /usr/lib/dracut/modules.d/*systemd*
