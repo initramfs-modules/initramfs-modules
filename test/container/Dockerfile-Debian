@@ -1,12 +1,5 @@
 FROM docker.io/debian:sid
 
-MAINTAINER https://github.com/dracutdevs/dracut
-
-ENV container docker
-LABEL RUN="docker run -it --name NAME --privileged --ipc=host --net=host --pid=host -e NAME=NAME -e IMAGE=IMAGE IMAGE"
-
-RUN echo 'export DRACUT_NO_XATTR=1 KVERSION=$(cd /lib/modules; ls -1 | tail -1)' > /etc/profile.d/dracut-test.sh
-
 # Install needed packages for the dracut CI container
 RUN apt-get update -y -qq && apt-get upgrade -y -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
     asciidoc \
@@ -61,6 +54,3 @@ RUN apt-get update -y -qq && apt-get upgrade -y -qq && DEBIAN_FRONTEND=nonintera
     && apt-get clean
 
 RUN cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
-
-# Set default command
-CMD ["/usr/bin/bash"]
