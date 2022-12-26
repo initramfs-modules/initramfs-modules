@@ -38,11 +38,11 @@ jobs:
             matrix:
                 config:
                     - { tag: 'alpine', dockerfile: 'Dockerfile-alpine' }
-                    - { tag: 'debian', dockerfile: 'Dockerfile-debian }
-                    - { tag: 'gentoo', dockerfile: 'Dockerfile-gentoo }
-                    - { tag: 'arch', dockerfile: 'Dockerfile-arch }
-                    - { tag: 'fedora', dockerfile: 'Dockerfile-fedora }
-                    - { tag: 'opensuse', dockerfile: 'Dockerfile-opensuse }
+                    - { tag: 'debian', dockerfile: 'Dockerfile-debian' }
+                    - { tag: 'gentoo', dockerfile: 'Dockerfile-gentoo' }
+                    - { tag: 'arch', dockerfile: 'Dockerfile-arch' }
+                    - { tag: 'fedora', dockerfile: 'Dockerfile-fedora' }
+                    - { tag: 'opensuse', dockerfile: 'Dockerfile-opensuse' }
 
         steps:
             -   name: Check out the repo
