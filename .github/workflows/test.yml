@@ -31,7 +31,7 @@ jobs:
             options: "--privileged -v /dev:/dev"
         steps:
             -   name: "Checkout Repository"
-                uses: actions/checkout@v3
+                uses: actions/checkout@v1
 
             -   name: Checkout tools repo
                 uses: actions/checkout@v3
