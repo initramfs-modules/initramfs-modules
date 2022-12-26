@@ -38,7 +38,7 @@ jobs:
             - name: Checkout tools repo
               uses: actions/checkout@v3
               with:
-                repository: dracutdev/dracut
+                repository: dracutdevs/dracut
                 path: dracut
 
             -   name: "Get dracut tests"
