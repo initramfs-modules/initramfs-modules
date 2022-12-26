@@ -12,11 +12,15 @@ on:
                 required: true
             container:
                 type: choice
-                description: 'distro'
-                default: 'debian'
+                description: distro
+                default: debian
                 options:
-                    - "alpine"
-                    - "debian"
+                    - alpine
+                    - arch
+                    - debian
+                    - fedora
+                    - gentoo
+                    - opensuse
 
 jobs:
     test-release:
