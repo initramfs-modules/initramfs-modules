@@ -6,7 +6,7 @@ on:
         inputs:
             test:
                 description: "Array of tests to run, such as [11,12]"
-                default: "['03','10','11','98']"
+                default: "['01','02','03',10,11,12,13,14,15,16,17,62,98]"
                 required: true
             container:
                 type: choice
@@ -14,7 +14,6 @@ on:
                 default: debian
                 options:
                     - debian
-
 env:
     DEBUGFAIL: "${{ secrets.ACTIONS_STEP_DEBUG && 'rd.debug' }}"
 
@@ -39,7 +38,7 @@ jobs:
                   path: dracut
 
             -   name: "Get dracut test cases"
-                run: cp -an /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/
+                run: cp -an /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/ && rm -rf /__w/initramfs-modules/initramfs-modules/test/TEST-04*
 
             -   name: "Install dracut test modules"
                 run: cp -an /__w/initramfs-modules/initramfs-modules/dracut/modules.d/80test* /usr/lib/dracut/modules.d/
