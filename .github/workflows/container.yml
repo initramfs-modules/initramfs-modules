@@ -21,6 +21,9 @@ on:
                     - "alpine"
                     - "debian"
                     - "gentoo"
+                    - "arch"
+                    - "fedora"
+                    - "opensuse"
 
 permissions:
     packages: write
@@ -37,12 +40,12 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { tag: 'alpine', dockerfile: 'Dockerfile-alpine' }
-                    - { tag: 'debian', dockerfile: 'Dockerfile-debian' }
-                    - { tag: 'gentoo', dockerfile: 'Dockerfile-gentoo' }
-                    - { tag: 'arch', dockerfile: 'Dockerfile-arch' }
-                    - { tag: 'fedora', dockerfile: 'Dockerfile-fedora' }
-                    - { tag: 'opensuse', dockerfile: 'Dockerfile-opensuse' }
+                    - { tag: 'alpine' }
+                    - { tag: 'debian' }
+                    - { tag: 'gentoo' }
+                    - { tag: 'arch' }
+                    - { tag: 'fedora' }
+                    - { tag: 'opensuse' }
 
         steps:
             -   name: Check out the repo
