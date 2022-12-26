@@ -23,7 +23,7 @@ on:
                     - opensuse
 
 jobs:
-    test-release:
+    test:
         runs-on: ubuntu-latest
         timeout-minutes: 45
         container:
