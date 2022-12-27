@@ -2,13 +2,16 @@ FROM docker.io/debian:sid
 
 RUN apt-get update -y -qq && apt-get upgrade -y -qq
 
+# dracut, qemu
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-live dracut-network qemu-system-x86
 
+# common
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 multipath-tools squashfs-tools
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 squashfs-tools
 
+# distro specific
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    openssh-client
+    openssh-client multipath-tools
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
     binutils \
@@ -37,7 +40,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     pigz \
     pkg-config \
     procps \
-    strace \
     sudo \
     tcpdump \
     tgt \

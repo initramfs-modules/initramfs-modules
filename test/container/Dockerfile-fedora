@@ -2,21 +2,15 @@ FROM registry.fedoraproject.org/fedora:latest
 
 RUN dnf -y install --setopt=install_weak_deps=False dracut qemu-system-x86-core
 
+RUN dnf -y install --setopt=install_weak_deps=False btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 squashfs-tools
+
 RUN dnf -y install --setopt=install_weak_deps=False \
-    dash \
     pigz \
-    asciidoc \
-    mdadm \
-    lvm2 \
-    dmraid \
-    cryptsetup \
     nfs-utils \
     nbd \
     dhcp-server \
     scsi-target-utils \
     iscsi-initiator-utils \
-    strace \
-    btrfs-progs \
     kmod-devel \
     gcc \
     bzip2 \
@@ -35,7 +29,6 @@ RUN dnf -y install --setopt=install_weak_deps=False \
     iputils \
     dbus-daemon \
     kbd \
-    squashfs-tools \
     which \
     parted \
     ntfsprogs \
