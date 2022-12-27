@@ -23,10 +23,10 @@ RUN emerge -qv sys-kernel/dracut
 
 # common
 RUN emerge -qv \
-    sys-fs/btrfs-progs sys-fs/cryptsetup app-shells/dash sys-fs/dmraid sys-fs/mdadm sys-fs/lvm2 sys-devel/make app-admin/sudo sys-fs/e2fsprogs sys-block/parted app-arch/bzip2 app-arch/pigz sys-process/procps app-arch/xz-utils sys-apps/kbd
+    sys-fs/btrfs-progs sys-fs/cryptsetup app-shells/dash sys-fs/dmraid sys-fs/mdadm sys-fs/lvm2 sys-devel/make app-admin/sudo sys-fs/e2fsprogs sys-block/parted app-arch/bzip2 app-arch/pigz sys-process/procps sys-apps/kbd sys-apps/busybox
 
 # common - but distro specific name
-RUN emerge -qv sys-fs/squashfs-tools sys-fs/multipath-tools app-emulation/qemu sys-fs/ntfs3g sys-block/thin-provisioning-tools sys-apps/busybox
+RUN emerge -qv sys-fs/squashfs-tools sys-fs/multipath-tools app-emulation/qemu sys-fs/ntfs3g sys-block/thin-provisioning-tools app-arch/xz-utils
 
 # networking
 RUN emerge -qv \
