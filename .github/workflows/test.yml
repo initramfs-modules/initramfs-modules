@@ -53,4 +53,4 @@ jobs:
                 run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
 
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
-                run: ./test/test.sh "TEST" "${{ inputs.test }}"
+                run: ./test/test.sh "TEST" "${{ matrix.test }}"
