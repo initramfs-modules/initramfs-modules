@@ -10,35 +10,24 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
 
 # common
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2
 
 # common - but distro specific name
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    openssh-client multipath-tools squashfs-tools qemu-system-x86
+    openssh-client multipath-tools squashfs-tools qemu-system-x86 ntfs-3g fdisk thin-provisioning-tools busybox-static
 
 # networking
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    iputils-arping iputils-ping isc-dhcp-client isc-dhcp-server nbd-client nbd-server nfs-kernel-server open-iscsi curl
+    iputils-arping iputils-ping isc-dhcp-client isc-dhcp-server nbd-client nbd-server nfs-kernel-server open-iscsi curl tgt
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
     binutils \
-    busybox-static \
-    bzip2 \
     ca-certificates \
     console-setup \
-    fdisk \
     kmod \
-    libdmraid-dev \
-    less \
-    libkmod-dev \
-    ntfs-3g \
-    parted \
     pigz \
     pkg-config \
     procps \
-    tgt \
-    thin-provisioning-tools \
-    vim \
     sysvinit-core \
     zstd \
     && apt-get clean

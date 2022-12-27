@@ -7,17 +7,17 @@ RUN pacman --noconfirm -Syu linux && yes | pacman -Scc
 RUN pacman --noconfirm -Syu dracut && yes | pacman -Scc
 
 # common
-RUN pacman --noconfirm -Syu btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs && yes | pacman -Scc
+RUN pacman --noconfirm -Syu btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted && yes | pacman -Scc
 
 # common - but distro specific name
-RUN pacman --noconfirm -Syu parted gnupg squashfs-tools multipath-tools openssh qemu && yes | pacman -Scc
+RUN pacman --noconfirm -Syu gnupg squashfs-tools multipath-tools openssh qemu ntfs-3g busybox && yes | pacman -Scc
 
 # networking
 RUN pacman --noconfirm -Syu \
     dhclient nfs-utils nfsidmap nbd dhcp open-iscsi && yes | pacman -Scc
 
 RUN pacman --noconfirm -Syu \
-    pigz vi tcpdump which base-devel glibc ntfs-3g && yes | pacman -Scc
+    pigz base-devel glibc && yes | pacman -Scc
 
 # tgt
 RUN pacman --noconfirm -Syu perl-config-general libxslt docbook-xsl git && yes | pacman -Scc

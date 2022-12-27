@@ -7,10 +7,13 @@ RUN apk add linux-virt
 RUN apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
 # common
-RUN apk add btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs
+RUN apk add btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2
 
 # common - but distro specific name
-RUN apk add partx gpg multipath-tools openssh squashfs-tools qemu-img qemu-system-x86_64 sfdisk
+RUN apk add partx gpg multipath-tools openssh squashfs-tools qemu-img qemu-system-x86_64 sfdisk ntfs-3g busybox
+
+# networking
+RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
 
 # btrfs - btrfs-progs - btrfs
 # crypt - cryptsetup - crypt
@@ -23,9 +26,6 @@ RUN apk add partx gpg multipath-tools openssh squashfs-tools qemu-img qemu-syste
 # openssh - openssh, dracut-modules-network - ssh-client
 # squashfs - squashfs-tools - squash
 
-# module dependencies for networking
-# RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
-
 # RUN apk add networkmanager
 
 # additional dependencies to run tests for networking
@@ -35,7 +35,7 @@ RUN apk add partx gpg multipath-tools openssh squashfs-tools qemu-img qemu-syste
 #RUN apk add asciidoc musl-fts-dev kmod-dev bash coreutils blkid findmnt eudev
 
 # alpine-sdk
-#RUN apk add alpine-sdk sudo
+#RUN apk add alpine-sdk
 
 # Uninstall most mkinitfs files. mkinitfs gets pulled in by linux-virt
 RUN rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs /boot/initramfs-*
