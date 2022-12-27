@@ -3,7 +3,7 @@ FROM docker.io/debian:sid
 RUN apt-get update -y -qq && apt-get upgrade -y -qq
 
 # kernel
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 linux-image-generic sysvinit-core ca-certificates kmod pkg-config
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 linux-image-generic sysvinit-core ca-certificates kmod
 
 # dracut
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-live dracut-network
