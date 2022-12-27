@@ -2,22 +2,23 @@ FROM docker.io/debian:sid
 
 RUN apt-get update -y -qq && apt-get upgrade -y -qq
 
-# dracut
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-live dracut-network
-
 # kernel
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 linux-image-generic
 
-# qemu
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 qemu-system-x86
+# dracut
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-live dracut-network
 
 # common
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
     btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs
 
-# distro specific
+# common - but distro specific name
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    openssh-client multipath-tools squashfs-tools
+    openssh-client multipath-tools squashfs-tools qemu-system-x86
+
+# networking
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
+    iputils-arping iputils-ping isc-dhcp-client isc-dhcp-server nbd-client nbd-server nfs-kernel-server open-iscsi
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
     binutils \
@@ -27,19 +28,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     console-setup \
     curl \
     fdisk \
-    iputils-arping \
-    iputils-ping \
-    isc-dhcp-client \
-    isc-dhcp-server \
     kmod \
     libdmraid-dev \
     less \
     libkmod-dev \
-    nbd-client \
-    nbd-server \
-    nfs-kernel-server \
     ntfs-3g \
-    open-iscsi \
     parted \
     pigz \
     pkg-config \

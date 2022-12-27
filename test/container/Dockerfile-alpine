@@ -1,13 +1,16 @@
 FROM docker.io/alpine:latest
 
-# dracut
-RUN apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
-
 # kernel
 RUN apk add linux-virt
 
-# tests
-RUN apk add qemu-img qemu-system-x86_64 sfdisk
+# dracut
+RUN apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
+
+# common
+RUN apk add btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs
+
+# common - but distro specific name
+RUN apk add partx gpg multipath-tools openssh squashfs-tools qemu-img qemu-system-x86_64 sfdisk
 
 # btrfs - btrfs-progs - btrfs
 # crypt - cryptsetup - crypt
@@ -19,12 +22,6 @@ RUN apk add qemu-img qemu-system-x86_64 sfdisk
 # multipath - multipath-tools, partx - multipath
 # openssh - openssh, dracut-modules-network - ssh-client
 # squashfs - squashfs-tools - squash
-
-# common
-RUN apk add btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs
-
-# common - but distro specific name
-RUN apk add partx gpg multipath-tools openssh squashfs-tools
 
 # module dependencies for networking
 # RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl

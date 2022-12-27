@@ -21,13 +21,11 @@ RUN echo 'app-emulation/qemu QEMU_SOFTMMU_TARGETS: x86_64 QEMU_USER_TARGETS: x86
 # dracut
 RUN emerge -qv sys-kernel/dracut
 
-# qemu
-RUN emerge -qv app-emulation/qemu
-
 # common
 RUN emerge -qv sys-fs/btrfs-progs sys-fs/cryptsetup app-shells/dash sys-fs/dmraid sys-fs/mdadm sys-fs/lvm2 sys-devel/make app-admin/sudo sys-fs/e2fsprogs
 
-RUN emerge -qv sys-fs/squashfs-tools sys-fs/multipath-tools
+# common - but distro specific name
+RUN emerge -qv sys-fs/squashfs-tools sys-fs/multipath-tools app-emulation/qemu
 
 RUN emerge -qv \
     net-fs/nfs-utils \
