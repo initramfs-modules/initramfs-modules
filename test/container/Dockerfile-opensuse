@@ -2,12 +2,14 @@ FROM registry.opensuse.org/opensuse/tumbleweed-dnf:latest
 
 RUN dnf -y install --setopt=install_weak_deps=False dracut qemu-kvm
 
-RUN dnf -y install --setopt=install_weak_deps=False btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 squashfs-tools
+RUN dnf -y install --setopt=install_weak_deps=False btrfs-progs cryptsetup dash dmraid mdadm sed lvm2
+
+RUN dnf -y install --setopt=install_weak_deps=False squashfs
 
 RUN dnf -y install --setopt=install_weak_deps=False \
     nfs-utils nbd dhcp-server \
     libkmod-devel gcc bzip2 xz tar wget make bash-completion \
     sudo kernel dhcp-client qemu-kvm e2fsprogs \
     tcpdump iproute iputils kbd btrfsprogs tgt dbus-broker \
-    iscsiuio open-iscsi which procps pigz parted squashfs ntfsprogs \
+    iscsiuio open-iscsi which procps pigz parted ntfsprogs \
     && dnf -y update && dnf clean all

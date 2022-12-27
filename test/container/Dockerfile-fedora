@@ -2,7 +2,9 @@ FROM registry.fedoraproject.org/fedora:latest
 
 RUN dnf -y install --setopt=install_weak_deps=False dracut qemu-system-x86-core
 
-RUN dnf -y install --setopt=install_weak_deps=False btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 squashfs-tools
+RUN dnf -y install --setopt=install_weak_deps=False btrfs-progs cryptsetup dash dmraid mdadm sed lvm2
+
+RUN dnf -y install --setopt=install_weak_deps=False squashfs-tools
 
 RUN dnf -y install --setopt=install_weak_deps=False \
     pigz \
@@ -18,7 +20,6 @@ RUN dnf -y install --setopt=install_weak_deps=False \
     tar \
     wget \
     make \
-    git \
     bash-completion \
     sudo \
     kernel \
