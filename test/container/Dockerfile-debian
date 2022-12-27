@@ -2,7 +2,7 @@ FROM docker.io/debian:sid
 
 RUN apt-get update -y -qq && apt-get upgrade -y -qq
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-network qemu-system-x86
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-live  qemu-system-x86
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
     btrfs-progs \
