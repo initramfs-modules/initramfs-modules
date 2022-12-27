@@ -9,9 +9,11 @@ RUN pacman --noconfirm -Syu parted gnupg && yes | pacman -Scc
 RUN pacman --noconfirm -Syu \
     linux strace dhclient pigz nfs-utils nfsidmap nbd  dhcp vi tcpdump open-iscsi git which base-devel glibc ntfs-3g && yes | pacman -Scc
 
+RUN pacman --noconfirm -Syu perl-config-general libxslt docbook-xsl && yes | pacman -Scc
+
 RUN useradd -m build
-RUN su build -c 'cd && git clone https://aur.archlinux.org/perl-config-general.git && cd perl-config-general && makepkg -s --noconfirm'
-RUN pacman -U --noconfirm ~build/perl-config-general/*.pkg.tar.*
+#RUN su build -c 'cd && git clone https://aur.archlinux.org/perl-config-general.git && cd perl-config-general && makepkg -s --noconfirm'
+#RUN pacman -U --noconfirm ~build/perl-config-general/*.pkg.tar.*
 RUN su build -c 'cd && git clone https://aur.archlinux.org/tgt.git && cd tgt && makepkg -s --noconfirm'
 RUN pacman -U --noconfirm ~build/tgt/*.pkg.tar.*
 RUN rm -fr ~build
