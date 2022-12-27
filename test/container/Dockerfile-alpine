@@ -1,13 +1,14 @@
 FROM docker.io/alpine:latest
 
-# kernel
+# kernel, init
 RUN apk add linux-virt
 
 # dracut
 RUN apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
 # common
-RUN apk add btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2
+RUN apk add \
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd xz
 
 # common - but distro specific name
 RUN apk add partx gpg multipath-tools openssh squashfs-tools qemu-img qemu-system-x86_64 sfdisk ntfs-3g busybox
