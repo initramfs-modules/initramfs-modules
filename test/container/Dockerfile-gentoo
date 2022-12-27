@@ -28,6 +28,7 @@ RUN emerge -qv \
     sys-apps/busybox \
     sys-block/nbd \
     sys-block/parted \
+    sys-block/tgt \
     sys-block/thin-provisioning-tools \
     sys-fs/btrfs-progs \
     sys-fs/cryptsetup \
