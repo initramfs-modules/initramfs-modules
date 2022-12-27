@@ -59,7 +59,6 @@ jobs:
                     91fido2 91pcsc 91pkcs11 91tpm2-tss 99memstrack 99squash; do
                     rm -rf /usr/lib/dracut/modules.d/$f
                   done
-                  find /usr/lib/dracut/modules.d/
 
             -   name: "Setup running tests"
                 run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
