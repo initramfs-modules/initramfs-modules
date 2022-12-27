@@ -2,12 +2,18 @@ FROM docker.io/debian:sid
 
 RUN apt-get update -y -qq && apt-get upgrade -y -qq
 
-# dracut, qemu
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-live dracut-network qemu-system-x86
+# dracut
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-live dracut-network
+
+# kernel
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 linux-image-generic
+
+# qemu
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 qemu-system-x86
 
 # common
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs
 
 # distro specific
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
@@ -29,8 +35,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     libdmraid-dev \
     less \
     libkmod-dev \
-    linux-image-generic \
-    make \
     nbd-client \
     nbd-server \
     nfs-kernel-server \
@@ -40,7 +44,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     pigz \
     pkg-config \
     procps \
-    sudo \
     tcpdump \
     tgt \
     thin-provisioning-tools \

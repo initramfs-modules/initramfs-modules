@@ -1,13 +1,21 @@
 FROM docker.io/archlinux
 
-RUN pacman --noconfirm -Syu dracut qemu && yes | pacman -Scc
+# dracut
+RUN pacman --noconfirm -Syu dracut && yes | pacman -Scc
 
-RUN pacman --noconfirm -Syu btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 q&& yes | pacman -Scc
+# kernel
+RUN pacman --noconfirm -Syu linux && yes | pacman -Scc
+
+# qemu
+RUN pacman --noconfirm -Syu qemu && yes | pacman -Scc
+
+# common
+RUN pacman --noconfirm -Syu btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs && yes | pacman -Scc
 
 RUN pacman --noconfirm -Syu parted gnupg squashfs-tools multipath-tools openssh  && yes | pacman -Scc
 
 RUN pacman --noconfirm -Syu \
-    linux dhclient pigz nfs-utils nfsidmap nbd dhcp vi tcpdump open-iscsi which base-devel glibc ntfs-3g && yes | pacman -Scc
+    dhclient pigz nfs-utils nfsidmap nbd dhcp vi tcpdump open-iscsi which base-devel glibc ntfs-3g && yes | pacman -Scc
 
 # tgt
 RUN pacman --noconfirm -Syu perl-config-general libxslt docbook-xsl git && yes | pacman -Scc

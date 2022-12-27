@@ -1,8 +1,15 @@
 FROM registry.fedoraproject.org/fedora:latest
 
+# dracut
+RUN dnf -y install --setopt=install_weak_deps=False dracut
+
+# kernel
+RUN dnf -y install --setopt=install_weak_deps=False kernel
+
+# qemu
 RUN dnf -y install --setopt=install_weak_deps=False dracut qemu-system-x86-core
 
-RUN dnf -y install --setopt=install_weak_deps=False btrfs-progs cryptsetup dash dmraid mdadm sed lvm2
+RUN dnf -y install --setopt=install_weak_deps=False btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs
 
 RUN dnf -y install --setopt=install_weak_deps=False squashfs-tools
 
@@ -19,12 +26,8 @@ RUN dnf -y install --setopt=install_weak_deps=False \
     xz \
     tar \
     wget \
-    make \
     bash-completion \
-    sudo \
-    kernel \
     dhcp-client \
-    e2fsprogs \
     tcpdump \
     iproute \
     iputils \
