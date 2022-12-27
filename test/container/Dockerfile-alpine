@@ -6,17 +6,16 @@ RUN apk add dracut-modules-network zfs-dracut --update-cache --repository https:
 # tests
 RUN apk add dracut-tests --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
-# TODO - create dracut-modules-X upstream
-# dracut-modules-btrfs - btrfs-progs - btrfs
-# dracut-modules-crypt - cryptsetup - crypt
-# dracut-modules-dash - dash - dash
-# dracut-modules-dmraid - dmraid, partx - dmraid
-# dracut-modules-gpg - gpg - crypt-gpg
-# dracut-modules-mdadm - mdadm, sed, partx - mdraid # sed: bad regex '(RUN|IMPORT\{program\})\+?="[[:alpha:]': Missing ']'
-# dracut-modules-lvm - lvm2 - lvm, lvmmerge, lvmthinpool-monitor
-# dracut-modules-multipath - multipath-tools, partx - multipath
-# dracut-modules-openssh - openssh, dracut-modules-network - ssh-client
-# dracut-modules-squashfs - squashfs-tools - squash
+# btrfs - btrfs-progs - btrfs
+# crypt - cryptsetup - crypt
+# dash - dash - dash
+# dmraid - dmraid, partx - dmraid
+# gpg - gpg - crypt-gpg
+# mdadm - mdadm, sed, partx - mdraid # sed: bad regex '(RUN|IMPORT\{program\})\+?="[[:alpha:]': Missing ']'
+# lvm - lvm2 - lvm, lvmmerge, lvmthinpool-monitor
+# multipath - multipath-tools, partx - multipath
+# openssh - openssh, dracut-modules-network - ssh-client
+# squashfs - squashfs-tools - squash
 RUN apk add btrfs-progs cryptsetup dash dmraid partx gpg mdadm sed lvm2 multipath-tools openssh squashfs-tools
 
 # additional dependencies to run tests
