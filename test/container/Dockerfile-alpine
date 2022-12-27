@@ -1,6 +1,6 @@
 FROM docker.io/alpine:latest
 
-# dracut
+# dracut, qemu
 RUN apk add dracut-modules-network zfs-dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
 # tests
@@ -16,7 +16,9 @@ RUN apk add dracut-tests --update-cache --repository https://dl-cdn.alpinelinux.
 # multipath - multipath-tools, partx - multipath
 # openssh - openssh, dracut-modules-network - ssh-client
 # squashfs - squashfs-tools - squash
-RUN apk add btrfs-progs cryptsetup dash dmraid partx gpg mdadm sed lvm2 multipath-tools openssh squashfs-tools
+RUN apk add btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 multipath-tools openssh squashfs-tools
+
+RUN apk add partx gpg
 
 # additional dependencies to run tests
 RUN apk add linux-virt

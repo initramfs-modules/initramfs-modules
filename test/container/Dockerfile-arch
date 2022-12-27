@@ -1,12 +1,13 @@
 FROM docker.io/archlinux
 
-RUN pacman --noconfirm -Syu dracut qemu
+RUN pacman --noconfirm -Syu dracut qemu && yes | pacman -Scc
+
+RUN pacman --noconfirm -Syu btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 multipath-tools openssh squashfs-tools && yes | pacman -Scc
+
+RUN pacman --noconfirm -Syu parted gnupg && yes | pacman -Scc
 
 RUN pacman --noconfirm -Syu \
-    linux dash strace dhclient asciidoc cpio pigz squashfs-tools \
-    btrfs-progs mdadm dmraid nfs-utils nfsidmap lvm2 nbd \
-    dhcp multipath-tools vi tcpdump open-iscsi connman \
-    git astyle which base-devel glibc parted ntfs-3g && yes | pacman -Scc
+    linux strace dhclient pigz nfs-utils nfsidmap nbd  dhcp vi tcpdump open-iscsi git which base-devel glibc ntfs-3g && yes | pacman -Scc
 
 RUN useradd -m build
 RUN su build -c 'cd && git clone https://aur.archlinux.org/perl-config-general.git && cd perl-config-general && makepkg -s --noconfirm'

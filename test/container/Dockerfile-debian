@@ -5,18 +5,19 @@ RUN apt-get update -y -qq && apt-get upgrade -y -qq
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 dracut-live dracut-network qemu-system-x86
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    btrfs-progs \
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 multipath-tools openssh squashfs-tools
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
+    openssh-client
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
     binutils \
     busybox-static \
     bzip2 \
     ca-certificates \
     console-setup \
-    cryptsetup \
     curl \
-    dash \
-    dmraid \
     fdisk \
-    git \
     iputils-arping \
     iputils-ping \
     isc-dhcp-client \
@@ -26,10 +27,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     less \
     libkmod-dev \
     linux-image-generic \
-    lvm2 \
     make \
-    mdadm \
-    multipath-tools \
     nbd-client \
     nbd-server \
     nfs-kernel-server \
@@ -39,7 +37,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     pigz \
     pkg-config \
     procps \
-    squashfs-tools \
     strace \
     sudo \
     tcpdump \
