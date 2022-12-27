@@ -31,6 +31,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     mdadm \
     multipath-tools \
     nbd-client \
+    nbd-server \
     nfs-kernel-server \
     ntfs-3g \
     open-iscsi \
