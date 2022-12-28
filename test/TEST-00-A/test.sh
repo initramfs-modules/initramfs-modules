@@ -17,8 +17,8 @@ test_run() {
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
-        -device ide-hd,drive=usbstick -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=usbstick,label=gombi \
-        -append "rd.live.image rd.live.dir=testdir root=LABEL=gombi rd.retry=2 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        -device ide-hd,drive=usbstick -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=usbstick,label=live \
+        -append "rd.live.image rd.live.dir=livedir root=LABEL=live rd.retry=2 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
@@ -34,8 +34,8 @@ test_setup() {
         --no-hostonly --no-hostonly-cmdline --nomdadmconf --nohardlink \
         -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
-    mkdir "$TESTDIR"/testdir
-    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/testdir/rootfs.img
+    mkdir "$TESTDIR"/livedir
+    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img
     rm -rf -- "$TESTDIR"/dracut.*
 
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
