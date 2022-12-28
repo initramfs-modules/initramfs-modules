@@ -40,7 +40,7 @@ test_setup() {
 
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
         --modules "test qemu dmsquash-live dash" \
-        --drivers "sd_mod vfat nls_cp437 nls_ascii " \
+        --drivers "vfat nls_cp437 nls_ascii " \
         --no-hostonly \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
