@@ -44,33 +44,33 @@ test_setup() {
     # create an initramfs that will create the target root filesystem.
     # We do it this way so that we do not risk trashing the host mdraid
     # devices, volume groups, encrypted partitions, etc.
-    "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
-        --modules "test-makeroot rootfs-block qemu" \
-        --drivers "ext4 sd_mod vfat nls_cp437 nls_ascii" \
-        --install "sfdisk mkfs.ext4 mksquashfs poweroff" \
-        --include ./create-root.sh /lib/dracut/hooks/initqueue/01-create-root.sh \
-        --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
-        --force "$TESTDIR"/initramfs.makeroot "$KVERSION" || return 1
+#    "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
+#        --modules "test-makeroot rootfs-block qemu" \
+#        --drivers "ext4 sd_mod vfat nls_cp437 nls_ascii" \
+#        --install "sfdisk mkfs.ext4 mksquashfs poweroff" \
+#        --include ./create-root.sh /lib/dracut/hooks/initqueue/01-create-root.sh \
+#        --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
+#        --force "$TESTDIR"/initramfs.makeroot "$KVERSION" || return 1
     rm -rf -- "$TESTDIR"/overlay
 
     # Create the blank file to use as a root filesystem
-    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    dd if=/dev/zero of="$TESTDIR"/root.img bs=1MiB count=160
-    declare -a disk_args=()
-    declare -i disk_index=0
-    qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
-    qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
+#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+#    dd if=/dev/zero of="$TESTDIR"/root.img bs=1MiB count=160
+#    declare -a disk_args=()
+#    declare -i disk_index=0
+#    qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
+#    qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
 
     # Invoke KVM and/or QEMU to actually create the target filesystem.
-    "$testdir"/run-qemu \
-        "${disk_args[@]}" \
-        -append "root=/dev/dracut/root rw rootfstype=ext4 quiet console=ttyS0,115200n81 selinux=0" \
-        -initrd "$TESTDIR"/initramfs.makeroot || return 1
+#    "$testdir"/run-qemu \
+#        "${disk_args[@]}" \
+#        -append "root=/dev/dracut/root rw rootfstype=ext4 quiet console=ttyS0,115200n81 selinux=0" \
+#        -initrd "$TESTDIR"/initramfs.makeroot || return 1
 
-    if ! grep -U --binary-files=binary -F -m 1 -q dracut-root-block-created "$TESTDIR"/marker.img; then
-        echo "Could not create root filesystem"
-        return 1
-    fi
+#    if ! grep -U --binary-files=binary -F -m 1 -q dracut-root-block-created "$TESTDIR"/marker.img; then
+#        echo "Could not create root filesystem"
+#        return 1
+#    fi
 
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
         --modules "test dash rootfs-block qemu dmsquash-live" \
