@@ -41,11 +41,11 @@ jobs:
                 with:
                   submodules: true
 
-            -   name: Checkout tools repo
-                uses: actions/checkout@v3
-                with:
-                  repository: dracutdevs/dracut
-                  path: dracut
+#            -   name: Checkout tools repo
+#                uses: actions/checkout@v3
+#                with:
+#                  repository: dracutdevs/dracut
+#                  path: dracut
 
             -   name: "Get dracut test cases"
                 run: cp -an /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/ && rm -rf /__w/initramfs-modules/initramfs-modules/test/TEST*SYSTEMD
