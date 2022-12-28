@@ -29,8 +29,6 @@ test_setup() {
     "$basedir"/dracut.sh --keep --tmpdir "$TESTDIR" \
         -m "test-root" \
         -i ./test-init.sh /sbin/init \
-        -i "${basedir}/modules.d/99base/dracut-lib.sh" "/lib/dracut-lib.sh" \
-        -i "${basedir}/modules.d/99base/dracut-dev-lib.sh" "/lib/dracut-dev-lib.sh" \
         --no-hostonly \
         -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
