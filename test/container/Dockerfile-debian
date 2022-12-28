@@ -7,7 +7,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
 
 # common
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd busybox git
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd busybox git grep binutils
 
 # common - but distro specific name
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
@@ -17,8 +17,4 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
     iputils-arping iputils-ping isc-dhcp-client isc-dhcp-server nbd-client nbd-server nfs-kernel-server open-iscsi curl tgt
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
-    binutils \
-    && apt-get clean
-
-RUN cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
+RUN apt-get clean

@@ -6,15 +6,24 @@ RUN apk add linux-virt
 # dracut
 RUN apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
 
+# Uninstall most mkinitfs files. mkinitfs gets pulled in by linux-virt
+RUN rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs /boot/initramfs-*
+
+RUN ln -sf /boot/vmlinuz-virt /boot/vmlinuz-$(cd /lib/modules; ls -1 | tail -1)
+
+RUN cp /sbin/poweroff /sbin/shutdown
+RUN cp /usr/bin/dash /bin/dash
+RUN cp /bin/sh /usr/bin/sh
+
 # common
 RUN apk add \
-    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd busybox git grep
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd busybox git grep binutils
 
 # common - but distro specific name
 RUN apk add partx gpg multipath-tools openssh squashfs-tools qemu-img qemu-system-x86_64 sfdisk ntfs-3g xz
 
 # networking
-RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
+RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl iscsitarget
 
 # btrfs - btrfs-progs - btrfs
 # crypt - cryptsetup - crypt
@@ -32,17 +41,3 @@ RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
 # additional dependencies to run tests for networking
 # RUN apk add qemu-block-nfs qemu-modules
 
-# makedepends
-#RUN apk add asciidoc musl-fts-dev kmod-dev bash coreutils blkid findmnt eudev
-
-# alpine-sdk
-#RUN apk add alpine-sdk
-
-# Uninstall most mkinitfs files. mkinitfs gets pulled in by linux-virt
-RUN rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs /boot/initramfs-*
-
-RUN ln -sf /boot/vmlinuz-virt /boot/vmlinuz-$(cd /lib/modules; ls -1 | tail -1)
-
-RUN cp /sbin/poweroff /sbin/shutdown
-RUN cp /usr/bin/dash /bin/dash
-RUN cp /bin/sh /usr/bin/sh

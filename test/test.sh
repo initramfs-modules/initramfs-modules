@@ -4,6 +4,8 @@ set -ex
 
 #gh workflow run test.yml -f container=debian -f test='[ "00" ]'
 
+cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
+
 RUN_ID="$1"
 TESTS=$2
 
