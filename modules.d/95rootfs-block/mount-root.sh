@@ -114,15 +114,13 @@ mount_root() {
         fsck_single "${root#block:}" "$rootfs" "$rflags" "$fsckoptions"
     fi
 
-    echo "${root#block:} $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
-
     _dev=$(readlink -f "$(label_uuid_to_dev "${root#block:}")")
-    [ -e "$_dev" ] || return 255
-    _fs=$(det_fs "$_dev" "$_fs")
+    echo "$_dev $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
+
+    #echo "${root#block:} $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
+    #_fs=$(det_fs "$_dev" "$_fs")
 
     info "gombi"
-    echo "$_dev /sysroot vfat ro 0 0" > /etc/fstab
-
     info "$(cat /etc/fstab)"
 
     if ! ismounted "$NEWROOT"; then
