@@ -2,7 +2,7 @@
 
 set -ex
 
-#cd test
+#gh workflow run test.yml -f container=debian -f test='[ "00" ]'
 
 RUN_ID="$1"
 TESTS=$2

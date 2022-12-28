@@ -1,6 +1,9 @@
 name: Test
 run-name: Test ${{ inputs.test }} on ${{ inputs.container }}
 
+# todo
+# https://stackoverflow.com/questions/65384420/how-to-make-a-github-action-matrix-element-conditional
+
 on:
     workflow_dispatch:
         inputs:
