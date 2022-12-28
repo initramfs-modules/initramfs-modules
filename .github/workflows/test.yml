@@ -38,6 +38,7 @@ jobs:
         steps:
             -   name: "Checkout Repository"
                 uses: actions/checkout@v3
+                submodules: true
 
             -   name: Checkout tools repo
                 uses: actions/checkout@v3
