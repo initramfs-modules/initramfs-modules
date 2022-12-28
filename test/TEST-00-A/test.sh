@@ -73,7 +73,7 @@ test_setup() {
     fi
 
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
-        --modules "test dash rootfs-block qemu" \
+        --modules "test dash rootfs-block qemu dmsquash-live" \
         --drivers "ext4 sd_mod vfat nls_cp437 nls_ascii " \
         --install "mkfs.ext4" \
         --no-hostonly --no-hostonly-cmdline \
