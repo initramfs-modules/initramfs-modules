@@ -61,7 +61,10 @@ test_setup() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
 
     mkdir "$TESTDIR"/testdir/
+    echo gombi3
     mksquashfs "$TESTDIR"/overlay/source "$TESTDIR"/testdir/rootfs.img
+    echo gombi4
+    ls -lRa "$TESTDIR"
 
     # Invoke KVM and/or QEMU to actually create the target filesystem.
     "$testdir"/run-qemu \
