@@ -69,8 +69,10 @@ jobs:
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
                 run: ./test/test.sh "TEST" "${{ matrix.test }}"
 
-#inputs:
-#    test:
-#        default: "['00','01','03',10,11,12,13,14,15,16,17,98,35,40]"
+inputs:
+    test:
+        description: "Array of tests to run, such as [11,12]"
+        default: "['00','01','03',10,11,12,13,14,15,16,17,98,35,40]"
+        required: true
 #    container:
 #        default: debian
