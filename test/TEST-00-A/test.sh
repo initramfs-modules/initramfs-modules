@@ -25,21 +25,16 @@ test_run() {
 }
 
 test_setup() {
-    # use dracut to make rootfs.img
-    "$basedir"/dracut.sh --keep --no-hostonly --tmpdir "$TESTDIR" -m "test-root" -i ./test-init.sh /sbin/init \
-        "$TESTDIR"/initramfs.root || return 1
+    # use dracut to bootsrap a rootfs directory that you can chroot into
+    "$basedir"/dracut.sh --keep --no-hostonly --tmpdir "$TESTDIR" --modules "test-root" -i ./test-init.sh /sbin/init \
+        "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
-# -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
-
+    # make rootfs.img
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.*
 
-    "$basedir"/dracut.sh \
-        --modules "test qemu dmsquash-live dash" \
-        --drivers "sd_mod vfat nls_cp437 nls_ascii " \
-        --no-hostonly \
-        --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
-
-    rm -rf -- "$TESTDIR"/overlay
+    # make initramfs.testing
+    "$basedir"/dracut.sh --no-hostonly --modules "test qemu dmsquash-live dash" --drivers "sd_mod vfat nls_cp437 nls_ascii " \
+        "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 }
 
 test_cleanup() {
