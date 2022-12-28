@@ -33,10 +33,13 @@ test_setup() {
         -i "${basedir}/modules.d/99base/dracut-dev-lib.sh" "/lib/dracut-dev-lib.sh" \
         --no-hostonly --no-hostonly-cmdline --nomdadmconf --nohardlink \
         -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
-    mkdir -p "$TESTDIR"/overlay/source && mv "$TESTDIR"/dracut.*/initramfs/* "$TESTDIR"/overlay/source && rm -rf "$TESTDIR"/dracut.*
 
-    mkdir "$TESTDIR"/testdir/
-    mksquashfs "$TESTDIR"/overlay/source "$TESTDIR"/testdir/rootfs.img
+    #mkdir -p "$TESTDIR"/overlay/source && mv "$TESTDIR"/dracut.*/initramfs/* "$TESTDIR"/overlay/source && rm -rf "$TESTDIR"/dracut.*
+
+    mkdir "$TESTDIR"/testdir
+    # # && mv "$TESTDIR"/dracut.*/initramfs/* "$TESTDIR"/overlay/source && rm -rf "$TESTDIR"/dracut.*
+
+    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/testdir/rootfs.img
     rm -rf -- "$TESTDIR"/overlay
 
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
