@@ -8,7 +8,7 @@ RUN pacman --noconfirm -Syu dracut
 
 # common
 RUN pacman --noconfirm -Syu \
-    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs bzip2 parted pigz procps kbd busybox
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs bzip2 parted pigz procps kbd busybox git
 
 # common - but distro specific name
 RUN pacman --noconfirm -Syu gnupg squashfs-tools multipath-tools openssh qemu ntfs-3g xz

@@ -8,7 +8,7 @@ RUN dnf -y install --setopt=install_weak_deps=False dracut
 
 # common
 RUN dnf -y install --setopt=install_weak_deps=False \
-    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd busybox
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd busybox git
 
 RUN dnf -y install --setopt=install_weak_deps=False squashfs-tools qemu-system-x86-core ntfsprogs xz
 
