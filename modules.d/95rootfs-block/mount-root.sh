@@ -117,6 +117,7 @@ mount_root() {
     echo "${root#block:} $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
 
     info "gombi"
+    echo "/dev/sdc1 /sysroot vfat ro 0 0" > /etc/fstab
 
     info "$(cat /etc/fstab)"
 
