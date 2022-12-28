@@ -42,7 +42,7 @@ test_setup() {
     # devices, volume groups, encrypted partitions, etc.
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
         --modules "test-makeroot rootfs-block qemu" \
-        --drivers "ext4 sd_mod vfat nls_437" \
+        --drivers "ext4 sd_mod vfat nls_cp437" \
         --install "sfdisk mkfs.ext4 mksquashfs poweroff" \
         --include ./create-root.sh /lib/dracut/hooks/initqueue/01-create-root.sh \
         --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
@@ -73,7 +73,7 @@ test_setup() {
 
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
         --modules "test dash rootfs-block qemu" \
-        --drivers "ext4 sd_mod vfat nls_437" \
+        --drivers "ext4 sd_mod vfat nls_cp437" \
         --install "mkfs.ext4" \
         --no-hostonly --no-hostonly-cmdline \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
