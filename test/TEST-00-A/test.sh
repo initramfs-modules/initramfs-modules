@@ -27,7 +27,7 @@ test_run() {
 test_setup() {
     # use dracut to make rootfs.img
     "$basedir"/dracut.sh --keep --no-hostonly --tmpdir "$TESTDIR" -m "test-root" -i ./test-init.sh /sbin/init \
-        -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
+        "$TESTDIR"/initramfs.root || return 1
 
 # -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
