@@ -15,11 +15,12 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
 
+# rootfstype=vfat
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
         -device ide-hd,drive=usbstick -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=usbstick,label=gombi \
-        -append "rd.skipfsck rootfstype=vfat rootflags=ro rd.live.image rd.live.overlay.overlayfs=1 rd.live.dir=testdir root=LABEL=gombi rd.retry=2 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        -append "rd.skipfsck rootflags=ro rd.live.image rd.live.overlay.overlayfs=1 rd.live.dir=testdir root=LABEL=gombi rd.retry=2 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
