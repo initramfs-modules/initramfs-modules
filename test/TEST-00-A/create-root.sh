@@ -9,17 +9,9 @@ done
 rm -f -- /etc/lvm/lvm.conf
 udevadm control --reload
 set -e
-
 udevadm settle
 
-# create a single partition using 50% of the capacity of the image file created by test_setup() in test.sh
-sfdisk /dev/disk/by-id/ata-disk_root << EOF
-2048,161792
-EOF
-
-udevadm settle
-
-mkfs.ext4 -q -L dracut /dev/disk/by-id/ata-disk_root-part1
+mkfs.ext4 -q -L dracut /dev/disk/by-id/ata-disk_root
 mkdir -p /root
 mount /dev/disk/by-id/ata-disk_root-part1 /root
 mkdir -p /root/run /root/testdir
