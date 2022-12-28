@@ -1,5 +1,5 @@
 name: Test
-run-name: Test ${{ inputs.test }}
+run-name: Test ${{ inputs.test }} on ${{ inputs.container }}
 
 on:
     push:
@@ -30,8 +30,7 @@ jobs:
         timeout-minutes: 30
         strategy:
             matrix:
-                test: [ '00', '01' ]
-                # test: ${{ fromJSON(inputs.test) }}
+                test: ${{ fromJSON(inputs.test) }}
             fail-fast: false
         container:
             image: ghcr.io/${{github.repository_owner}}/${{inputs.container}}
