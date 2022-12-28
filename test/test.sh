@@ -2,7 +2,7 @@
 
 set -ex
 
-cd test
+#cd test
 
 RUN_ID="$1"
 TESTS=$2

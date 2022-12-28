@@ -2,6 +2,9 @@ name: Test
 run-name: Test ${{ inputs.test }}
 
 on:
+    push:
+        branches: [ main ]
+
     workflow_dispatch:
         inputs:
             test:
