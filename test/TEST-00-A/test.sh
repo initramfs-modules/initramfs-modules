@@ -6,7 +6,7 @@ TEST_DESCRIPTION="live root on a squash filesystem"
 KVERSION="${KVERSION-$(uname -r)}"
 
 # Uncomment these to debug failures
-#DEBUGFAIL="rd.shell rd.debug rd.live.debug loglevel=7"
+DEBUGFAIL="rd.shell rd.debug rd.live.debug loglevel=7"
 
 test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -16,6 +16,8 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
 
 # rootfstype=vfat rd.skipfsck
+    ls -lRa "$TESTDIR"
+
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
