@@ -9,6 +9,7 @@ getargbool 0 rd.live.overlay.readonly -d -y readonly_overlay && readonly_overlay
 ROOTFLAGS="$(getarg rootflags)"
 
 info gombi2
+mount
 
 if [ -n "$overlayfs" ]; then
     if ! [ -e /run/rootfsbase ]; then
@@ -32,6 +33,7 @@ if [ -n "$overlayfs" ]; then
     if ! strstr "$(cat /proc/mounts)" LiveOS_rootfs; then
         info mount -t overlay LiveOS_rootfs -o "$ROOTFLAGS,$ovlfs",upperdir=/run/overlayfs,workdir=/run/ovlwork "$NEWROOT"
         ls -lRa /run/rootfsbase
+        mount
         mount -t overlay LiveOS_rootfs -o "$ROOTFLAGS,$ovlfs",upperdir=/run/overlayfs,workdir=/run/ovlwork "$NEWROOT"
     fi
 fi
