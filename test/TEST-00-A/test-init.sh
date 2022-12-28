@@ -1,7 +1,6 @@
 #!/bin/sh
-: > /dev/watchdog
 
-#. /lib/dracut-lib.sh
+: > /dev/watchdog
 
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 exec > /dev/console 2>&1

@@ -25,16 +25,13 @@ test_run() {
 }
 
 test_setup() {
-    # booting into this directory
-    "$basedir"/dracut.sh --keep --tmpdir "$TESTDIR" \
-        -m "test-root" \
-        -i ./test-init.sh /sbin/init \
-        --no-hostonly \
+    # use dracut to make rootfs.img
+    "$basedir"/dracut.sh --keep --no-hostonly --tmpdir "$TESTDIR" -m "test-root" -i ./test-init.sh /sbin/init \
         -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
-    mkdir "$TESTDIR"/livedir
-    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img
-    rm -rf -- "$TESTDIR"/dracut.*
+# -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
+
+    mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.*
 
     "$basedir"/dracut.sh \
         --modules "test qemu dmsquash-live dash" \
