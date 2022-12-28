@@ -25,7 +25,7 @@ test_run() {
 }
 
 test_setup() {
-    # booring into this directory
+    # booting into this directory
     "$basedir"/dracut.sh -l --keep --tmpdir "$TESTDIR" \
         -m "test-root" \
         -i ./test-init.sh /sbin/init \
@@ -34,18 +34,13 @@ test_setup() {
         --no-hostonly --no-hostonly-cmdline --nomdadmconf --nohardlink \
         -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
-    #mkdir -p "$TESTDIR"/overlay/source && mv "$TESTDIR"/dracut.*/initramfs/* "$TESTDIR"/overlay/source && rm -rf "$TESTDIR"/dracut.*
-
     mkdir "$TESTDIR"/testdir
-    # # && mv "$TESTDIR"/dracut.*/initramfs/* "$TESTDIR"/overlay/source && rm -rf "$TESTDIR"/dracut.*
-
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/testdir/rootfs.img
-    rm -rf -- "$TESTDIR"/overlay
+    rm -rf -- "$TESTDIR"/dracut.*
 
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
         --modules "test dash rootfs-block qemu dmsquash-live" \
         --drivers "ext4 sd_mod vfat nls_cp437 nls_ascii " \
-        --install "mkfs.ext4" \
         --no-hostonly --no-hostonly-cmdline \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
