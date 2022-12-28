@@ -114,10 +114,10 @@ mount_root() {
         fsck_single "${root#block:}" "$rootfs" "$rflags" "$fsckoptions"
     fi
 
-    _dev=$(readlink -f "$(label_uuid_to_dev "${root#block:}")")
-    echo "$_dev $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
+    #_dev=$(readlink -f "$(label_uuid_to_dev "${root#block:}")")
+    #echo "$_dev $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
 
-    #echo "${root#block:} $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
+    echo "${root#block:} $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
     #_fs=$(det_fs "$_dev" "$_fs")
 
     info "gombi"
