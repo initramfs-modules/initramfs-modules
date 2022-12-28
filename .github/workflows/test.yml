@@ -33,7 +33,8 @@ jobs:
                 #if: ${{inputs.container}}
                 #test: ${{ fromJSON(inputs.test) }}
                 #if: ! ${{inputs.container}}
-                test: [ '00' ]
+                - test: [ '00' ]
+                  if: ! ${{inputs.container}}
             fail-fast: false
         container:
             #image: ghcr.io/${{github.repository_owner}}/${{inputs.container}}
