@@ -21,6 +21,7 @@ on:
                 options:
                     - debian
                     - gentoo
+                    - alpine
 env:
     DEBUGFAIL: "${{ secrets.ACTIONS_STEP_DEBUG && 'rd.debug' }}"
 
