@@ -26,7 +26,7 @@ test_run() {
 
 test_setup() {
     # booting into this directory
-    "$basedir"/dracut.sh -l --keep --tmpdir "$TESTDIR" \
+    "$basedir"/dracut.sh --keep --tmpdir "$TESTDIR" \
         -m "test-root" \
         -i ./test-init.sh /sbin/init \
         -i "${basedir}/modules.d/99base/dracut-lib.sh" "/lib/dracut-lib.sh" \
@@ -38,9 +38,9 @@ test_setup() {
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img
     rm -rf -- "$TESTDIR"/dracut.*
 
-    "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
+    "$basedir"/dracut.sh \
         --modules "test qemu dmsquash-live dash" \
-        --drivers "vfat nls_cp437 nls_ascii " \
+        --drivers "sd_mod vfat nls_cp437 nls_ascii " \
         --no-hostonly \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
