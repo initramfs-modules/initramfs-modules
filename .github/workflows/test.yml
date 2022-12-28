@@ -32,7 +32,7 @@ jobs:
             matrix:
                 if: ${{inputs.container}}
                 test: ${{ fromJSON(inputs.test) }}
-                if ! ${{inputs.container}}
+                if: ! ${{inputs.container}}
                 test: [ '00' ]
             fail-fast: false
         container:
