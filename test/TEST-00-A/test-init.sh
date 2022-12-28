@@ -13,10 +13,7 @@ export TERM=linux
 [ -f /etc/fstab ] || ln -sfn /proc/mounts /etc/fstab
 stty sane
 echo "made it to the rootfs!"
-if getargbool 0 rd.shell; then
-    strstr "$(setsid --help)" "control" && CTTY="-c"
-    setsid $CTTY sh -i
-fi
+ls -lRa /dev/disk/
 echo "Powering down."
 mount -n -o remount,ro /
 
