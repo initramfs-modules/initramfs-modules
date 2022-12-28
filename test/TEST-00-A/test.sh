@@ -39,6 +39,12 @@ test_setup() {
         -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
     mkdir -p "$TESTDIR"/overlay/source && mv "$TESTDIR"/dracut.*/initramfs/* "$TESTDIR"/overlay/source && rm -rf "$TESTDIR"/dracut.*
 
+    mkdir "$TESTDIR"/testdir/
+    echo gombi3
+    mksquashfs "$TESTDIR"/overlay/source "$TESTDIR"/testdir/rootfs.img
+    echo gombi4
+    ls -lRa "$TESTDIR"
+
     # second, install the files needed to make the root filesystem
     # create an initramfs that will create the target root filesystem.
     # We do it this way so that we do not risk trashing the host mdraid
@@ -59,12 +65,6 @@ test_setup() {
     declare -i disk_index=0
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
-
-    mkdir "$TESTDIR"/testdir/
-    echo gombi3
-    mksquashfs "$TESTDIR"/overlay/source "$TESTDIR"/testdir/rootfs.img
-    echo gombi4
-    ls -lRa "$TESTDIR"
 
     # Invoke KVM and/or QEMU to actually create the target filesystem.
     "$testdir"/run-qemu \
