@@ -18,6 +18,7 @@ test_run() {
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
+        -drive file=fat:rw:"$TESTDIR" \
         -append "root=LABEL=dracut rd.retry=2 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
