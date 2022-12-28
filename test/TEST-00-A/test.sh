@@ -6,7 +6,7 @@ TEST_DESCRIPTION="live root on a squash filesystem"
 KVERSION="${KVERSION-$(uname -r)}"
 
 # Uncomment these to debug failures
-DEBUGFAIL="rd.shell rd.debug rd.live.debug loglevel=7"
+DEBUGFAIL="rd.debug rd.live.debug loglevel=7"
 
 test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
