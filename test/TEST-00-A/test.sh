@@ -31,7 +31,7 @@ test_setup() {
         -i ./test-init.sh /sbin/init \
         -i "${basedir}/modules.d/99base/dracut-lib.sh" "/lib/dracut-lib.sh" \
         -i "${basedir}/modules.d/99base/dracut-dev-lib.sh" "/lib/dracut-dev-lib.sh" \
-        --no-hostonly --no-hostonly-cmdline --nomdadmconf --nohardlink \
+        --no-hostonly \
         -f "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
     mkdir "$TESTDIR"/livedir
@@ -39,9 +39,9 @@ test_setup() {
     rm -rf -- "$TESTDIR"/dracut.*
 
     "$basedir"/dracut.sh -l -i "$TESTDIR"/overlay / \
-        --modules "test dash rootfs-block qemu dmsquash-live" \
-        --drivers "ext4 sd_mod vfat nls_cp437 nls_ascii " \
-        --no-hostonly --no-hostonly-cmdline \
+        --modules "test qemu dmsquash-live busybox" \
+        --drivers "sd_mod vfat nls_cp437 nls_ascii " \
+        --no-hostonly \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
     rm -rf -- "$TESTDIR"/overlay
