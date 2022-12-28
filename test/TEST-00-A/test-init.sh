@@ -8,8 +8,6 @@ exec > /dev/console 2>&1
 
 echo "dracut-root-block-success" | dd oflag=direct,dsync of=/dev/disk/by-id/ata-disk_marker
 
-#export TERM=linux
-#stty sane
 echo "made it to the rootfs!"
 ls -lRa /dev/disk/
 echo "Powering down."

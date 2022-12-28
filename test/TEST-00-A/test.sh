@@ -6,7 +6,7 @@ TEST_DESCRIPTION="live root on a squash filesystem"
 KVERSION="${KVERSION-$(uname -r)}"
 
 # Uncomment these to debug failures
-DEBUGFAIL="rd.debug rd.live.debug loglevel=7"
+#DEBUGFAIL="rd.debug rd.live.debug loglevel=7"
 
 test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -15,11 +15,12 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
 
+# -append "rootflags=ro rd.live.image rd.live.overlay.overlayfs=1 rd.live.dir=testdir root=LABEL=gombi rd.retry=2 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBU
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
         -device ide-hd,drive=usbstick -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=usbstick,label=gombi \
-        -append "rootflags=ro rd.live.image rd.live.overlay.overlayfs=1 rd.live.dir=testdir root=LABEL=gombi rd.retry=2 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        -append "rd.live.image rd.live.dir=testdir root=LABEL=gombi rd.retry=2 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
