@@ -15,9 +15,6 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
 
-# rootfstype=vfat rd.skipfsck
-    ls -lRa "$TESTDIR"
-
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
@@ -40,10 +37,7 @@ test_setup() {
     mkdir -p "$TESTDIR"/overlay/source && mv "$TESTDIR"/dracut.*/initramfs/* "$TESTDIR"/overlay/source && rm -rf "$TESTDIR"/dracut.*
 
     mkdir "$TESTDIR"/testdir/
-    echo gombi3
     mksquashfs "$TESTDIR"/overlay/source "$TESTDIR"/testdir/rootfs.img
-    echo gombi4
-    ls -lRa "$TESTDIR"
 
     # second, install the files needed to make the root filesystem
     # create an initramfs that will create the target root filesystem.
