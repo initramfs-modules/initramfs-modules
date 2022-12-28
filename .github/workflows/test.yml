@@ -37,6 +37,7 @@ jobs:
             fail-fast: false
         container:
             image: ghcr.io/${{github.repository_owner}}/${{inputs.container}}
+            image: ghcr.io/${{github.repository_owner}}/debian
             options: "--privileged -v /dev:/dev"
         steps:
             -   name: "Checkout Repository"
