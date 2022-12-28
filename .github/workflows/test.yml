@@ -30,7 +30,7 @@ jobs:
         timeout-minutes: 30
         strategy:
             matrix:
-                test: [ '00' ]
+                test: [ '00', '01' ]
                 # test: ${{ fromJSON(inputs.test) }}
             fail-fast: false
         container:
