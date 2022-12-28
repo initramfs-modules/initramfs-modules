@@ -4,6 +4,11 @@ run-name: Test ${{ inputs.test }}
 on:
     push:
         branches: [ main ]
+         inputs:
+            test:
+                default: "['00','01','03',10,11,12,13,14,15,16,17,98,35,40]"
+            container:
+                default: debian
 
     workflow_dispatch:
         inputs:
