@@ -118,7 +118,7 @@ mount_root() {
 
     info "gombi"
 
-    cat /etc/fstab | grep info
+    info "$(cat /etc/fstab)"
 
     if ! ismounted "$NEWROOT"; then
         info "Mounting ${root#block:} with -o ${rflags}"
