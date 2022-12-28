@@ -116,8 +116,9 @@ mount_root() {
 
     echo "${root#block:} $NEWROOT $rootfs ${rflags:-defaults} 0 ${rootfsck:-0}" >> /etc/fstab
 
-    cat /etc/fstab
-    echo "gombi"
+    info "gombi"
+
+    cat /etc/fstab | grep info
 
     if ! ismounted "$NEWROOT"; then
         info "Mounting ${root#block:} with -o ${rflags}"
