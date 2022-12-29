@@ -1,5 +1,9 @@
 #!/bin/sh
 
+env
+echo $REPO
+echo gombi
+
 if [ -f /etc/os-release ]; then
  . /etc/os-release
 fi
