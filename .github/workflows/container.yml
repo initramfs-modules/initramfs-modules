@@ -3,13 +3,13 @@ on:
     push:
         branches: [ main ]
         paths:
-            - 'test/container/**'
+            - 'container/**'
             - '.github/workflows/container.yml'
 
     pull_request:
         branches: [ master ]
         paths:
-            - 'test/container/**'
+            - 'container/**'
             - '.github/workflows/container.yml'
 
     workflow_dispatch:
@@ -70,6 +70,6 @@ jobs:
                 uses: docker/build-push-action@v3
                 with:
                     context: .
-                    file: test/container/Dockerfile-${{ matrix.config.tag }}
+                    file: container/Dockerfile-${{ matrix.config.tag }}
                     tags: ghcr.io/${{env.repository_owner}}/${{ matrix.config.tag }}
                     push: ${{ github.event_name == 'push' }}
