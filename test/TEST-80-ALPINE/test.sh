@@ -33,21 +33,15 @@ test_setup() {
         --modules "mdev-alpine test-root" \
         --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
         --include ./test-init.sh /sbin/init \
-        --include "${basedir}/modules.d/99base/dracut-lib.sh" "/lib/dracut-lib.sh" \
-        --include "${basedir}/modules.d/99base/dracut-dev-lib.sh" "/lib/dracut-dev-lib.sh" \
         --force "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
     mv "$TESTDIR"/overlay/tmp/dracut.*/initramfs/* "$TESTDIR"/overlay/source/ && rm -rf "$TESTDIR"/overlay/tmp
 
-    # second, install the files needed to make the root filesystem
-    # create an initramfs that will create the target root filesystem.
-    # We do it this way so that we do not risk trashing the host mdraid
-    # devices, volume groups, encrypted partitions, etc.
     dracut -l -i "$TESTDIR"/overlay / \
         --modules "mdev-alpine rootfs-block test-makeroot" \
         --install "mkfs.ext4" \
         --drivers "ext4 sd_mod" \
-        --no-hostonly --no-hostonly-cmdline --no-early-microcode --nofscks --nomdadmconf --nohardlink --nostrip \
+        --no-hostonly \
         --include ./create-root.sh /lib/dracut/hooks/initqueue/01-create-root.sh \
         --force "$TESTDIR"/initramfs.makeroot "$KVERSION" || return 1
     rm -rf -- "$TESTDIR"/overlay
@@ -74,10 +68,9 @@ test_setup() {
 
     dracut -l -i "$TESTDIR"/overlay / \
         --modules "busybox mdev-alpine rootfs-block test debug watchdog" \
-        --omit "rngd" \
         --drivers "ext4 sd_mod" \
         --install "mkfs.ext4" \
-        --no-hostonly --no-hostonly-cmdline \
+        --no-hostonly \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
     ls -sh "$TESTDIR"/initramfs.testing
