@@ -46,7 +46,7 @@ jobs:
                 run: cp -an /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/ && rm -rf /__w/initramfs-modules/initramfs-modules/test/TEST*SYSTEMD
 
             -   name: "Install dracut test modules"
-                run: rm -rf /usr/lib/dracut/modules.d/* && cp -a /__w/initramfs-modules/initramfs-modules/dracut/modules.d/* usr/lib/dracut/modules.d/
+                run: rm -rf /usr/lib/dracut/modules.d/* && cp -a /__w/initramfs-modules/initramfs-modules/dracut/modules.d/* /usr/lib/dracut/modules.d/
                 #cp -a /__w/initramfs-modules/initramfs-modules/dracut/modules.d/80test* /usr/lib/dracut/modules.d/
 
             -   name: "Install initramfs dracut modules overlay"
