@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck disable=SC2034
-TEST_DESCRIPTION="live root on a squash filesystem"
+TEST_DESCRIPTION="root on a squash image"
 
 KVERSION="${KVERSION-$(uname -r)}"
 
