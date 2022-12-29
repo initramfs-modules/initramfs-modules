@@ -48,9 +48,11 @@ test_setup() {
    rm -rf lib/udev/rules.d/75-net-description.rules
    rm -rf etc/udev/rules.d/11-dm.rules
 
-   rm -rf usr/sbin/dmsetup
+   rm -rf sbin/dmsetup
+   rm -rf sbin/*fsck*
 
    # Populate logs with the list of filenames inside initrd.img
+   find . -type f -exec ls -la {} \; | sort -k 5,5  -n -r
    find .
 
    find . -print0 | cpio --null --create --format=newc | gzip --best > "$TESTDIR"/initramfs.testing
