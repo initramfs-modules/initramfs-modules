@@ -12,12 +12,13 @@ on:
                 # 50 NFS MULTIINC - runs too long
                 # 30 ISCS - debian bug ?
                 # 20 NFS - debian bug ?
-                default: "['00','01','03',10,11,12,13,14,15,16,17,98,35,40]"
+                default: "['00']"
+                # "['00','01','03',10,11,12,13,14,15,16,17,98,35,40]"
                 required: true
             container:
                 type: choice
                 description: distro
-                default: debian
+                default: alpine
                 options:
                     - debian
                     - gentoo
