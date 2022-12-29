@@ -6,19 +6,14 @@ on:
             - 'container/**'
             - '.github/workflows/container.yml'
 
-    pull_request:
-        branches: [ master ]
-        paths:
-            - 'container/**'
-            - '.github/workflows/container.yml'
-
     workflow_dispatch:
         inputs:
             container:
                 type: choice
                 description: distro
-                default: debian
+                default: initramfs
                 options:
+                    - initramfs
                     - alpine
                     - arch
                     - debian

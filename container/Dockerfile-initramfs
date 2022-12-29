@@ -2,4 +2,6 @@ ARG BASE=docker.io/alpine
 
 FROM $BASE
 
-RUN --mount=target=/_tmp /_tmp/bin/initramfs.sh
+ENV REPO=/_tmp
+
+RUN --mount=target=$REPO $REPO/container/initramfs.sh
