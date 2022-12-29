@@ -1,9 +1,5 @@
 #!/bin/sh
 
-env
-echo $REPO
-echo gombi
-
 if [ -f /etc/os-release ]; then
  . /etc/os-release
 fi
@@ -51,9 +47,9 @@ cd /
 
 wget https://busybox.net/downloads/busybox-1.35.0.tar.bz2
 bzip2 -d busybox-*.tar.bz2 && tar -xf busybox-*.tar && cd busybox-*
-cp /_tmp/config/busyboxconfig .config
+cp $REPO/busyboxconfig .config
 make oldconfig
-diff /_tmp/busyboxconfig .config
+diff $REPO/busyboxconfig .config
 make
 strip ./busybox
 mv ./busybox /bin/busybox
