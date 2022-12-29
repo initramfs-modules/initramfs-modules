@@ -27,20 +27,20 @@ test_run() {
 test_setup() {
     # use dracut to bootstrap a rootfs directory that you can chroot into
     "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
-        "$TESTDIR"/tmpinitramfs.root "$KVERSION" || return 1
+        "$TESTDIR"/initramfs.root "$KVERSION" || return 1
 
     # make rootfs.img
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.*
 
     # make initramfs.testing
     "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test qemu dmsquash-live busybox" --drivers "sd_mod vfat nls_cp437 nls_ascii nls_utf8" \
-        "$TESTDIR"/tmpinitramfs.testing "$KVERSION" || return 1
+        "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
    cd "$TESTDIR"/dracut.*/initramfs/
    find .
    ls -lRa
    echo gombi
-   find . -print0 | cpio --null --create --format=newc | gzip --best > "$TESTDIR"/initramfs.testing
+#   find . -print0 | cpio --null --create --format=newc | gzip --best > "$TESTDIR"/initramfs.testing
 }
 
 test_cleanup() {
