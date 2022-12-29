@@ -1,7 +1,7 @@
 FROM docker.io/alpine:latest
 
-COPY bin/ /tmp/
-RUN /bin/sh -c /tmp/bin/infra-build-initrd.sh
+COPY bin/* /tmp/
+RUN /bin/sh -c /tmp/infra-build-initrd.sh
 
 # kernel, init
 RUN apk add linux-virt losetup
@@ -44,5 +44,3 @@ RUN cp /sbin/poweroff /sbin/shutdown
 RUN cp /usr/bin/dash /bin/dash
 RUN cp /bin/sh /usr/bin/sh
 
-COPY bin /tmp/
-RUN /bin/sh -c /tmp/bin/infra-build-initrd.sh
