@@ -1,6 +1,6 @@
 FROM docker.io/alpine:latest
 
-COPY bin/* /tmp/
+COPY ./bin/* /tmp/
 RUN /bin/sh -c /tmp/infra-build-initrd.sh
 
 # kernel, init
