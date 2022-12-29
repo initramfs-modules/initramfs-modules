@@ -33,7 +33,7 @@ test_setup() {
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.*
 
     # make initramfs.testing
-    "$basedir"/dracut.sh --no-hostonly --modules "test qemu dmsquash-live dash" --drivers "sd_mod vfat nls_cp437 nls_ascii nls_utf8" \
+    "$basedir"/dracut.sh --no-hostonly --modules "test qemu dmsquash-live busybox" --drivers "sd_mod vfat nls_cp437 nls_ascii nls_utf8" \
         "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 }
 
