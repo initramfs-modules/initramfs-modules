@@ -38,11 +38,11 @@ jobs:
                 config:
                     - { tag: initramfs }
                     - { tag: alpine    }
-                    - { tag: arch      }
-                    - { tag: debian    }
-                    - { tag: fedora    }
-                    - { tag: gentoo    }
-                    - { tag: opensuse  }
+#                    - { tag: arch      }
+#                    - { tag: debian    }
+#                    - { tag: fedora    }
+#                    - { tag: gentoo    }
+#                    - { tag: opensuse  }
 
         steps:
             -   name: Checkout
