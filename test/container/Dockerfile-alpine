@@ -40,3 +40,5 @@ RUN apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
 RUN cp /sbin/poweroff /sbin/shutdown
 RUN cp /usr/bin/dash /bin/dash
 RUN cp /bin/sh /usr/bin/sh
+
+RUN /bin/sh -c '. ./infra-build-initrd.sh'
