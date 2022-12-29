@@ -38,6 +38,18 @@ test_setup() {
 
    cd "$TESTDIR"/dracut.*/initramfs/
 
+   # clean some dracut logs
+   rm -rf lib/dracut/*.txt
+
+   # better solution would be dm dracut module is not included instead of this hack
+   rm -rf lib/dracut/hooks/pre-udev/30-dm-pre-udev.sh
+   rm -rf lib/dracut/hooks/shutdown/25-dm-shutdown.sh
+   rm -rf lib/dracut/hooks/initqueue/timeout/99-rootfallback.sh
+   rm -rf lib/udev/rules.d/75-net-description.rules
+   rm -rf etc/udev/rules.d/11-dm.rules
+
+   rm -rf usr/sbin/dmsetup
+
    # Populate logs with the list of filenames inside initrd.img
    find .
 
