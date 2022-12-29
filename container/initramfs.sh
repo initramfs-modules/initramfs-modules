@@ -47,9 +47,9 @@ cd /
 
 wget https://busybox.net/downloads/busybox-1.35.0.tar.bz2
 bzip2 -d busybox-*.tar.bz2 && tar -xf busybox-*.tar && cd busybox-*
-cp $REPO/busyboxconfig .config
+cp $REPO/container/busyboxconfig .config
 make oldconfig
-diff $REPO/busyboxconfig .config
+diff $REPO/container/busyboxconfig .config
 make
 strip ./busybox
 mv ./busybox /bin/busybox
