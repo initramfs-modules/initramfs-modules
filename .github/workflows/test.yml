@@ -20,6 +20,7 @@ on:
                 description: distro
                 default: alpine
                 options:
+                    - initramfs
                     - debian
                     - gentoo
                     - alpine
