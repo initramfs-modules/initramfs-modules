@@ -13,7 +13,7 @@ ln -sf /boot/vmlinuz-virt /boot/vmlinuz-$(cd /lib/modules; ls -1 | tail -1)
 
 # common
 apk add \
-    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd busybox git grep binutils
+    btrfs-progs cryptsetup dash dmraid mdadm sed lvm2 make sudo e2fsprogs parted bzip2 pigz procps kbd busybox git grep binutils cpio
 
 # common - but distro specific name
 apk add partx gpg multipath-tools openssh squashfs-tools qemu-img qemu-system-x86_64 sfdisk ntfs-3g xz
