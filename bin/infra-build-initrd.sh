@@ -50,7 +50,7 @@ if [ -f /etc/os-release ]; then
  . /etc/os-release
 fi
 
-. /tmp/infra-env.sh
+# . /tmp/infra-env.sh
 
 if [ -z "$SCRIPTS" ]; then
   export SCRIPTS="/tmp"
