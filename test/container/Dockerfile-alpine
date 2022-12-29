@@ -1,7 +1,7 @@
 FROM docker.io/alpine:latest
 
 # kernel, init
-RUN apk add linux-virt losetup
+RUN apk add linux-virt #losetup
 
 # dracut
 RUN apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
