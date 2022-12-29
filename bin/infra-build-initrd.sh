@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Requirements:
 # - Does not need /home
