@@ -1,5 +1,9 @@
 FROM docker.io/alpine:latest
 
+COPY . /tmp
+
+RUN find /tmp
+
 # kernel, init
 RUN apk add linux-virt losetup
 
