@@ -37,6 +37,9 @@ test_setup() {
         "$TESTDIR"/tmpinitramfs.testing "$KVERSION" || return 1
 
    cd "$TESTDIR"/dracut.*/initramfs/
+   find .
+   ls -lRa
+   echo gombi
    find . -print0 | cpio --null --create --format=newc | gzip --best > "$TESTDIR"/initramfs.testing
 }
 
