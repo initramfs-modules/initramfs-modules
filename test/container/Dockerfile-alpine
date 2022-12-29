@@ -5,6 +5,8 @@ RUN find /tmp
 
 RUN /tmp/infra-build-initrd.sh
 
+RUN --mount bin/infra-build-initrd.sh
+
 # kernel, init
 RUN apk add linux-virt losetup
 
