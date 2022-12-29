@@ -41,12 +41,13 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { tag: alpine   }
-                    - { tag: arch     }
-                    - { tag: debian   }
-                    - { tag: fedora   }
-                    - { tag: gentoo   }
-                    - { tag: opensuse }
+                    - { tag: initramfs }
+                    - { tag: alpine    }
+                    - { tag: arch      }
+                    - { tag: debian    }
+                    - { tag: fedora    }
+                    - { tag: gentoo    }
+                    - { tag: opensuse  }
 
         steps:
             -   name: Checkout

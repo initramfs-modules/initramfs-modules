@@ -1,7 +1,5 @@
 FROM docker.io/alpine:latest
 
-# RUN --mount=target=/tmp /tmp/bin/infra-build-initrd.sh
-
 # kernel, init
 RUN apk add linux-virt losetup
 
