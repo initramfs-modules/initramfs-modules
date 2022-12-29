@@ -1,59 +1,7 @@
 #!/bin/sh
 
-# Requirements:
-# - Does not need /home
-# - Does not need /etc or /usr rw
-# - Does not need to run as root or sudo
-# - Does not use the network
-
-# initramfs and most tools generating initramfs are designed to be host specific
-
-# In general each kernel version will have to have its own initramfs
-# but with a bit of work it is possible to make initramfs generic (not HW or host SW specific)
-
-# https://fai-project.org/
-# This is also way more powerful (systemd volatile)
-
-# A read-only /etc is increasingly common on embedded devices.
-# A rarely-changing /etc is also increasingly common on desktop and server installations, with files like /etc/mtab and /etc/resolv.conf located on another filesystem and symbolically linked in /etc (so that files in /etc need to be modified when installing software or when the computer's configuration changes, but not when mounting a USB drive or connecting in a laptop to a different network).
-# The emerging standard is to have a tmpfs filesystem mounted on /run and symbolic links in /etc like
-
-# Create a temporary file called rdexec and copy it into initramfs to be executed
-# This solution only requires dropping one single hook file into initramfs
-# This argument allows calling out to EFI parition from within initramfs to execute arbitrary code
-# Future goal - instead of executing arbitrary code, try to just create additional files and drop them
-# For user management switch to homectl and portable home directories
-
-# customize busybox - maybe on gentoo
-# https://git.alpinelinux.org/aports/log/main/busybox/busyboxconfig
-# https://git.alpinelinux.org/aports/tree/main/busybox/APKBUILD
-# https://git.busybox.net/busybox
-# https://gitweb.gentoo.org/repo/gentoo.git/tree/sys-apps/busybox/busybox-1.35.0.ebuild
-
-# Sizes - compressed: 1.5M
-#busybox - 800M
-#musl - 600M
-#liblkid - 300M (needed by udev)
-#udev - 600M
-#udev-rules (lib/udev/*_id) - 300M
-
-# steps to rebuild an alpine package - takes forever to check out the git repo
-#  apk add sudo alpine-sdk
-#  adduser -D build
-#  addgroup build abuild
-#  addgroup abuild root
-#  echo 'build ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-#  su build
-#  export PATH=$PATH:/sbin/
-
 if [ -f /etc/os-release ]; then
  . /etc/os-release
-fi
-
-# . /tmp/infra-env.sh
-
-if [ -z "$SCRIPTS" ]; then
-  export SCRIPTS="/tmp"
 fi
 
 cd /
@@ -99,9 +47,9 @@ cd /
 
 wget https://busybox.net/downloads/busybox-1.35.0.tar.bz2
 bzip2 -d busybox-*.tar.bz2 && tar -xf busybox-*.tar && cd busybox-*
-cp /tmp/busyboxconfig .config
+cp /_tmp/config/busyboxconfig .config
 make oldconfig
-diff /tmp/busyboxconfig .config
+diff /_tmp/busyboxconfig .config
 make
 strip ./busybox
 mv ./busybox /bin/busybox
@@ -243,27 +191,6 @@ find .
 mkdir -p /efi/kernel/
 find . -print0 | cpio --null --create --format=newc | gzip --best > /efi/kernel/initrd.img
 ls -lha /efi/kernel/initrd*.img
-
-# Keep initramfs simple and do not require networking
-
-# todo --debug --no-early-microcode --xz --keep --verbose --no-compress --no-kernel
-# todo - interesting modules , usrmount, livenet, convertfs qemu qemu-net
-# todo - use --no-kernel and mount modules early, write a module 00mountmodules or 01mountmodules
-
-# include modules that might be reqired to find and mount modules file
-# nls_iso8859_1 - mount vfat EFI partition if modules file is in EFI
-# isofs - mount iso file if modules file is inside the iso
-# ntfs - iso file itself might be stored on the ntfs filesystem
-# ahci, uas (USB Attached SCSI), nvme - when booting on bare metal, to find the partition and filesystem
-
-# todo - idea: break up initrd into 2 files - one with modules and one without modules, look into of the modules part can be conbined with the modules file
-# find updates -print0 | cpio --null --create --format=newc | gzip --best > /efi/kernel/updates.img
-
-# shutdown - to help kexec
-# terminfo - to debug
-
-# todo - upstream - 00-btrfs.conf
-# https://github.com/dracutdevs/dracut/commit/0402b3777b1c64bd716f588ff7457b905e98489d
 
 apk del util-linux-misc dracut-modules squashfs-tools git util-linux-misc cpio >/dev/null
 
