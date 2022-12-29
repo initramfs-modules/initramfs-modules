@@ -48,7 +48,6 @@ test_setup() {
    rm -rf lib/udev/rules.d/75-net-description.rules
    rm -rf etc/udev/rules.d/11-dm.rules
 
-   rm -rf sbin/dmsetup
    rm -rf sbin/*fsck*
 
    # Populate logs with the list of filenames inside initrd.img
