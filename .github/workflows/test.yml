@@ -18,12 +18,13 @@ on:
             container:
                 type: choice
                 description: distro
-                default: alpine
+                default: container/Dockerfile-alpine-initramfs-kernel
                 options:
                     - initramfs
                     - debian
                     - gentoo
                     - alpine
+                    - alpine-initramfs-kernel
 env:
     DEBUGFAIL: "${{ secrets.ACTIONS_STEP_DEBUG && 'rd.debug' }}"
 
