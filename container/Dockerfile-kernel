@@ -1,7 +1,8 @@
 ARG BASE=docker.io/debian:sid
 
 FROM $BASE as builder
-#FROM 0gombi0/homelab:initrd as initrd
+
+FROM initramfs-modules/initramfs:latest as initrd
 
 ENV REPO=/_tmp
 
