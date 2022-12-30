@@ -1,3 +1,4 @@
+# builds for abpout 2:30 hours on GA
 
 set -x
 
@@ -17,6 +18,7 @@ tar -xf linux-$KERNEL.tar.xz
 
 cd linux-$KERNEL
 #make defconfig
+#make tinyconfig
 
 cp /efi/kernel/initrd.img /tmp/initramfs.cpio.gz
 
