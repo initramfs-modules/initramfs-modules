@@ -18,7 +18,7 @@ on:
             container:
                 type: choice
                 description: distro
-                default: container/Dockerfile-alpine-initramfs-kernel
+                default: alpine-initramfs-kernel
                 options:
                     - initramfs
                     - debian
