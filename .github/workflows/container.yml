@@ -14,6 +14,7 @@ on:
                 default: initramfs
                 options:
                     - initramfs
+                    - kernel
                     - alpine
                     - arch
                     - debian
@@ -37,6 +38,7 @@ jobs:
             matrix:
                 config:
                     - { tag: initramfs }
+                    - { tag: kernel    }
                     - { tag: alpine    }
 #                    - { tag: arch      }
 #                    - { tag: debian    }
