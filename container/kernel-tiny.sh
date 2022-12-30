@@ -78,7 +78,7 @@ cat .config
 make -j$(nproc) bzImage
 make -j$(nproc) modules
 
-make clean
+#make clean
 rm -rf /boot /lib/modules /usr/include
 
 make install

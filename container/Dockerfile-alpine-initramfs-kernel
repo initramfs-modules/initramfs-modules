@@ -1,0 +1,12 @@
+FROM ghcr.io/initramfs-modules/initramfs as initrd
+
+FROM ghcr.io/initramfs-modules/kernel-tiny as kernel
+
+ARG BASE=ghcr.io/initramfs-modules/alpine
+
+FROM $BASE
+
+ENV REPO=/_tmp
+
+COPY --from=initrd /efi /efi
+COPY --from=kernel /boot /boot
