@@ -15,6 +15,7 @@ on:
                 options:
                     - initramfs
                     - kernel-tiny
+                    - kernel
                     - alpine-initramfs-kernel
                     - alpine
                     - arch
@@ -38,16 +39,16 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-#                    - { tag: initramfs   }
+                    - { tag: initramfs   }
                     - { tag: alpine-initramfs-kernel }
-#                    - { tag: kernel-tiny }
-#                    - { tag: kernel    }
-#                    - { tag: alpine    }
-#                    - { tag: arch      }
-#                    - { tag: debian    }
-#                    - { tag: fedora    }
-#                    - { tag: gentoo    }
-#                    - { tag: opensuse  }
+                    - { tag: kernel-tiny }
+                    - { tag: kernel    }
+                    - { tag: alpine    }
+                    - { tag: arch      }
+                    - { tag: debian    }
+                    - { tag: fedora    }
+                    - { tag: gentoo    }
+                    - { tag: opensuse  }
 
         steps:
             -   name: Checkout
