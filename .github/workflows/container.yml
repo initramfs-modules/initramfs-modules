@@ -14,7 +14,7 @@ on:
                 default: initramfs
                 options:
                     - initramfs
-                    - kernel
+                    - kernel-tiny
                     - alpine
                     - arch
                     - debian
