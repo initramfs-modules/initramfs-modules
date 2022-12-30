@@ -35,8 +35,8 @@ test_setup() {
     if [ -e /efi/kernel/initrd.img ]; then
         cp /efi/kernel/initrd.img "$TESTDIR"/initramfs.testing
     else
-    # make initramfs.testing
-    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "qemu dmsquash-live dash" --drivers "sd_mod vfat nls_cp437 nls_ascii nls_utf8" \
+    # make initramfs.testing qemu
+    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --drivers "sd_mod vfat nls_cp437 nls_ascii nls_utf8" \
         "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
 
    cd "$TESTDIR"/dracut.*/initramfs/
