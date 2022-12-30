@@ -16,3 +16,5 @@ RUN apt-get update -y -qq && apt-get upgrade -y -qq && DEBIAN_FRONTEND=nonintera
     && apt-get clean && rm -rf /usr/lib/modules/*
 
 RUN --mount=target=$REPO $REPO/container/kernel-tiny.sh
+
+RUN find /boot/ /lib/ /usr/include/

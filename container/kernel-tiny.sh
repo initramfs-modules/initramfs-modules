@@ -83,11 +83,14 @@ make ARCH=x86 allnoconfig KCONFIG_ALLCONFIG=x86_64.miniconf
 cat .config
 make -j$(nproc) bzImage
 ls -lha arch/x86/boot/bzImage
+make install
+
+find /boot
 
 make -j$(nproc) modules
 make INSTALL_MOD_STRIP=1 modules_install
 
-find /lib
+find /lib/
 
 make headers_install
 
