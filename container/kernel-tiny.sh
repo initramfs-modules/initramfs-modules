@@ -16,12 +16,9 @@ tar -xf linux-$KERNEL.tar.xz
 
 cd linux-$KERNEL
 
+# make tinyconfig
+
 cat > x86_64.miniconf << EOF
-# make ARCH=x86 allnoconfig KCONFIG_ALLCONFIG=x86_64.miniconf
-# make ARCH=x86 -j $(nproc)
-# boot arch/x86/boot/bzImage
-
-
 # CONFIG_EMBEDDED is not set
 # architecture independent
 CONFIG_BINFMT_ELF=y
@@ -57,7 +54,6 @@ CONFIG_COMPAT_32BIT_TIME=y
 CONFIG_EARLY_PRINTK=y
 CONFIG_IKCONFIG=y
 CONFIG_IKCONFIG_PROC=y
-
 CONFIG_MODULES=y
 
 # architecture specific
@@ -74,43 +70,20 @@ CONFIG_E1000=y
 CONFIG_SERIAL_8250=y
 CONFIG_SERIAL_8250_CONSOLE=y
 CONFIG_RTC_CLASS=y
-
 EOF
-
 
 make ARCH=x86 allnoconfig KCONFIG_ALLCONFIG=x86_64.miniconf
 
 cat .config
 make -j$(nproc) bzImage
-ls -lha arch/x86/boot/bzImage
-make install
-
-find /boot
-
 make -j$(nproc) modules
-make INSTALL_MOD_STRIP=1 modules_install
-
-find /lib/
-
-make headers_install
 
 make clean
+rm -rf /boot /lib/modules /usr/include
 
-exit
-
-
-make tinyconfig
-
-cat .config
-
-make -j16 bzImage
-mkdir -p /efi/kernel
-cp -r arch/x86/boot/bzImage /efi/kernel/vmlinuz
-
-file /efi/kernel/vmlinuz
-
-make -j16 modules
+make install
 make INSTALL_MOD_STRIP=1 modules_install
 make headers_install
 
-make clean
+find /boot/ /lib/modules/ /usr/include/
+
