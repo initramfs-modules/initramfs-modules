@@ -37,9 +37,9 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { tag: initramfs }
+#                    - { tag: initramfs }
                     - { tag: kernel    }
-                    - { tag: alpine    }
+#                    - { tag: alpine    }
 #                    - { tag: arch      }
 #                    - { tag: debian    }
 #                    - { tag: fedora    }
