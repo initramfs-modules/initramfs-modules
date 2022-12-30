@@ -5,7 +5,6 @@ on:
 #        paths:
 #            - 'container/**'
 #            - '.github/workflows/container.yml'
-
     workflow_dispatch:
         inputs:
             container:
