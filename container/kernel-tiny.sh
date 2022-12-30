@@ -58,6 +58,8 @@ CONFIG_EARLY_PRINTK=y
 CONFIG_IKCONFIG=y
 CONFIG_IKCONFIG_PROC=y
 
+CONFIG_MODULES=y
+
 # architecture specific
 CONFIG_64BIT=y
 CONFIG_UNWINDER_FRAME_POINTER=y
@@ -79,11 +81,14 @@ EOF
 make ARCH=x86 allnoconfig KCONFIG_ALLCONFIG=x86_64.miniconf
 
 cat .config
-make -j24 bzImage
+make -j$(nproc) bzImage
 ls -lha arch/x86/boot/bzImage
 
-make -j16 modules
+make -j$(nproc) modules
 make INSTALL_MOD_STRIP=1 modules_install
+
+find /lib
+
 make headers_install
 
 make clean
