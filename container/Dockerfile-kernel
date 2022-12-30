@@ -1,0 +1,10 @@
+ARG BASE=docker.io/ubuntu:jammy
+
+FROM $BASE as builder
+
+ENV REPO=/_tmp
+
+RUN --mount=target=$REPO $REPO/container/infra-build-kernel.sh
+
+FROM scratch
+COPY --from=builder /efi /efi
