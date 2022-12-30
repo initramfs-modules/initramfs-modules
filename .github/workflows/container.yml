@@ -72,4 +72,4 @@ jobs:
                     context: .
                     file: container/Dockerfile-${{ matrix.config.tag }}
                     tags: ghcr.io/${{env.repository_owner}}/${{ matrix.config.tag }}
-                    push: ${{ github.event_name == 'push' }}
+#                    push: ${{ github.event_name == 'push' }}
