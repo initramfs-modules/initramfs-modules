@@ -4,7 +4,7 @@ FROM $BASE
 
 #as builder
 
-FROM initramfs-modules/initramfs:latest as initrd
+FROM ghcr.io/initramfs-modules/initramfs:latest as initrd
 # grab /efi/kernel/initrd.img
 COPY --from=initrd /efi /efi
 
