@@ -6,7 +6,7 @@ FROM $BASE
 
 FROM ghcr.io/initramfs-modules/initramfs:latest as initrd
 # grab /efi/kernel/initrd.img
-COPY --from=initrd /efi /efi
+#COPY --from=initrd /efi /efi
 
 ENV REPO=/_tmp
 
