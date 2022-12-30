@@ -79,11 +79,13 @@ make -j$(nproc) bzImage
 make -j$(nproc) modules
 
 #make clean
-rm -rf /boot /lib/modules
+rm -rf /boot/* /lib/modules/*
 
 make install
 make INSTALL_MOD_STRIP=1 modules_install
 
 make headers_install
+
+apt-get purge -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod git squashf
 
 find /boot/ /lib/modules/ /usr/include/
