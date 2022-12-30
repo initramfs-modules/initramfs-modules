@@ -15,6 +15,7 @@ on:
                 options:
                     - initramfs
                     - kernel-tiny
+                    - alpine-initramfs-kernel
                     - alpine
                     - arch
                     - debian
@@ -37,8 +38,9 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { tag: initramfs   }
-                    - { tag: kernel-tiny }
+#                    - { tag: initramfs   }
+                     - { tag: alpine-initramfs-kernel }
+#                    - { tag: kernel-tiny }
 #                    - { tag: kernel    }
 #                    - { tag: alpine    }
 #                    - { tag: arch      }

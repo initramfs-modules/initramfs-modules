@@ -79,11 +79,12 @@ make -j$(nproc) bzImage
 make -j$(nproc) modules
 
 #make clean
-rm -rf /boot /lib/modules /usr/include
+rm -rf /boot /lib/modules
 
 make install
 make INSTALL_MOD_STRIP=1 modules_install
+
+rm -rf /usr/include
 make headers_install
 
 find /boot/ /lib/modules/ /usr/include/
-
