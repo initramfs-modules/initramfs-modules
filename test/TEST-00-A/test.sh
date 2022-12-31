@@ -25,7 +25,8 @@ test_run() {
 }
 
 test_setup() {
-   ls -lRa /usr/modules/
+   ls -lRa /boot
+   ls -lRa /lib
 
     # use dracut to bootstrap a rootfs directory that you can chroot into
     "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
