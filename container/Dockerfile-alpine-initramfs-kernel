@@ -2,9 +2,7 @@ FROM ghcr.io/initramfs-modules/initramfs as initrd
 
 FROM ghcr.io/initramfs-modules/kernel-tiny as kernel
 
-ARG BASE=docker.io/alpine
-
-FROM $BASE
+FROM docker.io/alpine
 
 ENV REPO=/_tmp
 
