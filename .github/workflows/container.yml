@@ -15,14 +15,14 @@ on:
                 options:
                     - initramfs
                     - kernel-tiny
-                    - kernel
+ #                   - kernel
                     - alpine-initramfs-kernel
                     - alpine
-                    - arch
-                    - debian
-                    - fedora
-                    - gentoo
-                    - opensuse
+#                    - arch
+#                    - debian
+#                    - fedora
+#                    - gentoo
+#                    - opensuse
 
 permissions:
     packages: write
@@ -42,13 +42,13 @@ jobs:
                     - { tag: initramfs   }
                     - { tag: alpine-initramfs-kernel }
                     - { tag: kernel-tiny }
-                    - { tag: kernel    }
+#                    - { tag: kernel    }
                     - { tag: alpine    }
-                    - { tag: arch      }
-                    - { tag: debian    }
-                    - { tag: fedora    }
-                    - { tag: gentoo    }
-                    - { tag: opensuse  }
+#                    - { tag: arch      }
+#                    - { tag: debian    }
+#                    - { tag: fedora    }
+#                    - { tag: gentoo    }
+#                    - { tag: opensuse  }
 
         steps:
             -   name: Checkout
