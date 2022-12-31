@@ -20,7 +20,7 @@ test_run() {
         "${disk_args[@]}" \
         -boot order=d \
         -drive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw \
-        -append "rd.live.image root=/dev/sdb rd.retry=2 rd.info console=ttyS0,115200n81 selinux=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        -append "rd.live.image root=/dev/sda rd.retry=2 rd.info console=ttyS0,115200n81 selinux=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
 #    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
