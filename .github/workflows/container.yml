@@ -7,22 +7,22 @@ on:
 #            - '.github/workflows/container.yml'
 
     workflow_dispatch:
-        inputs:
-            container:
-                type: choice
-                description: distro
-                default: initramfs
-                options:
-                    - initramfs
-                    - kernel-tiny
- #                   - kernel
-                    - alpine-initramfs-kernel
-                    - alpine
-#                    - arch
-#                    - debian
-#                    - fedora
-#                    - gentoo
-#                    - opensuse
+#        inputs:
+#            container:
+#                type: choice
+#                description: distro
+#                default: initramfs
+#                options:
+#                    - initramfs
+#                    - kernel-tiny
+# #                   - kernel
+#                    - alpine-initramfs-kernel
+#                    - alpine
+##                    - arch
+##                    - debian
+##                    - fedora
+##                    - gentoo
+##                    - opensuse
 
 permissions:
     packages: write
@@ -39,11 +39,11 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                    - { tag: initramfs   }
+#                    - { tag: initramfs   }
                     - { tag: alpine-initramfs-kernel }
-                    - { tag: kernel-tiny }
+#                    - { tag: kernel-tiny }
 #                    - { tag: kernel    }
-                    - { tag: alpine    }
+#                    - { tag: alpine    }
 #                    - { tag: arch      }
 #                    - { tag: debian    }
 #                    - { tag: fedora    }

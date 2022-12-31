@@ -88,8 +88,10 @@ make INSTALL_MOD_STRIP=1 modules_install
 
 make headers_install
 
-apt-get purge -y -o Dpkg::Use-Pty=0 autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod git squashfs-tools cpio dracut-core ca-certificates apt-utils ca-certificates git fakeroot gzip wget libelf1 python3 dkms build-essential rsync
-apt-get purge -y -o Dpkg::Use-Pty=0 bc kmod git squashfs-tools cpio ca-certificates apt-utils git fakeroot gzip wget libelf1 python3 dkms build-essential rsync autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod file
+apt-get purge -y -o Dpkg::Use-Pty=0 autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod git squashfs-tools cpio dracut-core ca-certificates apt-utils ca-certificates git fakeroot wget libelf1 python3 dkms build-essential rsync
+apt-get purge -y -o Dpkg::Use-Pty=0 bc kmod git squashfs-tools cpio ca-certificates apt-utils git fakeroot wget libelf1 python3 dkms build-essential rsync autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod file
+
+apt autoremove -y -o Dpkg::Use-Pty=0
 
 apt-get clean
 
