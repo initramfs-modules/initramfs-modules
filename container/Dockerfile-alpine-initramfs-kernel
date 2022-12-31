@@ -13,3 +13,5 @@ ENV REPO=/_tmp
 COPY --from=initrd /efi /efi
 COPY --from=kernel /boot /boot
 COPY --from=kernel /lib/modules /lib/modules
+
+RUN find /lib/modules/ boot/
