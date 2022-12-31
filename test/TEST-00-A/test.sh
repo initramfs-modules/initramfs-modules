@@ -11,7 +11,7 @@ test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     declare -a disk_args=()
     declare -i disk_index=0
-#    qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
+    qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
@@ -20,7 +20,7 @@ test_run() {
         -append "rd.live.image rd.live.dir=livedir root=/dev/sda1 rd.retry=2 rd.info console=ttyS0,115200n81 selinux=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
-#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
 
 test_setup() {
