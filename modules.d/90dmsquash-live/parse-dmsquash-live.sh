@@ -35,6 +35,7 @@ case "$liveroot" in
         ;;
     live:/dev/*)
         rootok=1
+        root=$liveroot
         ;;
     live:/*.[Ii][Mm][Gg] | /*.[Ii][Mm][Gg])
         [ -f "${root#live:}" ] && rootok=1
