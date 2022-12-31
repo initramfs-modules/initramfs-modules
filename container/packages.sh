@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # kernel, init
-apk add linux-virt
+#apk add linux-virt
 
 # dracut
 apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
