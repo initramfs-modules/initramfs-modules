@@ -25,6 +25,8 @@ test_run() {
 }
 
 test_setup() {
+   ls -lRa /usr/modules/
+
     # use dracut to bootstrap a rootfs directory that you can chroot into
     "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
@@ -32,9 +34,6 @@ test_setup() {
     # make rootfs.img
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
-    if [ -e /efi/kernel/initrd.img ]; then
-        cp /efi/kernel/initrd.img "$TESTDIR"/initramfs.testing
-    else
     # make initramfs.testing qemu
     "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --drivers "sd_mod vfat nls_cp437 nls_ascii nls_utf8" \
         "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
@@ -58,8 +57,6 @@ test_setup() {
    find .
 
    find . -print0 | cpio --null --create --format=newc | gzip --best > "$TESTDIR"/initramfs.testing
-   fi
-
 }
 
 test_cleanup() {
