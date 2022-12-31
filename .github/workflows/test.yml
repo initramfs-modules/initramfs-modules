@@ -25,6 +25,7 @@ on:
                     - gentoo
                     - alpine
                     - alpine-initramfs-kernel
+                    - alpine-initramfs-kernel-tiny
 env:
     DEBUGFAIL: "${{ secrets.ACTIONS_STEP_DEBUG && 'rd.debug' }}"
 
