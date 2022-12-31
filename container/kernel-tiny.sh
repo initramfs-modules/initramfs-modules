@@ -82,6 +82,10 @@ CONFIG_SYSFS=y
 # device mapper
 CONFIG_BLK_DEV_DM=y
 
+BLK_DEV_SD=y
+USB_STORAGE=y
+CONFIG_USB_XHCI_HCD=y
+
 EOF
 
 make ARCH=x86 allnoconfig KCONFIG_ALLCONFIG=x86_64.miniconf
