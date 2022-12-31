@@ -41,8 +41,8 @@ jobs:
                 config:
 #                    - { tag: initramfs   }
                     - { tag: alpine-initramfs-kernel }
-                    - { tag: kernel-tiny }
-                    - { tag: kernel    }
+#                    - { tag: kernel-tiny }
+#                    - { tag: kernel    }
 #                    - { tag: alpine    }
 #                    - { tag: arch      }
 #                    - { tag: debian    }

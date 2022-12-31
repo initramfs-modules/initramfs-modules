@@ -1,6 +1,6 @@
 FROM ghcr.io/initramfs-modules/initramfs as initrd
 
-FROM ghcr.io/initramfs-modules/kernel-tiny as kernel
+FROM ghcr.io/initramfs-modules/kernel as kernel
 
 FROM docker.io/alpine
 
