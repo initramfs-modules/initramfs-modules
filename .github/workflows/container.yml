@@ -40,8 +40,8 @@ jobs:
             matrix:
                 config:
 #                    - { tag: initramfs   }
-                    - { tag: alpine-initramfs-kernel }
-#                    - { tag: kernel-tiny }
+#                    - { tag: alpine-initramfs-kernel }
+                    - { tag: kernel-tiny }
 #                    - { tag: kernel    }
 #                    - { tag: alpine    }
 #                    - { tag: arch      }
