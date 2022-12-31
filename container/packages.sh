@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# kernel, init
+# kernel
 #apk add linux-virt
 
 # dracut
