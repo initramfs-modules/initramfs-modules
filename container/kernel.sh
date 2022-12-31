@@ -84,12 +84,13 @@ rm -rf /boot/* /lib/modules/*
 make install
 make INSTALL_MOD_STRIP=1 modules_install
 
-make headers_install
+#make headers_install
 
-apt-get purge -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod git squashfs-tools cpio dracut-core ca-certificates apt-utils ca-certificates git fakeroot gzip dracut-core wget linux-base sudo libelf1 python3 dkms build-essential rsync
+#apt-get purge -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod git squashfs-tools cpio dracut-core ca-certificates apt-utils ca-certificates git fakeroot gzip dracut-core wget linux-base sudo libelf1 python3 dkms build-essential rsync
 
-find /boot/ /lib/modules/ /usr/include/
+find /boot/ /lib/modules/
 
+#/usr/include/
 
 exit
 
