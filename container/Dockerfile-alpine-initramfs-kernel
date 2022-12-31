@@ -8,5 +8,5 @@ FROM ghcr.io/initramfs-modules/alpine
 
 ENV REPO=/_tmp
 
-COPY --from=initrd /efi /efi
-COPY --from=kernel /boot /boot
+COPY --from=initrd /efi /
+COPY --from=kernel /boot /
