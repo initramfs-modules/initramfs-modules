@@ -79,6 +79,9 @@ CONFIG_INOTIFY_USER=y
 CONFIG_PROC_FS=y
 CONFIG_SYSFS=y
 
+# device mapper
+CONFIG_BLK_DEV_DM=y
+
 EOF
 
 make ARCH=x86 allnoconfig KCONFIG_ALLCONFIG=x86_64.miniconf
