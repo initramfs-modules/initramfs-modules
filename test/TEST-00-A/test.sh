@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# shellcheck disable=SC2034
 TEST_DESCRIPTION="root on a squash image"
 
 KVERSION="${KVERSION-$(uname -r)}"
