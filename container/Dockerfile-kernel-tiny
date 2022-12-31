@@ -18,8 +18,8 @@ RUN apt-get update -y -qq && apt-get upgrade -y -qq && DEBIAN_FRONTEND=nonintera
 RUN --mount=target=$REPO $REPO/container/kernel-tiny.sh
 
 FROM docker.io/alpine
-COPY --from=builder /boot /
-COPY --from=builder /lib/modules /
-COPY --from=builder /usr/include /
+COPY --from=builder /boot /boot
+COPY --from=builder /lib/modules /lib/modules
+COPY --from=builder /usr/include /usr/include
 
 RUN find /boot/ /lib/modules/ /usr/include/
