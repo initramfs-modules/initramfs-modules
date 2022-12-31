@@ -20,7 +20,7 @@ test_run() {
         "${disk_args[@]}" \
         -boot order=d \
         -drive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw \
-        -append "rd.live.image root=/dev/sda rd.retry=2 rd.info console=ttyS0,115200n81 selinux=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        -append "root=/dev/sda rd.retry=2 rd.info console=ttyS0,115200n81 selinux=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
 #    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
@@ -34,8 +34,8 @@ test_setup() {
     # make rootfs.img
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
-    # make initramfs.testing qemu
-    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --drivers "sd_mod vfat nls_cp437 nls_ascii nls_utf8" \
+    # make initramfs.testing qemu dmsquash-live
+    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "rootfs-block dash" --drivers "sd_mod vfat nls_cp437 nls_ascii nls_utf8" \
         "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
 
    cd "$TESTDIR"/dracut.*/initramfs/
