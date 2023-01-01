@@ -10,7 +10,7 @@ KVERSION="${KVERSION-$(uname -r)}"
 test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     declare -a disk_args=()
-    declare -i disk_index=0
+    declare -i disk_index=1
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
 #-device ide-hd,drive=bootdrive -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live \
