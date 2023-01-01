@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 : > /dev/watchdog
 
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
