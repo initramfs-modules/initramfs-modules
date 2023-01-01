@@ -16,10 +16,12 @@ test_run() {
 #-device ide-hd,drive=bootdrive -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live \
 # -append "rd.live.image rd.live.dir=livedir root=/dev/sdb1 rd.retry=2 rd.info console=ttyS0,115200n81 selinux=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
 
+# -drive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw \
+
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -boot order=d \
-        -drive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw \
+        -device ide-hd,drive=bootdrive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw,id=bootdrive \
         -append "rd.live.overlay.overlayfs=1 root=/dev/sdb rd.retry=2 rd.info console=ttyS0,115200n81 selinux=0 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
