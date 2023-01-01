@@ -34,6 +34,7 @@ test_setup() {
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
     # make rootfs.img
+    mkdir -p "$TESTDIR"/dracut.*/initramfs/dev
     ls -lRa "$TESTDIR"/dracut.*/initramfs/
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
