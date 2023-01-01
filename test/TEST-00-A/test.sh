@@ -11,7 +11,7 @@ test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     declare -a disk_args=()
     declare -i disk_index=0
-#    qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
+    qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
 #-device ide-hd,drive=bootdrive -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live \
 # -append "rd.live.image rd.live.dir=livedir root=/dev/sdb1 rd.retry=2 rd.info console=ttyS0,115200n81 panic=1 oops=panic $DEBUGFAIL" \
@@ -21,7 +21,9 @@ test_run() {
 #   -device ide-hd,drive=bootdrive -drive file="$TESTDIR"/livedir/rootfs.img,index=1,media=disk,format=raw,id=bootdrive,if=none \
 #   "${disk_args[@]}" \
 
-    "$testdir"/run-qemu -hda "$TESTDIR"/livedir/rootfs.img \
+    "$testdir"/run-qemu \
+        "${disk_args[@]}" \
+        -hda "$TESTDIR"/livedir/rootfs.img \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda rd.info console=ttyS0,115200n81 $DEBUGFAIL" \
         -boot order=d \
         -initrd "$TESTDIR"/initramfs.testing
