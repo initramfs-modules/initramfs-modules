@@ -25,7 +25,7 @@ test_run() {
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
         -hda "$TESTDIR"/livedir/rootfs.img \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda rd.info console=ttyS0,115200n81 $DEBUGFAIL" \
+        -append "rd.live.overlay.overlayfs=1 root=/dev/sda rd.info console=ttyS0,115200n81 $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
