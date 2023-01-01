@@ -14,10 +14,9 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
 #-device ide-hd,drive=bootdrive -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live \
-# -append "rd.live.image rd.live.dir=livedir root=/dev/sdb1 rd.retry=2 rd.info console=ttyS0,115200n81 panic=1 oops=panic $DEBUGFAIL" \
+# -append "rd.live.image rd.live.dir=livedir root=/dev/sdb1"
 
 # -drive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw \
-# rd.live.image
 #   -device ide-hd,drive=bootdrive -drive file="$TESTDIR"/livedir/rootfs.img,index=1,media=disk,format=raw,id=bootdrive,if=none \
 
     "$testdir"/run-qemu \
