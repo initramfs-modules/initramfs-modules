@@ -4,9 +4,6 @@ TEST_DESCRIPTION="root on a squash image"
 
 KVERSION="${KVERSION-$(uname -r)}"
 
-# Uncomment these to debug failures
-#DEBUGFAIL="rd.debug rd.live.debug loglevel=7"
-
 test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     declare -a disk_args=()
