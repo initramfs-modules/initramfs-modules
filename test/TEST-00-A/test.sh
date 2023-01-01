@@ -22,7 +22,7 @@ test_run() {
 #   "${disk_args[@]}" \
 
     "$testdir"/run-qemu -hda "$TESTDIR"/livedir/rootfs.img \
-        -append "rd.live.overlay.overlayfs=1 root=/dev/sda rd.retry=2 rd.info console=ttyS0,115200n81 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda rd.info console=ttyS0,115200n81 $DEBUGFAIL" \
         -boot order=d \
         -initrd "$TESTDIR"/initramfs.testing
 
