@@ -36,7 +36,7 @@ test_setup() {
 
     # make initramfs.testing -drivers "sd_mod scsi_mod ahci libahci libata" \
     # sd_mod scsi_mod ahci
-    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod scsi_mod"  \
+    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci"  \
         "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
 
    cd "$TESTDIR"/dracut.*/initramfs/
