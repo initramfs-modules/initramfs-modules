@@ -19,10 +19,10 @@ test_run() {
 # -drive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw \
 
     "$testdir"/run-qemu \
-        "${disk_args[@]}" \
-        -boot order=d \
         -device ide-hd,drive=bootdrive -drive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw,id=bootdrive,if=none \
         -append "rd.live.image rd.live.overlay.overlayfs=1 root=/dev/sda rd.retry=2 rd.info console=ttyS0,115200n81 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        "${disk_args[@]}" \
+        -boot order=d \
         -initrd "$TESTDIR"/initramfs.testing
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
