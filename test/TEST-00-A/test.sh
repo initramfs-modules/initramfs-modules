@@ -21,7 +21,7 @@ test_run() {
 
     "$testdir"/run-qemu \
         -device ide-hd,drive=bootdrive -drive file="$TESTDIR"/livedir/rootfs.img,index=1,media=disk,format=raw,id=bootdrive,if=none \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sdb rd.retry=2 rd.info console=ttyS0,115200n81 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        -append "rd.live.overlay.overlayfs=1 root=/dev/sdb rd.retry=2 rd.info console=ttyS0,115200n81 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         "${disk_args[@]}" \
         -boot order=d \
         -initrd "$TESTDIR"/initramfs.testing
