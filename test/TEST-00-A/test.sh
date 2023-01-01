@@ -21,7 +21,7 @@ test_run() {
 
     "$testdir"/run-qemu \
         -device ide-hd,drive=bootdrive -drive file="$TESTDIR"/livedir/rootfs.img,index=1,media=disk,format=raw,id=bootdrive,if=none \
-        -append "rd.live.overlay.overlayfs=1 root=live:/dev/sdb rd.retry=2 rd.info console=ttyS0,115200n81 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
+        -append "root=live:/dev/sdb rd.retry=2 rd.info console=ttyS0,115200n81 panic=1 oops=panic softlockup_panic=1 $DEBUGFAIL" \
         "${disk_args[@]}" \
         -boot order=d \
         -initrd "$TESTDIR"/initramfs.testing
@@ -57,8 +57,8 @@ test_setup() {
    rm -rf sbin/*fsck*
 
    # Populate logs with the list of filenames inside initrd.img
-   find . -type f -exec ls -la {} \; | sort -k 5,5  -n -r
-   find .
+   #find . -type f -exec ls -la {} \; | sort -k 5,5  -n -r
+   #find .
 
    find . -print0 | cpio --null --create --format=newc | gzip --best > "$TESTDIR"/initramfs.testing
 }
