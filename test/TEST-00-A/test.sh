@@ -35,6 +35,7 @@ test_setup() {
 
     # make rootfs.img
     mkdir -p "$TESTDIR"/dracut.*/initramfs/dev
+    mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     ls -lRa "$TESTDIR"/dracut.*/initramfs/
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
