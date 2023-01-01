@@ -47,6 +47,9 @@ CONFIG_SYSFS=y
 # reboot
 CONFIG_ACPI=y
 
+# microcode
+CONFIG_MICROCODE_INTEL=y
+
 # module
 CONFIG_MODULES=y
 
