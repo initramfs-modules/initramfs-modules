@@ -10,19 +10,15 @@ test_run() {
     declare -i disk_index=1
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
-#-device ide-hd,drive=bootdrive -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live \
-# -append "rd.live.image rd.live.dir=livedir root=/dev/sdb1"
-
-# -drive file="$TESTDIR"/livedir/rootfs.img,index=0,media=disk,format=raw \
-#   -device ide-hd,drive=bootdrive -drive file="$TESTDIR"/livedir/rootfs.img,index=1,media=disk,format=raw,id=bootdrive,if=none \
-# console=ttyS0,115200n81
-
-    "$testdir"/run-qemu \
-        "${disk_args[@]}" \
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
         -drive format=raw,file="$TESTDIR"/livedir/rootfs.img \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda rd.info panic=1 oops=panic $DEBUGFAIL" \
-        -initrd "$TESTDIR"/initramfs.testing
+        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda panic=1 oops=panic $DEBUGFAIL"
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
+
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
+        -device ide-hd,drive=bootdrive -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live \
+        -append "rd.live.image rd.live.dir=livedir root=LABEL=live panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
 
@@ -35,8 +31,8 @@ test_setup() {
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
-    # make initramfs.testing -drivers loop squashfs
-    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix"  \
+    # make initramfs.testing -drivers
+    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1"
         "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
 
    cd "$TESTDIR"/dracut.*/initramfs/
