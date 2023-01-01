@@ -34,8 +34,8 @@ case "$liveroot" in
         rootok=1
         ;;
     live:/dev/*)
+        root="live:${root}"
         rootok=1
-        root=$liveroot
         ;;
     live:/*.[Ii][Mm][Gg] | /*.[Ii][Mm][Gg])
         [ -f "${root#live:}" ] && rootok=1
@@ -51,8 +51,6 @@ info "root was $liveroot, is now $root"
 
 # make sure that init doesn't complain
 [ -z "$root" ] && root="live"
-
-ls -lRa /dev
 
 wait_for_dev -n /dev/root
 
