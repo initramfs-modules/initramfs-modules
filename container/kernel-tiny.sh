@@ -61,8 +61,10 @@ CONFIG_ACPI=y
 CONFIG_MODULES=y
 
 # scsi_mod
-CONFIG_SCSI=y
-CONFIG_BLK_DEV_SD=y
+CONFIG_SCSI=m
+
+# sd_mod
+CONFIG_BLK_DEV_SD=m
 
 # ahci, libahci
 CONFIG_SATA_AHCI=y
