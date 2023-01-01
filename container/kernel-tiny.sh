@@ -60,18 +60,18 @@ CONFIG_ACPI=y
 
 CONFIG_MODULES=y
 
+# ahci, libahci
+CONFIG_SATA_AHCI=m
+
+# libata
+CONFIG_ATA=m
+CONFIG_ATA_SFF=m
+
 # scsi_mod
 CONFIG_SCSI=m
 
 # sd_mod
 CONFIG_BLK_DEV_SD=m
-
-# ahci, libahci
-CONFIG_SATA_AHCI=y
-
-# libata
-CONFIG_ATA=y
-CONFIG_ATA_SFF=y
 
 # overlay
 CONFIG_OVERLAY_FS=m
