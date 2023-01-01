@@ -15,10 +15,9 @@ tar -xf linux-$KERNEL.tar.xz
 
 cd linux-$KERNEL
 
-# make tinyconfig
-
+# minimal config to use udev and dracut
+# prefer modules over builtin
 cat > x86_64.miniconf << EOF
-# architecture independent
 CONFIG_BINFMT_ELF=y
 CONFIG_BINFMT_SCRIPT=y
 CONFIG_NO_HZ=y
@@ -29,11 +28,11 @@ CONFIG_RD_GZIP=y
 CONFIG_MISC_FILESYSTEMS=y
 CONFIG_TMPFS=y
 CONFIG_COMPAT_32BIT_TIME=y
-
-# architecture specific
-CONFIG_64BIT=y
 CONFIG_PCI=y
 CONFIG_RTC_CLASS=y
+
+# x86 specific
+CONFIG_64BIT=y
 
 # udev
 CONFIG_SIGNALFD=y
@@ -48,7 +47,10 @@ CONFIG_SYSFS=y
 # reboot
 CONFIG_ACPI=y
 
+# module
 CONFIG_MODULES=y
+
+# --------------
 
 # unix - for udev
 CONFIG_UNIX=m
@@ -87,10 +89,6 @@ CONFIG_SERIAL_8250_CONSOLE=y
 # device mapper
 CONFIG_BLK_DEV_DM=m
 
-# configs
-CONFIG_IKCONFIG=m
-CONFIG_IKCONFIG_PROC=y
-
 # fat
 CONFIG_MSDOS_PARTITION=y
 CONFIG_FAT_FS=m
@@ -102,8 +100,23 @@ CONFIG_NCPFS_SMALLDOS=y
 CONFIG_NLS_CODEPAGE_437=m
 CONFIG_NLS_ISO8859_1=m
 
-# convinience
-#CONFIG_EARLY_PRINTK=y
+# cdrom
+CONFIG_CDROM=m
+
+# autofs4
+CONFIG_AUTOFS4_FS=m
+
+# isofs
+CONFIG_ISO9660_FS=m
+
+# ntfs3
+CONFIG_NTFS3_FS=m
+
+CONFIG_EXFAT_FS=m
+CONFIG_EXFAT_DEFAULT_IOCHARSET="iso8859-1"
+
+# device mapper
+CONFIG_BLK_DEV_DM=m
 
 EOF
 
