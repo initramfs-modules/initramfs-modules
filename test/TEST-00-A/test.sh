@@ -19,7 +19,7 @@ test_run() {
 
     "$testdir"/run-qemu \
         "${disk_args[@]}" \
-        -hda "$TESTDIR"/livedir/rootfs.img \
+        -drive format=raw,file="$TESTDIR"/livedir/rootfs.img \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda rd.info panic=1 oops=panic $DEBUGFAIL" \
         -initrd "$TESTDIR"/initramfs.testing
 
