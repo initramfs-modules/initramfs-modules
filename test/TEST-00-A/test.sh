@@ -56,7 +56,7 @@ test_setup() {
     mkdir "$TESTDIR"/livedir
 
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
-    mkisofs -o "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/
+    xorriso -as mkisofs -output "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
