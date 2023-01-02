@@ -15,13 +15,13 @@ test_run() {
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
-        -drive format=raw,file="$TESTDIR"/livedir/rootfs.img \
+        -drive format=raw,file="$TESTDIR"/livedir/rootfs.squashfs \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
-        -drive file="$TESTDIR"/livedir/rootfs.img,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
+        -drive file="$TESTDIR"/livedir/rootfs.squashfs,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/nvme0n1 panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
