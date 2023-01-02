@@ -27,7 +27,7 @@ test_run() {
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
-        -drive file=fat:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live,readonly -device ide-hd,drive=bootdrive \
+        -drive file=fat:ro:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live -device ide-hd,drive=bootdrive \
         -append "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=LABEL=live panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
