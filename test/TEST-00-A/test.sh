@@ -5,7 +5,7 @@ TEST_DESCRIPTION="root on a squash image"
 KVERSION="${KVERSION-$(uname -r)}"
 
 if [ -z "$DEBUGFAIL" ]; then
-    DRACUT_CMD="--quiet"
+    DRACUT_CMD='--quiet'
 fi
 
 test_run() {
@@ -35,6 +35,7 @@ test_setup() {
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img -quiet -no-progress && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
+    echo "$DRACUT_CMD"
     # make initramfs.testing -drivers
     "$basedir"/dracut.sh "$DRACUT_CMD" --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1 8250" \
         "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
