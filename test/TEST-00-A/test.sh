@@ -16,7 +16,7 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
+    "$testdir"/run-qemu -snapshot "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
         -append "rd.live.overlay.overlayfs=1 root=live:/dev/sda panic=1 oops=panic $DEBUGFAIL"
@@ -28,8 +28,6 @@ test_run() {
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sr0 panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
-
-#   -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live -device ide-hd,drive=bootdrive \
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
@@ -56,7 +54,7 @@ test_setup() {
     mkdir "$TESTDIR"/livedir
 
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
-    xorriso -as mkisofs -output "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/
+    xorriso -as mkisofs -output "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO"
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
