@@ -27,7 +27,7 @@ test_run() {
     # vfat ide
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
-        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw \
+        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=LABEL=ISO panic=1 oops=panic $DEBUGFAIL"
@@ -36,10 +36,10 @@ test_run() {
     # isofs cdrom
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
-        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw \
-        -drive file=fat:rw:"$TESTDIR",format=vvfat,if=ide,label=live \
+        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
+        -drive file=fat:rw:"$TESTDIR",format=vvfat,label=vfat \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=/dev/hda panic=1 oops=panic $DEBUGFAIL"
+        -append "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=LABEL=vfat panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 
