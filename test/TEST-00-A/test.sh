@@ -39,6 +39,11 @@ test_run() {
 
 
     # -device sdhci-pci -device sd-card,drive=mydrive -drive id=mydrive,if=none,format=raw,file=image.bin
+    #    -drive if=none,id=usbstick,format=raw,file=/path/to/image   \
+    #    -usb                                                        \
+    #    -device usb-ehci,id=ehci                                    \
+    #    -device usb-tablet,bus=usb-bus.0                            \
+    #    -device usb-storage,bus=ehci.0,drive=usbstick
 }
 
 test_setup() {
