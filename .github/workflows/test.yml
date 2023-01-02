@@ -27,9 +27,8 @@ on:
                     - alpine-initramfs-kernel
                     - alpine-initramfs-kernel-tiny
 
-# console=ttyS0,115200n81 rd.retry=5
 env:
-    DEBUGFAIL: "${{ secrets.ACTIONS_STEP_DEBUG && 'rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81' }}"
+    DEBUGFAIL: "${{ secrets.ACTIONS_STEP_DEBUG && 'rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=5' }}"
 
 jobs:
     test:
