@@ -15,14 +15,16 @@ test_run() {
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
+    # squashfs scsi
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
-        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw \
+        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
         -append "rd.live.overlay.overlayfs=1 root=live:/dev/sda panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
+    # vfat ide
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw \
@@ -31,6 +33,7 @@ test_run() {
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=LABEL=ISO panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
+    # isofs cdrom
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw \
