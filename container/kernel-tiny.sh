@@ -126,8 +126,29 @@ CONFIG_NTFS3_FS=m
 CONFIG_EXFAT_FS=m
 CONFIG_EXFAT_DEFAULT_IOCHARSET="iso8859-1"
 
+# nvme_core
 CONFIG_NVME_CORE=m
+
+# nvme
 CONFIG_BLK_DEV_NVME=m
+
+# mmc_core
+CONFIG_MMC=m
+
+# mmc_block
+CONFIG_MMC_BLOCK=m
+
+# virtio_blk
+CONFIG_VIRTIO_BLK=m
+
+# uas
+CONFIG_USB_UAS=m
+
+# fuse
+CONFIG_FUSE_FS=m
+
+# btrfs
+CONFIG_BTRFS_FS=m
 
 # device mapper
 CONFIG_BLK_DEV_DM=m
