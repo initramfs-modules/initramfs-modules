@@ -31,8 +31,8 @@ test_setup() {
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img -quiet -no-progress && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
-    # make initramfs.testing -drivers --quiet
-    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1 8250" \
+    # make initramfs.testing -drivers
+    "$basedir"/dracut.sh --quiet --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1 8250" \
         "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
 
    cd "$TESTDIR"/dracut.*/initramfs/
