@@ -9,11 +9,11 @@ if [ -z "$DEBUGFAIL" ]; then
 fi
 
 test_run() {
-    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     declare -a disk_args=()
     declare -i disk_index=1
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
+    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
         -drive format=raw,file="$TESTDIR"/livedir/rootfs.img \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda panic=1 oops=panic $DEBUGFAIL"
@@ -24,6 +24,12 @@ test_run() {
         -device ide-hd,drive=bootdrive -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live \
         -append "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir root=LABEL=live panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+
+    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
+        -drive format=raw,file="$TESTDIR"/livedir/rootfs.iso \
+        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda panic=1 oops=panic $DEBUGFAIL"
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
 
 test_setup() {
@@ -31,13 +37,13 @@ test_setup() {
     "$basedir"/dracut.sh --quiet --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
-    mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
+    mkdir -p "$TESTDIR"/dracut.*/initramfs/proc && mkdir "$TESTDIR"/livedir
 
     # make rootfs-squashfs.img
-    mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img -quiet -no-progress
+    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img -quiet -no-progress
 
     # make rootfs.sio
-    mkdir "$TESTDIR"/livedir && mkisofs -o "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/
+    mkisofs -o "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
