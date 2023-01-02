@@ -15,8 +15,6 @@ test_run() {
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
-ls -lRa /efi /boot
-
 ls -la /efi/kernel/initrd.img
 
     # squashfs scsi
