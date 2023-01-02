@@ -17,7 +17,8 @@ test_run() {
 
     # squashfs scsi
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
+    "$testdir"/run-qemu "${disk_args[@]}" \
+    # -initrd "$TESTDIR"/initramfs.testing \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
@@ -41,6 +42,9 @@ test_run() {
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
         -append "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=LABEL=vfat panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+
+# todo  -hda rootdisk.img
+# todo - give index for vfat drive
 
 
     # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
