@@ -12,7 +12,7 @@ fi
 
 test_run() {
     declare -a disk_args=()
-    declare -i disk_index=2
+    declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
