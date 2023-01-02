@@ -18,7 +18,7 @@ on:
             container:
                 type: choice
                 description: distro
-                default: alpine-initramfs-kernel
+                default: alpine-initramfs-kernel-tiny
                 options:
                     - initramfs
                     - debian

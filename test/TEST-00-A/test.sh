@@ -17,9 +17,11 @@ test_run() {
 
 ls -lRa /efi /boot
 
+ls -la /efi/kernel/initrd.img
+
     # squashfs scsi
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
