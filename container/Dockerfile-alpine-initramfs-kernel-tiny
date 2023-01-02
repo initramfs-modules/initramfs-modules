@@ -8,5 +8,6 @@ RUN --mount=target=$REPO $REPO/container/packages.sh
 
 COPY --from=kernel /boot /boot
 COPY --from=kernel /lib/modules /lib/modules
+COPY --from=kernel /efi /efi
 
-RUN find /lib/modules/ boot/
+RUN find /lib/modules/ /boot/ /efi/
