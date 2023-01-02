@@ -4,6 +4,9 @@
 
 [ -z "$root" ] && root=$(getarg root=)
 
+echo gombi1
+echo "$root"
+
 # support legacy syntax of passing liveimg and then just the base root
 if getargbool 0 rd.live.image -d -y liveimg; then
     liveroot="live:$root"
@@ -16,6 +19,10 @@ fi
 [ "${liveroot%%:*}" = "live" ] || return 1
 
 modprobe -q loop
+
+echo gombi2
+echo "$liveroot"
+echo "$root"
 
 case "$liveroot" in
     live:LABEL=* | LABEL=* | live:UUID=* | UUID=* | live:PARTUUID=* | PARTUUID=* | live:PARTLABEL=* | PARTLABEL=*)
