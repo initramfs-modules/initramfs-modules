@@ -28,7 +28,7 @@ test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/cdrom panic=1 oops=panic $DEBUGFAIL"
+        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sr0 panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
 
@@ -43,7 +43,7 @@ test_setup() {
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img -quiet -no-progress
 
     # make rootfs.sio
-    # xorriso -as mkisofs -R -J -c boot/bootcat
+    # xorriso -as mkisofs -R -J
     mkisofs -o "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/
     ls -la "$TESTDIR"/livedir/rootfs.iso
 
