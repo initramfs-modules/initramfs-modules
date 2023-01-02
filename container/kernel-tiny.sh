@@ -1,5 +1,7 @@
 set -x
 
+find /efi
+
 export KERNEL='5.15.76'
 
 export DEBIAN_FRONTEND=noninteractive
@@ -173,5 +175,5 @@ make INSTALL_MOD_STRIP=1 modules_install
 #apt-get autoremove -y -o Dpkg::Use-Pty=0
 #apt-get clean
 
-find /boot/ /lib/modules/
+find /boot/ /lib/modules/ /efi
 # /usr/include/
