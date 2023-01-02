@@ -20,6 +20,7 @@ RUN --mount=target=$REPO $REPO/container/kernel-tiny.sh
 FROM scratch
 COPY --from=builder /boot /boot
 COPY --from=builder /lib/modules /lib/modules
+COPY --from=initrd /efi /efi
 
 #COPY --from=builder /usr/include /usr/include
 #RUN find /boot/ /lib/modules/ /usr/include/
