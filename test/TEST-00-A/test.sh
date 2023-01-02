@@ -27,7 +27,7 @@ test_run() {
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
-        -cdrom file="$TESTDIR"/livedir/rootfs.iso \
+        -cdrom "$TESTDIR"/livedir/rootfs.iso \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
