@@ -1,6 +1,8 @@
 #!/bin/bash
 
-TEST_DESCRIPTION="root on a squash image"
+TEST_DESCRIPTION="root on an image"
+
+# test for different if= .. possible values= ide, scsi, sd, mtd, floppy, pflash, virtio
 
 KVERSION="${KVERSION-$(uname -r)}"
 
@@ -31,7 +33,7 @@ test_run() {
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
-        -drive file=fat:rw:"$TESTDIR",media=disk,label=live
+        -drive file=fat:rw:"$TESTDIR",label=live
         -append "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=LABEL=live panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
