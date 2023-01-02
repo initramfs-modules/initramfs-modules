@@ -44,6 +44,7 @@ test_setup() {
 
     # make rootfs.sio
     mkisofs -o "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/
+    ls -la "$TESTDIR"/livedir/rootfs.iso
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
