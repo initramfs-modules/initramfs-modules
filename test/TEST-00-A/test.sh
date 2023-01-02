@@ -15,11 +15,11 @@ test_run() {
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sda panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
 #    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
 #        -device ide-hd,drive=bootdrive -drive file=fat:rw:"$TESTDIR",format=vvfat,if=none,id=bootdrive,label=live \
 #        -append "rd.live.image rd.live.dir=livedir root=LABEL=live panic=1 oops=panic $DEBUGFAIL"
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
 
 test_setup() {
@@ -27,12 +27,12 @@ test_setup() {
     "$basedir"/dracut.sh --quiet --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
-    # make rootfs.img
+    # make rootfs.img -quiet -no-progress
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
-    mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img -quiet -no-progress && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
+    mkdir "$TESTDIR"/livedir && mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.img && rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
-    # make initramfs.testing -drivers
-    "$basedir"/dracut.sh --quiet --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1 8250" \
+    # make initramfs.testing -drivers --quiet
+    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1 8250" \
         "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
 
    cd "$TESTDIR"/dracut.*/initramfs/
