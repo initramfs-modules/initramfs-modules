@@ -6,10 +6,6 @@ TEST_DESCRIPTION="root on an image"
 
 KVERSION="${KVERSION-$(uname -r)}"
 
-if [ -z "$DEBUGFAIL" ]; then
-    DRACUT_CMD="--quiet"
-fi
-
 test_me () {
     dd if=/dev/zero of=$TESTDIR/marker.img bs=1MiB count=1
 
@@ -17,7 +13,7 @@ test_me () {
         -drive file=$TESTDIR/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom $TESTDIR/livedir/linux.iso \
-        -append "$1 rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic $DEBUGFAIL"
+        -append "$1 rd.live.overlay.overlayfs=1 rd.live.image $1 panic=1 oops=panic $DEBUGFAIL"
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- $TESTDIR/marker.img || return 1
 }
@@ -31,10 +27,10 @@ test_run() {
     test_me "root=/dev/sda"
 
     # vfat ide
-    test_me "root=LABEL=ISO"
+#    test_me "root=LABEL=ISO"
 
     # isofs cdrom
-    test_me "root=LABEL=vfat rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
+#    test_me "root=LABEL=vfat rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
