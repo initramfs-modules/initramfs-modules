@@ -115,7 +115,7 @@ SUBSYSTEM=="block", ENV{ID_FS_TYPE}=="ntfs", ENV{ID_FS_TYPE}="ntfs3"
 EOF
 
 dracut --nofscks --force --no-hostonly --no-early-microcode --no-compress --reproducible --tmpdir /tmp/dracut --keep --no-kernel \
-  --modules 'dmsquash-live dash busybox' \
+  --modules 'dmsquash-live busybox' \
   --include /tmp/infra-init.sh /lib/dracut/hooks/pre-pivot/01-init.sh \
   --include /usr/lib/dracut/modules.d/90kernel-modules/parse-kernel.sh /lib/dracut/hooks/cmdline/01-parse-kernel.sh \
   --include /tmp/ntfs3.rules /lib/udev/rules.d/ntfs3.rules \
