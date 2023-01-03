@@ -39,10 +39,11 @@ jobs:
             fail-fast: false
             matrix:
                 config:
-                     - { tag: initramfs   }
+#                     - { tag: initramfs   }
 #                     - { tag: alpine-initramfs-kernel }
                      - { tag: alpine-initramfs-kernel-tiny }
-                     - { tag: kernel-tiny }
+#                     - { tag: kernel-tiny }
+                     - { tag: boot }
 #                    - { tag: kernel    }
 #                    - { tag: alpine    }
 #                    - { tag: arch      }
