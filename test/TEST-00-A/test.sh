@@ -57,8 +57,15 @@ test_setup() {
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
     xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
 
+
+#2023-01-03T13:28:11.4536188Z ./test.sh: line 61: rsync: command not found
+#2023-01-03T13:28:11.4565483Z ls: cannot access '/iso/kernel': No such file or directory
+#2023-01-03T13:28:11.4688525Z mv: cannot stat 'isolinux/bios.img': No such file or directory
+#2023-01-03T13:28:11.4715824Z mv: cannot stat 'isolinux/efiboot.img': No such file or directory
+
+
 mkdir /tmp/iso/
-rsync -r /efi/ /tmp/iso
+cp -a  /efi/ /tmp/iso
 
 ls -la /efi/kernel
 ls -la /iso/kernel
@@ -73,6 +80,8 @@ sudo mv isolinux/bios.img /tmp/isotemp/
 sudo mv isolinux/efiboot.img /tmp/isotemp/
 
 find /tmp/iso
+
+# sudo cp .dotfiles/boot/grub.cfg /tmp/iso/EFI/BOOT/
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 \
    -eltorito-boot boot/grub/bios.img \
