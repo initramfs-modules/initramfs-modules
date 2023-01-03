@@ -80,6 +80,7 @@ sudo mv isolinux/bios.img /tmp/isotemp/
 sudo mv isolinux/efiboot.img /tmp/isotemp/
 
 find /tmp/iso
+find /tmp/isotemp/
 
 # sudo cp .dotfiles/boot/grub.cfg /tmp/iso/EFI/BOOT/
 
