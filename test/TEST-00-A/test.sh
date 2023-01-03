@@ -17,13 +17,13 @@ test_run() {
 
 #${disk_args[@]} -initrd /efi/kernel/initrd.img -drive file=$TESTDIR/livedir/rootfs.squashfs,format=raw,index=0 -drive file=fat:rw:$TESTDIR,format=vvfat,label=live -cdrom $TESTDIR/livedir/rootfs.iso
 
-VM_CONFIG='-initrd /efi/kernel/initrd.img'
+#VM_CONFIG='-initrd /efi/kernel/initrd.img'
 
     # squashfs scsi
-    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" "$VM_CONFIG" \
-        -append "rd.live.overlay.overlayfs=1 root=live:/dev/sda panic=1 oops=panic $DEBUGFAIL"
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+#    "$testdir"/run-qemu "${disk_args[@]}" "$VM_CONFIG" \
+#        -append "rd.live.overlay.overlayfs=1 root=live:/dev/sda panic=1 oops=panic $DEBUGFAIL"
+#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     # squashfs scsi
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
