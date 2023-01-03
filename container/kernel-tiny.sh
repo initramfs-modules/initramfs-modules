@@ -1,6 +1,11 @@
 set -x
 
 find /efi
+cp /efi/kernel/initrd.img /tmp/initramfs.cpio.gz
+
+ls -la /tmp/initramfs.cpio.gz
+file /tmp/initramfs.cpio.gz
+
 
 export KERNEL='5.15.76'
 
@@ -117,6 +122,9 @@ CONFIG_AUTOFS4_FS=y
 
 # isofs
 CONFIG_ISO9660_FS=y
+
+CONFIG_INITRAMFS_SOURCE="/tmp/initramfs.cpio.gz"
+#CONFIG_INITRAMFS_COMPRESSION_GZIP=y
 
 # modules
 
