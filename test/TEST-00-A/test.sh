@@ -16,9 +16,6 @@ test_me () {
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
 
-ls -lRa /efi
-find /efi
-
 test_run() {
     declare -a disk_args=()
     declare -i disk_index=3
@@ -27,7 +24,7 @@ test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" \
         -cdrom "$TESTDIR"/livedir/linux2.iso \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image root=LABEL=ISO panic=1 oops=panic $DEBUGFAIL"
+        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sr0 panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 
@@ -65,18 +62,8 @@ test_setup() {
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
     xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
 
-
-#2023-01-03T13:28:11.4536188Z ./test.sh: line 61: rsync: command not found
-#2023-01-03T13:28:11.4565483Z ls: cannot access '/iso/kernel': No such file or directory
-#2023-01-03T13:28:11.4688525Z mv: cannot stat 'isolinux/bios.img': No such file or directory
-#2023-01-03T13:28:11.4715824Z mv: cannot stat 'isolinux/efiboot.img': No such file or directory
-
-
 mkdir /tmp/iso/
 cp -a  /efi/* /tmp/iso
-
-ls -la /efi/kernel
-ls -la /tmp/iso/kernel
 
 mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/rootfs.squashfs /tmp/iso/LiveOS/squashfs.img
