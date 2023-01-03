@@ -35,7 +35,7 @@ test_run() {
 
     # isofs cdrom
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" /efi/kernel/initrd.img \
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=vfat \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
