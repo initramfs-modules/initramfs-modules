@@ -1,19 +1,16 @@
 set -x
 
-find /efi
 cp /efi/kernel/initrd.img /tmp/initramfs.cpio.gz
-
-ls -la /tmp/initramfs.cpio.gz
-file /tmp/initramfs.cpio.gz
-
 
 export KERNEL='5.15.76'
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get update -y -qq -o Dpkg::Use-Pty=0
+apt-get update -y -qq && apt-get upgrade -y -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
+bc kmod git squashfs-tools cpio dracut-core ca-certificates apt-utils ca-certificates git fakeroot gzip \
+wget linux-base sudo libelf1 python3 dkms build-essential rsync linux-headers-generic \
+autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd bc kmod file
 
-apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod git squashfs-tools cpio dracut-core ca-certificates apt-utils ca-certificates git fakeroot gzip dracut-core wget linux-base sudo libelf1 python3 dkms build-essential rsync
 cd /tmp/
 
 rm -rf linux-*
@@ -123,13 +120,7 @@ CONFIG_AUTOFS4_FS=y
 # isofs
 CONFIG_ISO9660_FS=y
 
-CONFIG_INITRAMFS_SOURCE="/tmp/initramfs.cpio.gz"
-#CONFIG_INITRAMFS_COMPRESSION_GZIP=y
-
 # modules
-
-# msdos
-#CONFIG_MSDOS_FS=m
 
 # ntfs3
 CONFIG_NTFS3_FS=m
@@ -165,6 +156,11 @@ CONFIG_BTRFS_FS=m
 # device mapper
 CONFIG_BLK_DEV_DM=m
 
+# CONFIG_INITRAMFS_SOURCE="/tmp/initramfs.cpio.gz"
+
+# msdos
+#CONFIG_MSDOS_FS=m
+
 EOF
 
 make ARCH=x86 allnoconfig KCONFIG_ALLCONFIG=x86_64.miniconf
@@ -182,8 +178,9 @@ make INSTALL_MOD_STRIP=1 modules_install
 #make headers_install
 #apt-mark hold  linux-headers*
 #apt-get purge -y -o Dpkg::Use-Pty=0 autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod git squashfs-tools cpio dracut-core ca-certificates apt-utils ca-certificates git fakeroot wget libelf1 python3 dkms build-essential rsync
-#apt-get autoremove -y -o Dpkg::Use-Pty=0
-#apt-get clean
+
+apt-get autoremove -y -o Dpkg::Use-Pty=0
+apt-get clean
 
 find /boot/ /lib/modules/ /efi
 # /usr/include/
