@@ -65,7 +65,7 @@ test_setup() {
 
 
 mkdir /tmp/iso/
-cp -a  /efi/ /tmp/iso
+cp -a  /efi/* /tmp/iso
 
 ls -la /efi/kernel
 ls -la /tmp/iso/kernel
@@ -75,9 +75,9 @@ cp "$TESTDIR"/livedir/rootfs.squashfs /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
 # Only include files once in the iso
-sudo mkdir /tmp/isotemp
-sudo mv isolinux/bios.img /tmp/isotemp/
-sudo mv isolinux/efiboot.img /tmp/isotemp/
+mkdir /tmp/isotemp
+mv isolinux/bios.img /tmp/isotemp/
+mv isolinux/efiboot.img /tmp/isotemp/
 
 find /tmp/iso
 find /tmp/isotemp/
