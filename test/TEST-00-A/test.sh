@@ -17,7 +17,7 @@ test_me () {
         -drive file=$TESTDIR/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom $TESTDIR/livedir/linux.iso \
-        -append "$1 panic=1 oops=panic $DEBUGFAIL"
+        -append "$1 rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic $DEBUGFAIL"
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- $TESTDIR/marker.img || return 1
 }
@@ -30,31 +30,11 @@ test_run() {
     # squashfs scsi
     test_me "rd.live.overlay.overlayfs=1 root=live:/dev/sda"
 
-    # squashfs scsi
-    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
-        -drive file=$TESTDIR/livedir/rootfs.squashfs,format=raw,index=0 \
-        -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
-        -cdrom $TESTDIR/livedir/linux.iso \
-        -append "rd.live.overlay.overlayfs=1 root=live:/dev/sda panic=1 oops=panic $DEBUGFAIL"
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- $TESTDIR/marker.img || return 1
-
     # vfat ide
-    dd if=/dev/zero of=$TESTDIR/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
-        -drive file=$TESTDIR/livedir/rootfs.squashfs,format=raw,index=0 \
-        -drive file=fat:rw:$TESTDIR,format=vvfat,label=live \
-        -cdrom $TESTDIR/livedir/linux.iso \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image root=LABEL=ISO panic=1 oops=panic $DEBUGFAIL"
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- $TESTDIR/marker.img || return 1
+    test_me "rd.live.overlay.overlayfs=1 rd.live.image root=LABEL=ISO"
 
     # isofs cdrom
-    dd if=/dev/zero of=$TESTDIR/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
-        -drive file=$TESTDIR/livedir/rootfs.squashfs,format=raw,index=0 \
-        -drive file=fat:rw:"$TESTDIR",format=vvfat,label=vfat \
-        -cdrom $TESTDIR/livedir/linux.iso \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=LABEL=vfat panic=1 oops=panic $DEBUGFAIL"
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- $TESTDIR/marker.img || return 1
+    test_me "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=LABEL=vfat"
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
