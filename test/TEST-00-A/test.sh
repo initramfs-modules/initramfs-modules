@@ -22,13 +22,13 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     # squashfs scsi
-#    test_me "root=/dev/sda"
+    test_me "root=live:/dev/sda"
 
     # vfat ide
     test_me "root=LABEL=ISO"
 
     # isofs cdrom
-#    test_me "root=LABEL=vfat rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
+    test_me "root=LABEL=vfat rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
