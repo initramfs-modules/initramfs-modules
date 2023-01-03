@@ -15,12 +15,9 @@ test_run() {
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
-ls -la /efi/kernel/initrd.img
-
     # squashfs scsi
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" \
-    # -initrd /efi/kernel/initrd.img \
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/rootfs.iso \
@@ -72,28 +69,28 @@ test_setup() {
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
     # make initramfs.testing
-    "$basedir"/dracut.sh $DRACUT_CMD --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1 8250 isofs sr_mod cdrom nvme" \
-        "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
-
-   cd "$TESTDIR"/dracut.*/initramfs/
-
-   # clean some dracut logs
-   rm -rf lib/dracut/*.txt
+#    "$basedir"/dracut.sh $DRACUT_CMD --no-hostonly --tmpdir "$TESTDIR" --keep --modules "dmsquash-live dash" --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1 8250 isofs sr_mod cdrom nvme" \
+#        "$TESTDIR"/tmp-initramfs.testing "$KVERSION" || return 1
+#
+#   cd "$TESTDIR"/dracut.*/initramfs/
+#
+#   # clean some dracut logs
+#   rm -rf lib/dracut/*.txt
 
    # better solution would be dm dracut module is not included instead of this hack
-   rm -rf lib/dracut/hooks/pre-udev/30-dm-pre-udev.sh
-   rm -rf lib/dracut/hooks/shutdown/25-dm-shutdown.sh
-   rm -rf lib/dracut/hooks/initqueue/timeout/99-rootfallback.sh
-   rm -rf lib/udev/rules.d/75-net-description.rules
-   rm -rf etc/udev/rules.d/11-dm.rules
+#   rm -rf lib/dracut/hooks/pre-udev/30-dm-pre-udev.sh
+#   rm -rf lib/dracut/hooks/shutdown/25-dm-shutdown.sh
+#   rm -rf lib/dracut/hooks/initqueue/timeout/99-rootfallback.sh
+#   rm -rf lib/udev/rules.d/75-net-description.rules
+#   rm -rf etc/udev/rules.d/11-dm.rules
 
-   rm -rf sbin/*fsck*
+#   rm -rf sbin/*fsck*
 
    # Populate logs with the list of filenames inside initrd.img
    #find . -type f -exec ls -la {} \; | sort -k 5,5  -n -r
    #find .
 
-   find . -print0 | cpio --null --create --format=newc | gzip --best > "$TESTDIR"/initramfs.testing
+#   find . -print0 | cpio --null --create --format=newc | gzip --best > "$TESTDIR"/initramfs.testing
 }
 
 test_cleanup() {
