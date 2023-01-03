@@ -55,29 +55,22 @@ test_setup() {
     cd "$TESTDIR"/livedir
 
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
-    xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
 
-#xorriso \
-#   -as mkisofs \
-#   -iso-level 3 \
-#   -full-iso9660-filenames \
-#   -volid "ISO" \
-#   -output "/tmp/linux.iso" \
-#   -eltorito-boot boot/grub/bios.img \
-#     -no-emul-boot \
-#     -boot-load-size 4 \
-#     -boot-info-table \
-#     --eltorito-catalog boot/grub/boot.cat \
-#     --grub2-boot-info \
-#     --grub2-mbr /tmp/iso/isolinux/boot_hybrid.img \
-#   -eltorito-alt-boot \
-#     -e EFI/efiboot.img \
-#     -no-emul-boot \
-#   -graft-points \
-#      "." \
-#      /boot/grub/bios.img=../isotemp/bios.img \
-#      /EFI/efiboot.img=../isotemp/efiboot.img
-
+xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 \
+   -eltorito-boot boot/grub/bios.img \
+     -no-emul-boot \
+     -boot-load-size 4 \
+     -boot-info-table \
+     --eltorito-catalog boot/grub/boot.cat \
+     --grub2-boot-info \
+     --grub2-mbr /tmp/iso/isolinux/boot_hybrid.img \
+   -eltorito-alt-boot \
+     -e EFI/efiboot.img \
+     -no-emul-boot \
+   -graft-points \
+      "." \
+      /boot/grub/bios.img=../isotemp/bios.img \
+      /EFI/efiboot.img=../isotemp/efiboot.img
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 }
