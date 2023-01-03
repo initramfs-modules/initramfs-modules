@@ -55,8 +55,26 @@ test_setup() {
     cd "$TESTDIR"/livedir
 
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
+    xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
 
-xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 \
+mkdir /tmp/iso/
+rsync -r /efi/ /tmp/iso
+
+ls -la /efi/kernel
+ls -la /iso/kernel
+
+mkdir -p /tmp/iso/LiveOS
+cp "$TESTDIR"/livedir/rootfs.squashfs /tmp/iso/LiveOS/squashfs.img
+cd /tmp/iso
+
+# Only include files once in the iso
+sudo mkdir /tmp/isotemp
+sudo mv isolinux/bios.img /tmp/isotemp/
+sudo mv isolinux/efiboot.img /tmp/isotemp/
+
+find /tmp/iso
+
+xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 \
    -eltorito-boot boot/grub/bios.img \
      -no-emul-boot \
      -boot-load-size 4 \
