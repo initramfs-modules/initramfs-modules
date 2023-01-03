@@ -20,7 +20,7 @@ test_run() {
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
         -drive file=$TESTDIR/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
-        -cdrom $TESTDIR/livedir/rootfs.iso \
+        -cdrom $TESTDIR/livedir/linux.iso \
         -append "rd.live.overlay.overlayfs=1 root=live:/dev/sda panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- $TESTDIR/marker.img || return 1
 
@@ -29,7 +29,7 @@ test_run() {
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
-        -cdrom "$TESTDIR"/livedir/rootfs.iso \
+        -cdrom "$TESTDIR"/livedir/linux.iso \
         -append "rd.live.overlay.overlayfs=1 rd.live.image root=LABEL=ISO panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
@@ -38,7 +38,7 @@ test_run() {
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
         -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=vfat \
-        -cdrom "$TESTDIR"/livedir/rootfs.iso \
+        -cdrom "$TESTDIR"/livedir/linux.iso \
         -append "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=LABEL=vfat panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
@@ -62,9 +62,34 @@ test_setup() {
 
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     mkdir "$TESTDIR"/livedir
+    cd "$TESTDIR"/livedir
 
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
-    xorriso -as mkisofs -output "$TESTDIR"/livedir/rootfs.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO"
+    xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
+
+cd "$TESTDIR"/livedir
+
+#xorriso \
+#   -as mkisofs \
+#   -iso-level 3 \
+#   -full-iso9660-filenames \
+#   -volid "ISO" \
+#   -output "/tmp/linux.iso" \
+#   -eltorito-boot boot/grub/bios.img \
+#     -no-emul-boot \
+#     -boot-load-size 4 \
+#     -boot-info-table \
+#     --eltorito-catalog boot/grub/boot.cat \
+#     --grub2-boot-info \
+#     --grub2-mbr /tmp/iso/isolinux/boot_hybrid.img \
+#   -eltorito-alt-boot \
+#     -e EFI/efiboot.img \
+#     -no-emul-boot \
+#   -graft-points \
+#      "." \
+#      /boot/grub/bios.img=../isotemp/bios.img \
+#      /EFI/efiboot.img=../isotemp/efiboot.img
+
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 }
