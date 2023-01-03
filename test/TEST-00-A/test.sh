@@ -68,16 +68,16 @@ mkdir /tmp/iso/
 cp -a  /efi/ /tmp/iso
 
 ls -la /efi/kernel
-ls -la /iso/kernel
+ls -la /tmp/iso/kernel
 
 mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/rootfs.squashfs /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
 # Only include files once in the iso
-sudo mkdir /tmp/isotemp
-sudo mv isolinux/bios.img /tmp/isotemp/
-sudo mv isolinux/efiboot.img /tmp/isotemp/
+#sudo mkdir /tmp/isotemp
+#sudo mv isolinux/bios.img /tmp/isotemp/
+#sudo mv isolinux/efiboot.img /tmp/isotemp/
 
 find /tmp/iso
 
