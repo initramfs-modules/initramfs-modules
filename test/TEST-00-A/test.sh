@@ -16,6 +16,9 @@ test_me () {
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
 
+ls -lRa /efi
+find /efi
+
 test_run() {
     declare -a disk_args=()
     declare -i disk_index=3
