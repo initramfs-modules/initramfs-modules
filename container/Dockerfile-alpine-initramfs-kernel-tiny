@@ -1,5 +1,7 @@
 FROM ghcr.io/initramfs-modules/kernel-tiny as kernel
 
+FROM ghcr.io/initramfs-modules/boot as boot
+
 FROM docker.io/alpine
 
 ENV REPO=/_tmp
