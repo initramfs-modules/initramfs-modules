@@ -10,11 +10,13 @@ if [ -z "$DEBUGFAIL" ]; then
     DRACUT_CMD="--quiet"
 fi
 
-test_init() {
+test_me() {
     dd if=/dev/zero of=$TESTDIR/marker.img bs=1MiB count=1
-}
-
-test_check() {
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
+        -drive file=$TESTDIR/livedir/rootfs.squashfs,format=raw,index=0 \
+        -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
+        -cdrom $TESTDIR/livedir/linux.iso \
+        -append "$1 panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- $TESTDIR/marker.img || return 1
 }
 
@@ -22,6 +24,9 @@ test_run() {
     declare -a disk_args=()
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
+
+    # squashfs scsi
+    test_me "rd.live.overlay.overlayfs=1 root=live:/dev/sda"
 
     # squashfs scsi
     test_init
