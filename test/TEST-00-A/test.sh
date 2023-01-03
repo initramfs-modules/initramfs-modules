@@ -28,17 +28,16 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     # squashfs scsi
-    test_me "rd.live.overlay.overlayfs=1 root=live:/dev/sda"
+    test_me "root=live:/dev/sda"
 
     # vfat ide
-    test_me "rd.live.overlay.overlayfs=1 rd.live.image root=LABEL=ISO"
+    test_me "root=live:LABEL=ISO"
 
     # isofs cdrom
-    test_me "rd.live.overlay.overlayfs=1 rd.live.image rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs root=LABEL=vfat"
+    test_me "root=live:LABEL=vfat rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
-
 
     # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
 #    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -60,8 +59,6 @@ test_setup() {
 
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
     xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
-
-cd "$TESTDIR"/livedir
 
 #xorriso \
 #   -as mkisofs \
