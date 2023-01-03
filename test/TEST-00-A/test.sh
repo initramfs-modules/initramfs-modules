@@ -75,9 +75,9 @@ cp "$TESTDIR"/livedir/rootfs.squashfs /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
 # Only include files once in the iso
-#sudo mkdir /tmp/isotemp
-#sudo mv isolinux/bios.img /tmp/isotemp/
-#sudo mv isolinux/efiboot.img /tmp/isotemp/
+sudo mkdir /tmp/isotemp
+sudo mv isolinux/bios.img /tmp/isotemp/
+sudo mv isolinux/efiboot.img /tmp/isotemp/
 
 find /tmp/iso
 
