@@ -28,7 +28,7 @@ test_run() {
     test_me "root=LABEL=ISO"
 
     # isofs cdrom
-    test_me "root=LABEL=vfat rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
+    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
