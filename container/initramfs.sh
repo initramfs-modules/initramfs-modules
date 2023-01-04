@@ -4,6 +4,10 @@ if [ -f /etc/os-release ]; then
  . /etc/os-release
 fi
 
+pwd
+
+ls -la
+
 cd /
 mkdir -p /efi /lib /tmp/dracut
 
@@ -18,22 +22,23 @@ apk add git curl xz bzip2 alpine-sdk linux-headers >/dev/null
 # Idea: instead of just going with the alpine default busybox, maybe build it from source, only the modules I need, might be able to save about 0.5M
 
 # grab upstream dracut source
-#git clone https://github.com/dracutdevs/dracut.git && cd dracut
+git clone https://github.com/dracutdevs/dracut.git && cd dracut
 
 # pull in a few PRs
 
 # udevadm over of blkid
 curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply
-curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2158.patch | git apply
+#curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2158.patch | git apply
 
 git diff
 
+#todo
 # grab upstream modules only
-#rm -rf /usr/lib/dracut/modules.d && mv /dracut/modules.d /usr/lib/dracut/ # && rm -rf /dracut
+rm -rf /usr/lib/dracut/modules.d && mv /dracut/modules.d /usr/lib/dracut/ # && rm -rf /dracut
 
 # less is more :-), this is an extra layer to make sure systemd is not needed
-#rm -rf /usr/lib/dracut/modules.d/*systemd*
-#rm -rf /usr/lib/dracut/modules.d/*network*
+rm -rf /usr/lib/dracut/modules.d/*systemd*
+rm -rf /usr/lib/dracut/modules.d/*network*
 
 # udev depends on libkmod
 # rebuild libkmod without openssl lib (libkmod will be dependent on musl and libzstd)
