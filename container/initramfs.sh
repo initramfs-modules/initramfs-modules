@@ -4,7 +4,7 @@ if [ -f /etc/os-release ]; then
  . /etc/os-release
 fi
 
-mkdir -p /efi /lib
+mkdir -p /efi /lib /tmp/dracut
 
 apk upgrade
 apk update
@@ -13,7 +13,6 @@ apk add dracut-modules --update-cache --repository https://dl-cdn.alpinelinux.or
 
 # Temporal build dependencies
 apk add git curl xz bzip2 alpine-sdk linux-headers >/dev/null
-
 
 cd /usr/lib/dracut
 
