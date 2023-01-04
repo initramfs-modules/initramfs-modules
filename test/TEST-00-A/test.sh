@@ -52,8 +52,8 @@ test_run() {
 }
 
 test_setup() {
-    # use dracut to bootstrap a rootfs directory that you can chroot into
-    "$basedir"/dracut.sh --quiet --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
+    # use dracut to bootstrap a rootfs directory that you can chroot into --quiet
+    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
