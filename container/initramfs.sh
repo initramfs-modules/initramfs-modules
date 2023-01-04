@@ -27,7 +27,8 @@ apk add git curl xz bzip2 alpine-sdk linux-headers >/dev/null
 # pull in a few PRs
 
 # udevadm over of blkid
-#curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply
+cd /usr/lib/dracut
+curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply
 
 git diff
 
