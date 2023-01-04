@@ -40,9 +40,9 @@ jobs:
             matrix:
                 config:
 #                     - { tag: boot }
-#                     - { tag: initramfs   }
-                     - { tag: kernel-tiny }
-                     - { tag: alpine-initramfs-kernel-tiny }
+                     - { tag: initramfs   }
+#                     - { tag: kernel-tiny }
+#                     - { tag: alpine-initramfs-kernel-tiny }
 #                     - { tag: kernel    }
 #                     - { tag: alpine-initramfs-kernel }
 #                    - { tag: alpine    }
