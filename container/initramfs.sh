@@ -6,8 +6,6 @@ fi
 
 pwd
 
-ls -la /_tmp/dracut
-
 cd /_tmp/dracut
 mkdir -p /efi /lib /tmp/dracut
 
@@ -28,9 +26,9 @@ apk add git curl xz bzip2 alpine-sdk linux-headers >/dev/null
 
 # udevadm over of blkid
 cd /usr/lib/dracut
-curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply
+curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply --verbose
 
-git diff
+cat /usr/lib/dracut/modules.d/90dmsquash-live/dmsquash-live-root.sh
 
 # patch dmsquash-live
 cp -a /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
