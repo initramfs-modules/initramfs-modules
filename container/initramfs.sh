@@ -4,10 +4,7 @@ if [ -f /etc/os-release ]; then
  . /etc/os-release
 fi
 
-pwd
-
-cd /_tmp/dracut
-mkdir -p /efi /lib /tmp/dracut
+mkdir -p /efi /lib
 
 apk upgrade
 apk update
@@ -17,18 +14,12 @@ apk add dracut-modules --update-cache --repository https://dl-cdn.alpinelinux.or
 # Temporal build dependencies
 apk add git curl xz bzip2 alpine-sdk linux-headers >/dev/null
 
-# Idea: instead of just going with the alpine default busybox, maybe build it from source, only the modules I need, might be able to save about 0.5M
 
-# grab upstream dracut source
-#git clone https://github.com/dracutdevs/dracut.git && cd dracut
+cd /usr/lib/dracut
 
 # pull in a few PRs
-
 # udevadm over of blkid
-cd /usr/lib/dracut
 curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply --verbose
-
-cat /usr/lib/dracut/modules.d/90dmsquash-live/dmsquash-live-root.sh
 
 # patch dmsquash-live
 cp -a /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
