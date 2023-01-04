@@ -24,6 +24,7 @@ git clone https://github.com/dracutdevs/dracut.git && cd dracut
 
 # udevadm over of blkid
 curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply
+curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2158.patch | git apply
 
 git diff
 
