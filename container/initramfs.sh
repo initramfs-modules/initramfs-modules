@@ -32,7 +32,7 @@ apk add git curl xz bzip2 alpine-sdk linux-headers >/dev/null
 git diff
 
 # patch dmsquash-live
-cp -a /_tmp/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
+cp -a /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
 
 cd /
 
