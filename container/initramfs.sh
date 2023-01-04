@@ -6,7 +6,7 @@ fi
 
 pwd
 
-ls -la
+ls -la /_tmp/dracut
 
 cd /
 mkdir -p /efi /lib /tmp/dracut
