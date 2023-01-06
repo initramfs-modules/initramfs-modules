@@ -31,13 +31,13 @@ test_run() {
 #    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     # squashfs scsi
-#    test_me "root=live:/dev/sda"
+    test_me "root=live:/dev/sda"
 
     # vfat ide
     test_me "root=LABEL=ISO"
 
     # isofs cdrom
-#    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
+    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
