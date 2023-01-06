@@ -12,16 +12,18 @@ apk update
 apk add dracut-modules --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted  >/dev/null
 
 # Temporal build dependencies
-apk add git curl xz bzip2 alpine-sdk linux-headers >/dev/null
+apk add git curl xz bzip2 alpine-sdk linux-headers binutils >/dev/null
 
 cd /usr/lib/dracut
 
-# pull in a few PRs
+# patch dmsquash-live from code landed upstream
+cp -a /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
+
+cp -av /_tmp/dracut/modules.d/ /usr/lib/dracut/modules.d/
+
+# pull in a few PRs that are not yet landed
 # udevadm over of blkid
 curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply --verbose
-
-# patch dmsquash-live
-cp -a /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
 
 cd /
 
