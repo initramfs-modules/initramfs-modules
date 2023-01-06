@@ -17,9 +17,9 @@ apk add git curl xz bzip2 alpine-sdk linux-headers binutils >/dev/null
 cd /usr/lib/dracut
 
 # patch dmsquash-live from code landed upstream
-cp -a /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
+cp -av /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
 
-cp -av /_tmp/dracut/modules.d/ /usr/lib/dracut/modules.d/
+cp -av /_tmp/dracut/modules.d/ /usr/lib/dracut/
 
 # pull in a few PRs that are not yet landed
 # udevadm over of blkid
