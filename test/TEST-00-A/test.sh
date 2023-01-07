@@ -23,6 +23,11 @@ test_run() {
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
+find /boot
+
+find /lib/modules/ | grep vmli
+
+
 #    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     # run-qemu does not support running without -kernel, todo to fix this
 #    "$testdir"/run-qemu "${disk_args[@]}" \
