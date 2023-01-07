@@ -77,7 +77,14 @@ mv isolinux/efiboot.img /tmp/isotemp/
 find /tmp/iso
 find /tmp/isotemp/
 
-# sudo cp .dotfiles/boot/grub.cfg /tmp/iso/EFI/BOOT/
+cat > /tmp/iso/EFI/BOOT/grub.cfg << EOF
+root=(cd,msdos1)
+set DEFAULT_ISO="rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO rd.retry=5"
+menuentry linux_cdrom $DEFAULT_ISO {
+  linux /kernel/vmlinuz $*
+  initrd /kernel/initrd*.img
+}
+EOF
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 \
    -eltorito-boot boot/grub/bios.img \
