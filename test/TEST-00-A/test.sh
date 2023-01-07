@@ -64,6 +64,7 @@ test_setup() {
 
 mkdir /tmp/iso/
 cp -a  /efi/* /tmp/iso
+cp /boot/vmlinuz /tmp/iso/kernel/
 
 mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/rootfs.squashfs /tmp/iso/LiveOS/squashfs.img
