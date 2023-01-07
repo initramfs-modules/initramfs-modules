@@ -23,18 +23,6 @@ test_run() {
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
-find /boot
-
-find /lib/modules/ | grep vmli
-
-
-#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    # run-qemu does not support running without -kernel, todo to fix this
-#    "$testdir"/run-qemu "${disk_args[@]}" \
-#        -cdrom "$TESTDIR"/livedir/linux2.iso \
-#        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sr0 panic=1 oops=panic $DEBUGFAIL"
-#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
-
     # squashfs scsi
     test_me "root=live:/dev/sda"
 
@@ -43,6 +31,14 @@ find /lib/modules/ | grep vmli
 
     # isofs cdrom
     test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
+
+    rm -rf  /boot/vmlinuz*
+    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+    # run-qemu does not support running without -kernel, todo to fix this
+    "$testdir"/run-qemu "${disk_args[@]}" \
+        -cdrom "$TESTDIR"/livedir/linux2.iso \
+        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/sr0 panic=1 oops=panic $DEBUGFAIL"
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
