@@ -77,8 +77,9 @@ mv isolinux/efiboot.img /tmp/isotemp/
 find /tmp/iso
 find /tmp/isotemp/
 
+# root=(cd,msdos1)
+
 cat > /tmp/iso/EFI/BOOT/grub.cfg << EOF
-root=(cd,msdos1)
 set DEFAULT_ISO="rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO rd.retry=5 rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81"
 menuentry linux_cdrom $DEFAULT_ISO {
   linux /kernel/vmlinuz $*
