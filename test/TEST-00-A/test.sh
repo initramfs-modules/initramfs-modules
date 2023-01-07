@@ -83,10 +83,11 @@ mv isolinux/efiboot.img /tmp/isotemp/
 # root=(cd,msdos1)
 
 cat > /tmp/iso/EFI/BOOT/grub.cfg << EOF
-set DEFAULT_ISO="rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO rd.retry=5 rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81"
-menuentry linux_cdrom $DEFAULT_ISO {
-  root=(cd,msdos1)
-  linux /kernel/vmlinuz $*
+menuentry linux_cdrom {
+  set timeout=1
+  set default=linux_cdrom
+  root=(cd)
+  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO rd.retry=5 rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81
   initrd /kernel/initrd*.img
 }
 EOF
