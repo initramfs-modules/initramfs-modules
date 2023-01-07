@@ -67,7 +67,7 @@ mkdir /tmp/iso/
 cp -a  /efi/* /tmp/iso
 
 ls -la /boot/
-cp /boot/vmlinuz /tmp/iso/kernel/
+cp /boot/vmlinuz* /tmp/iso/kernel/vmlinuz
 
 mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/rootfs.squashfs /tmp/iso/LiveOS/squashfs.img
