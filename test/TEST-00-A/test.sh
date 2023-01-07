@@ -88,8 +88,12 @@ menuentry linux_cdrom $DEFAULT_ISO {
 }
 EOF
 
+rm -rf tce netboot
+
 find /tmp/iso
 find /tmp/isotemp/
+
+ls -lRa /tmp/iso
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 \
    -eltorito-boot boot/grub/bios.img \
