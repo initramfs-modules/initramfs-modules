@@ -7,6 +7,7 @@ TEST_DESCRIPTION="root on an image"
 KVERSION="${KVERSION-$(uname -r)}"
 
 ls -la /efi/kernel/
+ls -la /boot/
 
 test_me () {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -64,6 +65,8 @@ test_setup() {
 
 mkdir /tmp/iso/
 cp -a  /efi/* /tmp/iso
+
+ls -la /boot/
 cp /boot/vmlinuz /tmp/iso/kernel/
 
 mkdir -p /tmp/iso/LiveOS
