@@ -43,5 +43,6 @@ fi
 if [ -f "$VMLINUZ" ]; then
   exec "$BIN" "${ARGS[@]}" -kernel "$VMLINUZ" "$@"
 else
+  echo "$BIN" "${ARGS[@]}" "$@"
   exec "$BIN" "${ARGS[@]}" "$@"
 fi
