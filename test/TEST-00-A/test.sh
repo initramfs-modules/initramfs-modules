@@ -4,6 +4,7 @@ TEST_DESCRIPTION="root on an image"
 
 # test for different if= .. possible values= ide, scsi, sd, mtd, floppy, pflash, virtio
 
+
 KVERSION="${KVERSION-$(uname -r)}"
 
 ls -la /efi/kernel/
