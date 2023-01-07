@@ -6,7 +6,7 @@ TEST_DESCRIPTION="root on an image"
 
 KVERSION="${KVERSION-$(uname -r)}"
 
-ls -la /efi/kernel/initrd.img
+ls -la /efi/kernel/
 
 test_me () {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -74,9 +74,6 @@ mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
 mv isolinux/efiboot.img /tmp/isotemp/
 
-find /tmp/iso
-find /tmp/isotemp/
-
 # root=(cd,msdos1)
 
 cat > /tmp/iso/EFI/BOOT/grub.cfg << EOF
@@ -86,6 +83,9 @@ menuentry linux_cdrom $DEFAULT_ISO {
   initrd /kernel/initrd*.img
 }
 EOF
+
+find /tmp/iso
+find /tmp/isotemp/
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 \
    -eltorito-boot boot/grub/bios.img \
