@@ -11,24 +11,25 @@ test_me () {
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
         -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
-        -cdrom "$TESTDIR"/livedir/linux.iso \
+        -cdrom "$TESTDIR"/livedir/linux2.iso \
         -append "rd.live.overlay.overlayfs=1 rd.live.image $1 panic=1 oops=panic $DEBUGFAIL"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
+
 
 test_run() {
     declare -a disk_args=()
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
-    # squashfs scsi
+    # squashfs on scsi drive
     test_me "root=live:/dev/sda"
 
-    # vfat ide
-    test_me "root=LABEL=ISO"
-
-    # isofs cdrom
+    # vfat on ide drive
     test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
+
+    # isofs on cdrom drive
+    test_me "root=LABEL=ISO"
 
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -68,7 +69,7 @@ cp -a /efi/* /tmp/iso
 cp /boot/vmlinuz* /tmp/iso/kernel/vmlinuz
 
 mkdir -p /tmp/iso/LiveOS
-cp "$TESTDIR"/livedir/rootfs.squashfs /tmp/iso/LiveOS/squashfs.img
+cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
 # Only include files once in the iso
