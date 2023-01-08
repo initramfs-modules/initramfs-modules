@@ -20,11 +20,11 @@ QEMU_CPU="${QEMU_CPU:-max}"
 }
 
 # Provide rng device sourcing the hosts /dev/urandom and other standard parameters
-ARGS+=(-M q35 -m 512 -nographic)
+ARGS+=(-M q35 -m 512 -smp 2 -m 512 -nographic)
 
-#if ! [[ $* == *-daemonize* ]] && ! [[ $* == *-daemonize* ]]; then
-#    ARGS+=(-serial stdio)
-#fi
+if ! [[ $* == *-daemonize* ]] && ! [[ $* == *-daemonize* ]]; then
+    ARGS+=(-serial stdio)
+fi
 
 KVERSION=${KVERSION-$(uname -r)}
 
