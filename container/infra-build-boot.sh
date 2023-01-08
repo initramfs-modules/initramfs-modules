@@ -17,7 +17,7 @@ apt-get upgrade -y -qq -o Dpkg::Use-Pty=0
 apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
   grub-efi-amd64-bin grub-pc-bin grub2-common \
   syslinux-common \
-  isolinux mtools dosfstools wget
+  isolinux mtools dosfstools
 
 # for grub root variable is set to memdisk initially
 # grub_cmdpath is the location from which core.img was loaded as an absolute directory name
@@ -97,35 +97,3 @@ mkfs.vfat $ISODIR/efiboot.img && \
 LC_CTYPE=C mmd -i $ISODIR/efiboot.img efi efi/boot && \
 LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/bootx64.efi ::efi/boot/
 
-# TCE binary
-mkdir -p /efi/tce
-mkdir -p /efi/tce/optional
-wget --no-check-certificate --no-verbose https://distro.ibiblio.org/tinycorelinux/12.x/x86_64/release/CorePure64-current.iso -O tce.iso
-wget --no-verbose http://www.tinycorelinux.net/12.x/x86_64/tcz/openssl-1.1.1.tcz
-wget --no-verbose http://www.tinycorelinux.net/12.x/x86_64/tcz/openssh.tcz
-mv tce.iso /efi/tce
-mv openssh*.tcz openssl*.tcz  /efi/tce/optional/
-echo "openssl-1.1.1.tcz " >> /efi/tce/onboot.lst
-echo "openssh.tcz" >> /efi/tce/onboot.lst
-mkdir -p tce/opt
-cd tce
-echo "opt" > opt/.filetool.lst
-
-cat > opt/bootsync.sh << 'EOF'
-#!/bin/sh
-# runs at boot
-touch /usr/local/etc/ssh/sshd_config
-sed -ri "s/^tc:[^:]*:(.*)/tc:\$6\$3fjvzQUNxD1lLUSe\$6VQt9RROteCnjVX1khTxTrorY2QiJMvLLuoREXwJX2BwNJRiEA5WTer1SlQQ7xNd\.dGTCfx\.KzBN6QmynSlvL\/:\1/" etc/shadow
-/usr/local/etc/init.d/openssh start &
-EOF
-
-chmod +x opt/bootsync.sh
-
-tar -czvf /efi/tce/mydata.tgz opt
-cd ..
-
-# netboot-xyz
-wget --no-verbose --no-check-certificate https://boot.netboot.xyz/ipxe/netboot.xyz.lkrn
-wget --no-verbose --no-check-certificate https://boot.netboot.xyz/ipxe/netboot.xyz.efi
-mkdir -p /efi/netboot
-mv netboot.xyz* /efi/netboot/
