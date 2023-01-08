@@ -32,8 +32,10 @@ test_run() {
     # isofs on cdrom drive
     test_me "root=LABEL=ISO"
 
-mkdir ~/run-ovmf
-cd ~/run-ovmf
+ls -la /usr/share/ovmf/bios.bin
+ls -la /usr/share/ovmf
+mkdir run-ovmf
+cd run-ovmf
 cp /usr/share/ovmf/bios.bin bios.bin
 
     rm -rf  /boot/vmlinuz*
