@@ -61,7 +61,7 @@ test_setup() {
     xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
 
 mkdir /tmp/iso/
-cp -a  /efi/* /tmp/iso
+cp -a /efi/* /tmp/iso
 cp /boot/vmlinuz* /tmp/iso/kernel/vmlinuz
 
 mkdir -p /tmp/iso/LiveOS
@@ -86,7 +86,8 @@ menuentry linux_cdrom {
 }
 EOF
 
-rm -rf tce netboot
+find .
+#rm -rf tce netboot
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 -full-iso9660-filenames \
    -eltorito-boot boot/grub/bios.img \
