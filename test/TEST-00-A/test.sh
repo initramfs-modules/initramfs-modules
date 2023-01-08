@@ -48,8 +48,7 @@ cp /usr/share/OVMF/OVMF.fd bios.bin
        -cdrom "$TESTDIR"/livedir/linux.iso \
         -global driver=cfi.pflash01,property=secure,value=on \
         -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
-        -drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}" \
-        -boot order=dc
+        -drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
 
 #       -boot order=dc \
 #       -pflash bios.bin
