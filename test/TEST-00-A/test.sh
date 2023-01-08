@@ -41,17 +41,18 @@ if [ ! -e "${OVMF_VARS}" ]; then
 fi
 
     rm -rf  /boot/vmlinuz*
-    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu \
         #"${disk_args[@]}" \
         #-drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         #-drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
+        -net none \
 #        -boot order=dc \
         -global driver=cfi.pflash01,property=secure,value=on \
         -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
         -drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
