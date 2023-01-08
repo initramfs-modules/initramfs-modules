@@ -32,14 +32,14 @@ test_run() {
     # isofs on cdrom drive
     test_me "root=LABEL=ISO"
 
-OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
-OVMF_VARS_ORIG="/usr/share/OVMF/OVMF_VARS.fd"
-OVMF_VARS="$(basename "${OVMF_VARS_ORIG}")"
+#OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
+#OVMF_VARS_ORIG="/usr/share/OVMF/OVMF_VARS.fd"
+#OVMF_VARS="$(basename "${OVMF_VARS_ORIG}")"
 
-if [ ! -e "${OVMF_VARS}" ]; then
-    cp "${OVMF_VARS_ORIG}" "${OVMF_VARS}"
-fi
-cp /usr/share/OVMF/OVMF.fd bios.bin
+#if [ ! -e "${OVMF_VARS}" ]; then
+#    cp "${OVMF_VARS_ORIG}" "${OVMF_VARS}"
+#fi
+#cp /usr/share/OVMF/OVMF.fd bios.bin
 
         #-global driver=cfi.pflash01,property=secure,value=on \
         #-drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
