@@ -40,12 +40,16 @@ if [ ! -e "${OVMF_VARS}" ]; then
     cp "${OVMF_VARS_ORIG}" "${OVMF_VARS}"
 fi
 
+cp /usr/share/OVMF/OVMF.fd bios.bin
+
     rm -rf  /boot/vmlinuz*
 #    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu -net none \
        -cdrom "$TESTDIR"/livedir/linux.iso \
        -boot order=dc \
-       -bios /usr/share/OVMF/OVMF_CODE.fd
+       -pflash bios.bin
+
+#       -bios /usr/share/OVMF/OVMF_CODE.fd
 
         #"${disk_args[@]}" \
         #-drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
