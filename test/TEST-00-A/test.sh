@@ -44,12 +44,9 @@ test_run() {
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
-
     # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
-#    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
 #        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=usbstick -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick \
-#        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/mmcblk0 panic=1 oops=panic $DEBUGFAIL"
-
+#        -root=/dev/mmcblk0 panic=1 oops=panic $DEBUGFAIL"
 }
 
 test_setup() {
@@ -76,16 +73,15 @@ mv isolinux/efiboot.img /tmp/isotemp/
 
 rm -rf /tmp/iso/EFI/BOOT/grub.cfg
 
-cat > /tmp/iso/EFI/BOOT/grub.cfg << EOF
+cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
 set default=linux
 set timeout_style=hidden
 menuentry linux {
-  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO \$CMD
+  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO $CMD
   initrd /kernel/initrd.img
 }
 EOF
-
 
 cat /tmp/iso/EFI/BOOT/grub.cfg
 
