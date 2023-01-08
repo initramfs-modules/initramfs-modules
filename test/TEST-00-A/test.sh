@@ -54,12 +54,12 @@ test_run() {
 
 test_setup() {
     # use dracut to bootstrap a rootfs directory that you can chroot into --quiet
-    "$basedir"/dracut.sh --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
+    "$basedir"/dracut.sh --quiet --no-hostonly --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     mkdir "$TESTDIR"/livedir
-    cd "$TESTDIR"/livedir
+    #cd "$TESTDIR"/livedir
 
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/squashfs.img -quiet -no-progress
 #    xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
