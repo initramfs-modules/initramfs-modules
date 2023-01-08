@@ -73,6 +73,7 @@ mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
 mv isolinux/efiboot.img /tmp/isotemp/
 
+#   root=(cd)
 rm -rf /tmp/iso/EFI/BOOT/grub.cfg
 
 cat > /tmp/iso/EFI/BOOT/grub.cfg << EOF
@@ -80,14 +81,12 @@ set timeout=1
 set default=linux_cdrom
 set timeout_style=hidden
 menuentry linux_cdrom {
-  root=(cd)
   linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO
-  initrd /kernel/initrd*.img
+  initrd /kernel/initrd.img
 }
 EOF
 
 find .
-#rm -rf tce netboot
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 -full-iso9660-filenames \
    -eltorito-boot boot/grub/bios.img \
