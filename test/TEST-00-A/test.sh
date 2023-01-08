@@ -85,7 +85,7 @@ set default=linux_cdrom
 set timeout_style=hidden
 menuentry linux_cdrom {
   root=(cd)
-  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO rd.retry=5 console=ttyS0,115200n81
+  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO
   initrd /kernel/initrd*.img
 }
 EOF
