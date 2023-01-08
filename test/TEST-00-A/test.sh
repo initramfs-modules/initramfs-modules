@@ -29,16 +29,15 @@ test_run() {
     test_me "root=live:/dev/sda"
 
     # vfat ide
-#    test_me "root=LABEL=ISO"
+    test_me "root=LABEL=ISO"
 
     # isofs cdrom
-#    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
+    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
 
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     # run-qemu does not support running without -kernel, todo to fix this
     "$testdir"/run-qemu "${disk_args[@]}" -cdrom "$TESTDIR"/livedir/linux2.iso
-    # -monitor stdio -d strace -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 # todo  -hda rootdisk.img
@@ -67,8 +66,6 @@ test_setup() {
 
 mkdir /tmp/iso/
 cp -a  /efi/* /tmp/iso
-
-ls -la /boot/
 cp /boot/vmlinuz* /tmp/iso/kernel/vmlinuz
 
 mkdir -p /tmp/iso/LiveOS
@@ -80,9 +77,6 @@ mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
 mv isolinux/efiboot.img /tmp/isotemp/
 
-# root=(cd,msdos1)
-# init=/sbin/powerof
-
 rm -rf /tmp/iso/EFI/BOOT/grub.cfg
 
 cat > /tmp/iso/EFI/BOOT/grub.cfg << EOF
@@ -91,17 +85,12 @@ set default=linux_cdrom
 set timeout_style=hidden
 menuentry linux_cdrom {
   root=(cd)
-  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO rd.retry=5 rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81
+  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO rd.retry=5 console=ttyS0,115200n81
   initrd /kernel/initrd*.img
 }
 EOF
 
 rm -rf tce netboot
-
-find /tmp/iso
-find /tmp/isotemp/
-
-ls -lRa /tmp/iso
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 -full-iso9660-filenames \
    -eltorito-boot boot/grub/bios.img \
