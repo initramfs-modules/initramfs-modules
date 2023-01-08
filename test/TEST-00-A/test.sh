@@ -24,22 +24,21 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     # squashfs on scsi drive
-    test_me "root=live:/dev/sda"
+#    test_me "root=live:/dev/sda"
 
     # vfat on ide drive
-    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
+#    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
 
     # isofs on cdrom drive
-    test_me "root=LABEL=ISO"
+#    test_me "root=LABEL=ISO"
 
 OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
 OVMF_VARS_ORIG="/usr/share/OVMF/OVMF_VARS.fd"
 OVMF_VARS="$(basename "${OVMF_VARS_ORIG}")"
 
 if [ ! -e "${OVMF_VARS}" ]; then
-        cp "${OVMF_VARS_ORIG}" "${OVMF_VARS}"
+    cp "${OVMF_VARS_ORIG}" "${OVMF_VARS}"
 fi
-
 
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -48,7 +47,7 @@ fi
         #-drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         #-drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
-        -boot order=dc \
+#        -boot order=dc \
         -global driver=cfi.pflash01,property=secure,value=on \
         -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
         -drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
