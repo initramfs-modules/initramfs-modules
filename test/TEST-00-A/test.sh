@@ -10,14 +10,13 @@ CMD="rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic $DEBUGFAIL"
 
 test_me () {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
         -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
         -append "$CMD $1"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
-
 
 test_run() {
     declare -a disk_args=()
@@ -33,14 +32,19 @@ test_run() {
     # isofs on cdrom drive
     test_me "root=LABEL=ISO"
 
+mkdir ~/run-ovmf
+cd ~/run-ovmf
+cp /usr/share/ovmf/bios.bin bios.bin
+
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" \
+    "$testdir"/run-qemu "${disk_args[@]}" -L . \
         -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
         -boot order=dc
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
