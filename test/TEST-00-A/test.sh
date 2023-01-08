@@ -32,21 +32,17 @@ test_run() {
     # isofs on cdrom drive
     test_me "root=LABEL=ISO"
 
-ls -la /usr/share/ovmf/bios.bin
-ls -la /usr/share/ovmf
-mkdir run-ovmf
-cd run-ovmf
-cp /usr/share/ovmf/bios.bin bios.bin
+ls -la /usr/share/OVMF/OVMF_CODE.fd
 
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -L . \
+    "$testdir"/run-qemu "${disk_args[@]}" \
         -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
-        -boot order=dc
+        -boot order=dc \
+        -bios /usr/share/OVMF/OVMF_CODE.fd
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
-
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
