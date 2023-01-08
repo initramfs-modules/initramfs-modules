@@ -6,13 +6,15 @@ TEST_DESCRIPTION="root on an image"
 
 KVERSION="${KVERSION-$(uname -r)}"
 
+CMD="rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic $DEBUGFAIL"
+
 test_me () {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
         -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
-        -cdrom "$TESTDIR"/livedir/linux2.iso \
-        -append "rd.live.overlay.overlayfs=1 rd.live.image $1 panic=1 oops=panic $DEBUGFAIL"
+        -cdrom "$TESTDIR"/livedir/linux.iso \
+        -append "$CMD $1"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 }
 
@@ -36,7 +38,7 @@ test_run() {
     "$testdir"/run-qemu "${disk_args[@]}" \
         -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
-        -cdrom "$TESTDIR"/livedir/linux2.iso \
+        -cdrom "$TESTDIR"/livedir/linux.iso \
         -boot order=dc
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
@@ -72,22 +74,24 @@ mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
 mv isolinux/efiboot.img /tmp/isotemp/
 
-#   root=(cd)
 rm -rf /tmp/iso/EFI/BOOT/grub.cfg
 
 cat > /tmp/iso/EFI/BOOT/grub.cfg << EOF
 set timeout=1
-set default=linux_cdrom
+set default=linux
 set timeout_style=hidden
-menuentry linux_cdrom {
+menuentry linux {
   linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO
   initrd /kernel/initrd.img
 }
 EOF
 
+
+cat /tmp/iso/EFI/BOOT/grub.cfg
+
 find .
 
-xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
+xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
    -eltorito-boot boot/grub/bios.img \
      -no-emul-boot \
      -boot-load-size 4 \
