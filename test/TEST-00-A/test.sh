@@ -9,7 +9,7 @@ KVERSION="${KVERSION-$(uname -r)}"
 test_me () {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img \
-        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,index=0 \
+        -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
         -append "rd.live.overlay.overlayfs=1 rd.live.image $1 panic=1 oops=panic $DEBUGFAIL"
@@ -28,7 +28,7 @@ test_run() {
     test_me "root=LABEL=ISO"
 
     # isofs cdrom
-    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=rootfs.squashfs"
+    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
 
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -57,7 +57,7 @@ test_setup() {
     mkdir "$TESTDIR"/livedir
     cd "$TESTDIR"/livedir
 
-    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/rootfs.squashfs -quiet -no-progress
+    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/squashfs.img -quiet -no-progress
     xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
 
 mkdir /tmp/iso/
@@ -88,7 +88,7 @@ EOF
 
 find .
 
-xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3 -full-iso9660-filenames \
+xorriso -as mkisofs -output "$TESTDIR"/livedir/linux2.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
    -eltorito-boot boot/grub/bios.img \
      -no-emul-boot \
      -boot-load-size 4 \
