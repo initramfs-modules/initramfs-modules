@@ -32,7 +32,14 @@ test_run() {
     # isofs on cdrom drive
     test_me "root=LABEL=ISO"
 
-ls -la /usr/share/OVMF/OVMF_CODE.fd
+OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
+OVMF_VARS_ORIG="/usr/share/OVMF/OVMF_VARS.fd"
+OVMF_VARS="$(basename "${OVMF_VARS_ORIG}")"
+
+if [ ! -e "${OVMF_VARS}" ]; then
+        cp "${OVMF_VARS_ORIG}" "${OVMF_VARS}"
+fi
+
 
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -41,7 +48,9 @@ ls -la /usr/share/OVMF/OVMF_CODE.fd
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
         -boot order=dc \
-        -bios /usr/share/OVMF/OVMF_CODE.fd
+        -global driver=cfi.pflash01,property=secure,value=on \
+        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
+        -drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 # todo  -hda rootdisk.img
