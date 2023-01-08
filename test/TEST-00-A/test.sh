@@ -43,9 +43,10 @@ fi
 
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" \
-        -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
-        -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
+    "$testdir"/run-qemu \
+        #"${disk_args[@]}" \
+        #-drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
+        #-drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
         -boot order=dc \
         -global driver=cfi.pflash01,property=secure,value=on \
