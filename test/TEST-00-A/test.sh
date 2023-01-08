@@ -81,7 +81,7 @@ set timeout=1
 set default=linux
 set timeout_style=hidden
 menuentry linux {
-  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO
+  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO $CMD
   initrd /kernel/initrd.img
 }
 EOF
