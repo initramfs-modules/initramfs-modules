@@ -73,19 +73,18 @@ mv isolinux/efiboot.img /tmp/isotemp/
 
 rm -rf /tmp/iso/EFI/BOOT/grub.cfg
 
+# set default=linux
+
 cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
-set default=linux
 set timeout_style=hidden
 menuentry linux {
-  linux /kernel/vmlinuz rd.live.overlay.overlayfs=1 root=live:/dev/disk/by-label/ISO $CMD
+  linux /kernel/vmlinuz root=live:/dev/disk/by-label/ISO $CMD
   initrd /kernel/initrd.img
 }
 EOF
 
-cat /tmp/iso/EFI/BOOT/grub.cfg
-
-find .
+#find .
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
    -eltorito-boot boot/grub/bios.img \
