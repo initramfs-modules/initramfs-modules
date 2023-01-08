@@ -26,7 +26,7 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     # squashfs scsi
-#    test_me "root=live:/dev/sda"
+    test_me "root=live:/dev/sda"
 
     # vfat ide
 #    test_me "root=LABEL=ISO"
