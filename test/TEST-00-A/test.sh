@@ -46,8 +46,13 @@ cp /usr/share/OVMF/OVMF.fd bios.bin
 #    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu -net none \
        -cdrom "$TESTDIR"/livedir/linux.iso \
-       -boot order=dc \
-       -pflash bios.bin
+        -global driver=cfi.pflash01,property=secure,value=on \
+        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
+        -drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}" \
+        -boot order=dc
+
+#       -boot order=dc \
+#       -pflash bios.bin
 
 #       -bios /usr/share/OVMF/OVMF_CODE.fd
 
