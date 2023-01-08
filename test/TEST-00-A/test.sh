@@ -44,11 +44,9 @@ test_run() {
 # todo - give index for vfat drive
 
     # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
-#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
 #    "$testdir"/run-qemu "${disk_args[@]}" -initrd "$TESTDIR"/initramfs.testing \
 #        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=usbstick -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick \
 #        -append "rd.live.overlay.overlayfs=1 rd.live.image root=/dev/mmcblk0 panic=1 oops=panic $DEBUGFAIL"
-#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 }
 
@@ -59,10 +57,7 @@ test_setup() {
 
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     mkdir "$TESTDIR"/livedir
-    #cd "$TESTDIR"/livedir
-
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/squashfs.img -quiet -no-progress
-#    xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
 
 mkdir /tmp/iso/
 cp -a /efi/* /tmp/iso
