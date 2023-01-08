@@ -4,11 +4,7 @@ TEST_DESCRIPTION="root on an image"
 
 # test for different if= .. possible values= ide, scsi, sd, mtd, floppy, pflash, virtio
 
-
 KVERSION="${KVERSION-$(uname -r)}"
-
-ls -la /efi/kernel/
-ls -la /boot/
 
 test_me () {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
