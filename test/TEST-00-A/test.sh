@@ -62,7 +62,7 @@ test_setup() {
     cd "$TESTDIR"/livedir
 
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/squashfs.img -quiet -no-progress
-    xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
+#    xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3
 
 mkdir /tmp/iso/
 cp -a /efi/* /tmp/iso
