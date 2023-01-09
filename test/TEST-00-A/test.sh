@@ -23,13 +23,13 @@ test_run() {
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
-    # squashfs on scsi drive
+    # squashfs on scsi drive (no bootloader)
     test_me "root=live:/dev/sda"
 
-    # vfat on ide drive
+    # vfat on ide drive (no bootloader)
     test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
 
-    # isofs on cdrom drive
+    # isofs on cdrom drive (no bootloader)
     test_me "root=LABEL=ISO"
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
@@ -66,13 +66,11 @@ test_run() {
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-    # squashfs on nvme drive
+    # squashfs on nvme drive (no bootloader)
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
        -device nvme,drive=nvme0,serial=deadbeaf1 \
        -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,if=none,id=nvme0 \
-       -global driver=cfi.pflash01,property=secure,value=on \
-       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
        -append "$CMD root=LABEL=ISO"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
