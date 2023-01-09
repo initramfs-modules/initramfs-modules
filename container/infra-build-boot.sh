@@ -2,10 +2,6 @@
 
 cd /tmp
 
-if [ -z "$SCRIPTS" ]; then
-  export SCRIPTS="/tmp"
-fi
-
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get update -y -qq -o Dpkg::Use-Pty=0
@@ -24,7 +20,6 @@ apt-get install -y -qq --no-install-recommends -o Dpkg::Use-Pty=0 \
 
 # grub efi binary
 mkdir -p /efi/EFI/BOOT/
-cp /tmp/grub.cfg /efi/EFI/BOOT/
 
 # use regexp to remove path part to determine the root
 cat > /tmp/grub_efi.cfg << EOF
@@ -84,7 +79,7 @@ GRUB_MODULES="normal part_msdos part_gpt fat ext2 iso9660 ntfs hfsplus linux lin
 # grub-mkstandalone just a wrapper on top of grub-mkimage
 
 grub-mkstandalone --format=i386-pc --output="$LEGACYDIR/core.img" --install-modules="$GRUB_MODULES biosdisk ntldr" --modules="$GRUB_MODULES biosdisk" --locales="" --themes="" --fonts="" "/boot/grub/grub.cfg=/tmp/grub_bios.cfg"
-grub-mkstandalone --format=x86_64-efi --output="/efi/EFI/BOOT/bootx64.efi" --install-modules="$GRUB_MODULES linuxefi" --modules="$GRUB_MODULES linuxefi" --locales="" --themes="" --fonts="" "/boot/grub/grub.cfg=/tmp/grub_efi.cfg"
+grub-mkstandalone --format=x86_64-efi --output="/efi/EFI/BOOT/BOOTX64.efi" --install-modules="$GRUB_MODULES linuxefi" --modules="$GRUB_MODULES linuxefi" --locales="" --themes="" --fonts="" "/boot/grub/grub.cfg=/tmp/grub_efi.cfg"
 
 cp /usr/lib/grub/i386-pc/boot_hybrid.img $ISODIR/
 
@@ -94,6 +89,5 @@ cat /usr/lib/grub/i386-pc/cdboot.img $LEGACYDIR/core.img > $ISODIR/bios.img
 # EFI boot partition - FAT16 disk image
 dd if=/dev/zero of=$ISODIR/efiboot.img bs=1M count=10 && \
 mkfs.vfat $ISODIR/efiboot.img && \
-LC_CTYPE=C mmd -i $ISODIR/efiboot.img efi efi/boot && \
-LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/bootx64.efi ::efi/boot/
-
+LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT && \
+LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/BOOTX64.efi ::EFI/BOOT/
