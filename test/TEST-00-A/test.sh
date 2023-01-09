@@ -52,8 +52,10 @@ fi
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -cdrom "$TESTDIR"/livedir/linux.iso \
         -global driver=cfi.pflash01,property=secure,value=on \
-        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
-        -drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
+        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+
+        #\
+        #-drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
 
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
@@ -98,7 +100,7 @@ rm -rf /tmp/iso/EFI/BOOT/grub.cfg
 
 # set default=linux
 
-mv bootx64.efi /tmp/iso/EFI/BOOT/a
+mv /tmp/iso/EFI/BOOT/bootx64.efi /tmp/iso/EFI/BOOT/a
 mv /tmp/iso/EFI/BOOT/a /tmp/iso/EFI/BOOT/BOOTX64.efi
 
 cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
