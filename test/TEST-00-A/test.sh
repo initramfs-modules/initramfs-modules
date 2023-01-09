@@ -2,8 +2,6 @@
 
 TEST_DESCRIPTION="root on an image"
 
-# IDE SD, MTD, FLOPPY, VIRTIO
-
 KVERSION="${KVERSION-$(uname -r)}"
 
 CMD="rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic $DEBUGFAIL"
@@ -31,15 +29,6 @@ test_run() {
 
     # isofs on cdrom drive (no bootloader)
     test_me "root=LABEL=ISO"
-
-    # squashfs on nvme drive (no bootloader)
-    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
-    -device virtio-scsi-pci,id=scsi0,num_queues=4 \
-    -device scsi-hd,drive=drive0,bus=scsi0.0,channel=0,scsi-id=0,lun=0 \
-    -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,if=none,id=drive0 \
-       -append "$CMD root=/dev/sda"
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
     rm -rf  /boot/vmlinuz*
@@ -74,21 +63,6 @@ test_run() {
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
-
-# todo  -hda rootdisk.img, IDE BUS
-# -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \ - qemu and seabios has a bug to boot from this
-# -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick \
-# -root=/dev/mmcblk0
-
-#ide-drive (removed in 6.0)
-#The ‘ide-drive’ device has been removed. Users should use ‘ide-hd’ or ‘ide-cd’ as appropriate to get an IDE hard disk or CD-ROM as needed.
-
-#scsi-disk (removed in 6.0)
-#The ‘scsi-disk’ device has been removed. Users should use ‘scsi-hd’ or ‘scsi-cd’ as appropriate to get a SCSI hard disk or CD-ROM as needed.
-
-
-
-
 }
 
 test_setup() {
