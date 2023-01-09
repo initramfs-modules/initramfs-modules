@@ -112,15 +112,6 @@ mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
 mv isolinux/efiboot.img /tmp/isotemp/
 
-#/EFI/BOOT/BOOTX64.efi
-#mv /tmp/iso/EFI/BOOT/bootx64.efi /tmp/iso/EFI/BOOT/a
-#mv /tmp/iso/EFI/BOOT/a /tmp/iso/EFI/BOOT/BOOTX64.efi
-
-#rm -rf /tmp/iso/EFI/BOOT/grub.cfg
-rm -rf syslinux
-
-find .
-
 cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
 set timeout_style=hidden

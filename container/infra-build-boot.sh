@@ -40,21 +40,6 @@ ISODIR="/efi/isolinux"
 mkdir -p $LEGACYDIR
 mkdir -p $ISODIR
 
-# syslinux binary
-cp /usr/lib/syslinux/mbr/gptmbr.bin $LEGACYDIR
-cp /usr/lib/syslinux/modules/bios/ldlinux.c32 $LEGACYDIR
-
-# grub pc binary
-cp -r /usr/lib/grub/i386-pc/lnxboot.img $LEGACYDIR/
-
-# syslinux config - chainload grub
-cat > $LEGACYDIR/syslinux.cfg <<EOF
-DEFAULT grub
-LABEL grub
- LINUX lnxboot.img
- INITRD core.img
-EOF
-
 # normal - loaded by default
 # part_msdos part_gpt - mbr and gpt partition table support
 # fat ext2 ntfs iso9660 hfsplus - search by fs labels and read files from fs
@@ -85,6 +70,7 @@ cp /usr/lib/grub/i386-pc/boot_hybrid.img $ISODIR/
 
 # bios boot for booting from a CD-ROM drive
 cat /usr/lib/grub/i386-pc/cdboot.img $LEGACYDIR/core.img > $ISODIR/bios.img
+rm -rf $LEGACYDIR/core.img
 
 # EFI boot partition - FAT16 disk image
 dd if=/dev/zero of=$ISODIR/efiboot.img bs=1M count=10 && \
