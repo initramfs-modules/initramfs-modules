@@ -156,6 +156,10 @@ CONFIG_BTRFS_FS=m
 # device mapper
 CONFIG_BLK_DEV_DM=m
 
+# EFI
+CONFIG_EFI=y
+CONFIG_EFI_STUB=y
+
 # CONFIG_INITRAMFS_SOURCE="/tmp/initramfs.cpio.gz"
 
 # msdos

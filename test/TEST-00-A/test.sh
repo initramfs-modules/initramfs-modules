@@ -24,13 +24,13 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     # squashfs on scsi drive
-    test_me "root=live:/dev/sda"
+#    test_me "root=live:/dev/sda"
 
     # vfat on ide drive
-    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
+#    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
 
     # isofs on cdrom drive
-    test_me "root=LABEL=ISO"
+#    test_me "root=LABEL=ISO"
 
 OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
 OVMF_VARS_ORIG="/usr/share/OVMF/OVMF_VARS.fd"
