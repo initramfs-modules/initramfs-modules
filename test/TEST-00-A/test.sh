@@ -35,8 +35,8 @@ test_run() {
     # squashfs on nvme drive (no bootloader)
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
-       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0,if=virtio \
-       -append "$CMD root=live:/dev/vda"
+       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,if=virtio \
+       -append "$CMD root=/dev/vda"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
