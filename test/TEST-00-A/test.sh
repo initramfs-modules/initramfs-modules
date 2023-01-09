@@ -63,6 +63,12 @@ test_run() {
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+
+# todo - add initramfs into kernel actually, it is not there now   (basically do not have kernel file and initramfs file)
+# first get rid of initramfs file and bake it into kernel - https://github.com/haraldh/mkrescue-uefi/blob/master/mkrescue-uefi.sh change-section-vma .initrd=0x3000000
+
+# todo - usb, mmc
+# todo - unified kernel efi
 }
 
 test_setup() {
