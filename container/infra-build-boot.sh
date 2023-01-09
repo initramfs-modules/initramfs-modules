@@ -35,25 +35,25 @@ root=\$cmdpath
 configfile \$cmdpath/EFI/BOOT/grub.cfg
 EOF
 
-#LEGACYDIR="/efi/syslinux"
+LEGACYDIR="/efi/syslinux"
 ISODIR="/efi/isolinux"
-#mkdir -p $LEGACYDIR
+mkdir -p $LEGACYDIR
 mkdir -p $ISODIR
 
 # syslinux binary
-#cp /usr/lib/syslinux/mbr/gptmbr.bin $LEGACYDIR
-#cp /usr/lib/syslinux/modules/bios/ldlinux.c32 $LEGACYDIR
+cp /usr/lib/syslinux/mbr/gptmbr.bin $LEGACYDIR
+cp /usr/lib/syslinux/modules/bios/ldlinux.c32 $LEGACYDIR
 
 # grub pc binary
-#cp -r /usr/lib/grub/i386-pc/lnxboot.img $LEGACYDIR/
+cp -r /usr/lib/grub/i386-pc/lnxboot.img $LEGACYDIR/
 
 # syslinux config - chainload grub
-#cat > $LEGACYDIR/syslinux.cfg <<EOF
-#DEFAULT grub
-#LABEL grub
-# LINUX lnxboot.img
-# INITRD core.img
-#EOF
+cat > $LEGACYDIR/syslinux.cfg <<EOF
+DEFAULT grub
+LABEL grub
+ LINUX lnxboot.img
+ INITRD core.img
+EOF
 
 # normal - loaded by default
 # part_msdos part_gpt - mbr and gpt partition table support

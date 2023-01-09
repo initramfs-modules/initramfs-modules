@@ -35,6 +35,7 @@ test_run() {
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
     rm -rf  /boot/vmlinuz*
 
+    # EFI
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -cdrom "$TESTDIR"/livedir/linux.iso \
@@ -42,6 +43,7 @@ test_run() {
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
+    # legacy CDROM
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
@@ -50,6 +52,14 @@ test_run() {
        -boot order=dc
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
+
+   # legacy isohybrid feature enhances such filesystems by a Master Boot Record (MBR) for booting via BIOS from disk storage devices like USB flash drives.
+    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+
+# syslinux boot=isohybrid boot by dding cdrom image to a drive
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
 # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
