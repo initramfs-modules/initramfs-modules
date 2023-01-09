@@ -35,9 +35,8 @@ test_run() {
     # squashfs on nvme drive (no bootloader)
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
-       -device nvme,drive=nvme0,serial=deadbeaf1 \
-       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,if=none,id=nvme0 \
-       -append "$CMD root=live:/dev/nvme0n1"
+       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0,if=virtio \
+       -append "$CMD root=live:/dev/vda"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
@@ -75,7 +74,7 @@ test_run() {
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 # todo  -hda rootdisk.img, IDE BUS
-# -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
+# -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \ - qemu and seabios has a bug to boot from this
 # -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick \
 # -root=/dev/mmcblk0
 
