@@ -66,14 +66,15 @@ test_run() {
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-   # ISO UEFI NVME (isohybrid)
+    # squashfs on nvme drive
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu -net none \
+    "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
        -device nvme,drive=nvme0,serial=deadbeaf1 \
-       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,if=none,id=nvme0 \
+       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,if=none,id=nvme0 \
        -global driver=cfi.pflash01,property=secure,value=on \
-       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
+       -append "$CMD root=LABEL=ISO"
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 # todo  -hda rootdisk.img, IDE BUS
 # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
