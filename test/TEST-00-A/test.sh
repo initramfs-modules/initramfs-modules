@@ -74,16 +74,16 @@ mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
-# Only include files once in the iso
+# move image files out of the cd root dir to not include them two times
 mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
 mv isolinux/efiboot.img /tmp/isotemp/
 
 #/EFI/BOOT/BOOTX64.efi
-mv /tmp/iso/EFI/BOOT/bootx64.efi /tmp/iso/EFI/BOOT/a
-mv /tmp/iso/EFI/BOOT/a /tmp/iso/EFI/BOOT/BOOTX64.efi
+#mv /tmp/iso/EFI/BOOT/bootx64.efi /tmp/iso/EFI/BOOT/a
+#mv /tmp/iso/EFI/BOOT/a /tmp/iso/EFI/BOOT/BOOTX64.efi
 
-rm -rf /tmp/iso/EFI/BOOT/grub.cfg
+#rm -rf /tmp/iso/EFI/BOOT/grub.cfg
 cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
 set timeout_style=hidden
