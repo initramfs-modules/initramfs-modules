@@ -36,7 +36,7 @@ test_run() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
        -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,if=virtio \
-       -append "$CMD root=/dev/vda"
+       -append "$CMD root=/dev/sda"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
