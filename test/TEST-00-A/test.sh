@@ -24,39 +24,22 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     # squashfs on scsi drive
-#    test_me "root=live:/dev/sda"
+    test_me "root=live:/dev/sda"
 
     # vfat on ide drive
-#    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
+    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
 
     # isofs on cdrom drive
-#    test_me "root=LABEL=ISO"
+    test_me "root=LABEL=ISO"
 
-OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
-OVMF_VARS_ORIG="/usr/share/OVMF/OVMF_VARS.fd"
-OVMF_VARS="$(basename "${OVMF_VARS_ORIG}")"
-
-if [ ! -e "${OVMF_VARS}" ]; then
-    cp "${OVMF_VARS_ORIG}" "${OVMF_VARS}"
-fi
-
-#cp /usr/share/OVMF/OVMF.fd bios.bin
-
-        #-global driver=cfi.pflash01,property=secure,value=on \
-        #-drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
-        #-drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
-
+    OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
     rm -rf  /boot/vmlinuz*
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -cdrom "$TESTDIR"/livedir/linux.iso \
-        -global driver=cfi.pflash01,property=secure,value=on \
-        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-
-        #\
-        #-drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
-
+       -global driver=cfi.pflash01,property=secure,value=on \
+       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -69,9 +52,9 @@ fi
 
 # todo  -hda rootdisk.img
 # todo - give index for vfat drive
-    # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
-#        -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=usbstick -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick \
-#        -root=/dev/mmcblk0 panic=1 oops=panic $DEBUGFAIL"
+# -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
+# -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick \
+# -root=/dev/mmcblk0
 }
 
 test_setup() {
@@ -100,6 +83,7 @@ rm -rf /tmp/iso/EFI/BOOT/grub.cfg
 
 # set default=linux
 
+#/EFI/BOOT/BOOTX64.efi
 mv /tmp/iso/EFI/BOOT/bootx64.efi /tmp/iso/EFI/BOOT/a
 mv /tmp/iso/EFI/BOOT/a /tmp/iso/EFI/BOOT/BOOTX64.efi
 
@@ -111,8 +95,6 @@ menuentry linux {
   initrd /kernel/initrd.img
 }
 EOF
-
-find .
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
    -eltorito-boot boot/grub/bios.img \
@@ -132,9 +114,6 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/ini
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 }
-
-#/EFI/BOOT/BOOTX64.efi
-
 
 test_cleanup() {
     return 0
