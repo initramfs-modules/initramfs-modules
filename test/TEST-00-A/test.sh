@@ -84,6 +84,7 @@ mv isolinux/efiboot.img /tmp/isotemp/
 #mv /tmp/iso/EFI/BOOT/a /tmp/iso/EFI/BOOT/BOOTX64.efi
 
 #rm -rf /tmp/iso/EFI/BOOT/grub.cfg
+rm -rf syslinux
 
 find .
 
