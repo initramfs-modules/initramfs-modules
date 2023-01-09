@@ -84,6 +84,9 @@ mv isolinux/efiboot.img /tmp/isotemp/
 #mv /tmp/iso/EFI/BOOT/a /tmp/iso/EFI/BOOT/BOOTX64.efi
 
 #rm -rf /tmp/iso/EFI/BOOT/grub.cfg
+
+find .
+
 cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
 set timeout_style=hidden
