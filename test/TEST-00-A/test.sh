@@ -35,7 +35,7 @@ test_run() {
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
     rm -rf  /boot/vmlinuz*
 
-    # ISO UEFI CDROM
+    # ISO UEFI CDROM scsi-cd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -cdrom "$TESTDIR"/livedir/linux.iso \
@@ -43,7 +43,7 @@ test_run() {
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-    # ISO legacy CDROM
+    # ISO legacy CDROM scsi-cd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
@@ -52,13 +52,13 @@ test_run() {
        -boot order=dc
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-   # ISO legacy HARDDISK (isohybrid)
+   # ISO legacy HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-   # ISO UEFI HARDDISK (isohybrid)
+   # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0 \
@@ -66,19 +66,27 @@ test_run() {
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-   # ISO UEFI NVME (isohybrid)
+   # ISO legacy NVME (isohybrid)
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -device nvme,drive=nvme0,serial=deadbeaf1,num_queues=8 \
-       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,if=none,id=nvme0    \
-       -global driver=cfi.pflash01,property=secure,value=on \
-       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+       -device nvme,drive=nvme0,serial=deadbeaf1 \
+       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,if=none,id=nvme0
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 # todo  -hda rootdisk.img, IDE BUS
 # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
 # -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick \
 # -root=/dev/mmcblk0
+
+#ide-drive (removed in 6.0)
+#The ‘ide-drive’ device has been removed. Users should use ‘ide-hd’ or ‘ide-cd’ as appropriate to get an IDE hard disk or CD-ROM as needed.
+
+#scsi-disk (removed in 6.0)
+#The ‘scsi-disk’ device has been removed. Users should use ‘scsi-hd’ or ‘scsi-cd’ as appropriate to get a SCSI hard disk or CD-ROM as needed.
+
+
+
+
 }
 
 test_setup() {
