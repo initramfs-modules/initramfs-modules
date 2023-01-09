@@ -2,7 +2,7 @@
 
 TEST_DESCRIPTION="root on an image"
 
-# test for different if= .. possible values= ide, scsi, sd, mtd, floppy, pflash, virtio
+# IDE SD, MTD, FLOPPY, VIRTIO
 
 KVERSION="${KVERSION-$(uname -r)}"
 
@@ -52,13 +52,13 @@ test_run() {
        -boot order=dc
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-   # ISO legacy hard disk (isohybrid)
+   # ISO legacy HARDDISK (isohybrid)
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-   # ISO UEFI hard disk (isohybrid)
+   # ISO UEFI HARDDISK (isohybrid)
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0 \
@@ -66,9 +66,16 @@ test_run() {
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-# syslinux boot=isohybrid boot by dding cdrom image to a drive
-# todo  -hda rootdisk.img
-# todo - give index for vfat drive
+   # ISO UEFI NVME (isohybrid)
+    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+       -device nvme,drive=nvme0,serial=deadbeaf1,num_queues=8 \
+       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,if=none,id=nvme0    \
+       -global driver=cfi.pflash01,property=secure,value=on \
+       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+
+# todo  -hda rootdisk.img, IDE BUS
 # -drive file="$TESTDIR"/livedir/rootfs.squashfs,format=raw,if=none,id=nvm -device nvme,serial=deadbeef,drive=nvm \
 # -usb -device usb-ehci,id=ehci -device usb-storage,bus=ehci.0,drive=usbstick \
 # -root=/dev/mmcblk0
