@@ -37,7 +37,7 @@ test_run() {
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
        -device nvme,drive=nvme0,serial=deadbeaf1 \
        -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,if=none,id=nvme0 \
-       -append "$CMD root=LABEL=ISO"
+       -append "$CMD root=live:/dev/nvme0n1"
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
