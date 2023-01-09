@@ -45,6 +45,10 @@ test_run() {
         #-drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on \
         #-drive if=pflash,format=raw,unit=1,file="${OVMF_VARS}"
 
+# -global driver=cfi.pflash01,property=secure,value=on
+# -drive if=pflash,format=raw,unit=0,file=/usr/share/OVMF/OVMF_CODE_4M.fd,readonly=on
+# -drive if=pflash,format=raw,unit=1,file=OVMF_VARS.fd
+
     rm -rf  /boot/vmlinuz*
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
