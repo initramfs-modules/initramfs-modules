@@ -97,6 +97,15 @@ mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
+# make unified kernel
+objcopy \
+    --add-section .osrel="/etc/os-release" --change-section-vma .osrel=0x20000 \
+    --add-section .linux="./kernel/vmlinuz" --change-section-vma .linux=0x40000 \
+    --add-section .initrd="./kernel/initrd.img" --change-section-vma .initrd=0x3000000 \
+    /usr/lib/gummiboot/linuxx64.efi.stub /boot/alpine.efi
+
+cp /boot/alpine.efi /tmp/iso/kernel/vmlinuz
+
 # move image files out of the cd root dir to not include them two times
 mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
@@ -128,25 +137,6 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/ini
       /EFI/efiboot.img=../isotemp/efiboot.img
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
-
-find .
-find /boot
-
-#./kernel/vmlinuz
-#./kernel/initrd.img
-
-cat /etc/os-release
-cat /proc/cmdline
-
-# make unified kernel
-objcopy \
-	--add-section .osrel="/etc/os-release" --change-section-vma .osrel=0x20000 \
-	--add-section .cmdline="/proc/cmdline" --change-section-vma .cmdline=0x30000 \
-	--add-section .linux="./kernel/vmlinuz" --change-section-vma .linux=0x40000 \
-	--add-section .initrd="./kernel/initrd.img" --change-section-vma .initrd=0x3000000 \
-	/usr/lib/gummiboot/linuxx64.efi.stub /boot/alpine.efi
-
-ls -la  /boot/alpine.efi
 
 }
 
