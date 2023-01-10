@@ -143,9 +143,8 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/ini
       /boot/grub/bios.img=../isotemp/bios.img \
       /EFI/efiboot.img=../isotemp/efiboot.img
 
-
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
-   -eltorito-boot \
+   -eltorito-alt-boot \
      -e EFI/efiboot.img \
      -no-emul-boot \
    -graft-points \
