@@ -121,7 +121,7 @@ mv isolinux/efiboot.img /tmp/isotemp/
 
 cp /boot/alpine.efi /efi/EFI/BOOT/BOOTX64.efi
 
-ISODIR=/tmp/isotemp/efiboot.img
+ISODIR=/tmp/isotemp/
 dd if=/dev/zero of=$ISODIR/efiboot.img bs=1M count=10
 mkfs.vfat $ISODIR/efiboot.img
 LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT
