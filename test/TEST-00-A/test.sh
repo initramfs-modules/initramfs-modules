@@ -100,9 +100,13 @@ mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
+echo "root=live:/dev/disk/by-label/ISO $CMD" > /tmp/cmdline
+cat /tmp/cmdline
+
 # make unified kernel
 objcopy --verbose  \
     --add-section .osrel="/etc/os-release" --change-section-vma .osrel=0x20000 \
+    --add-section .cmdline="/tmp/cmdline" --change-section-vma .cmdline=0x30000 \
     --add-section .linux="./kernel/vmlinuz" --change-section-vma .linux=0x40000 \
     --add-section .initrd="./kernel/initrd.img" --change-section-vma .initrd=0x3000000 \
     /usr/lib/gummiboot/linuxx64.efi.stub /boot/alpine.efi
@@ -157,6 +161,10 @@ LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT
 LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/BOOTX64.efi ::EFI/BOOT/
 
 ls -la  $ISODIR/efiboot.img
+rm -rf isolinux
+rm -rf kernel
+rm -rf ./EFI/BOOT/grub.cfg
+
 find .
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
