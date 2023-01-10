@@ -100,7 +100,8 @@ mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
-echo "root=live:/dev/disk/by-label/ISO $CMD" > /tmp/cmdline
+#echo "root=live:/dev/disk/by-label/ISO $CMD" > /tmp/cmdline
+echo "root=/ $CMD" > /tmp/cmdline
 cat /tmp/cmdline
 
 # make unified kernel
