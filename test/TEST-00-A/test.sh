@@ -27,7 +27,7 @@ test_run() {
    # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0 \
+       -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
@@ -101,13 +101,17 @@ cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
 # make unified kernel
-objcopy \
+objcopy --verbose  \
     --add-section .osrel="/etc/os-release" --change-section-vma .osrel=0x20000 \
     --add-section .linux="./kernel/vmlinuz" --change-section-vma .linux=0x40000 \
     --add-section .initrd="./kernel/initrd.img" --change-section-vma .initrd=0x3000000 \
     /usr/lib/gummiboot/linuxx64.efi.stub /boot/alpine.efi
 
-cp /boot/alpine.efi /tmp/iso/kernel/vmlinuz
+ls -la /tmp/iso/kernel/vmlinuz
+ls -la /boot/alpine.efi
+
+# cp /boot/alpine.efi /tmp/iso/kernel/vmlinuz
+# move the construction of efiboot.img here
 
 # move image files out of the cd root dir to not include them two times
 mkdir /tmp/isotemp
@@ -139,8 +143,16 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/ini
       /boot/grub/bios.img=../isotemp/bios.img \
       /EFI/efiboot.img=../isotemp/efiboot.img
 
-    rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
+xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
+   -eltorito-boot \
+     -e EFI/efiboot.img \
+     -no-emul-boot \
+   -graft-points \
+      "." \
+      /EFI/efiboot.img=../isotemp/efiboot.img
+
+    rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 }
 
 test_cleanup() {
