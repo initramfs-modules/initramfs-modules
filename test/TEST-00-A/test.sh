@@ -157,6 +157,7 @@ LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT
 LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/BOOTX64.efi ::EFI/BOOT/
 
 ls -la  $ISODIR/efiboot.img
+find .
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
    -eltorito-alt-boot \
