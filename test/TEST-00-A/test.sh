@@ -119,14 +119,6 @@ mv isolinux/efiboot.img /tmp/isotemp/
 # move the construction of efiboot.img here
 # EFI boot partition - FAT16 disk image
 
-cp /boot/alpine.efi /efi/EFI/BOOT/BOOTX64.efi
-
-ISODIR=/tmp/isotemp/
-dd if=/dev/zero of=$ISODIR/efiboot.img bs=1M count=10
-mkfs.vfat $ISODIR/efiboot.img
-LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT
-LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/BOOTX64.efi ::EFI/BOOT/
-
 cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
 set timeout_style=hidden
@@ -151,6 +143,20 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/ini
       "." \
       /boot/grub/bios.img=../isotemp/bios.img \
       /EFI/efiboot.img=../isotemp/efiboot.img
+
+cp /boot/alpine.efi /efi/EFI/BOOT/BOOTX64.efi
+
+ls -la /efi/EFI/BOOT/BOOTX64.efi
+
+ISODIR=/tmp/isotemp/
+rm -rf $ISODIR/efiboot.img
+
+dd if=/dev/zero of=$ISODIR/efiboot.img bs=1M count=10
+mkfs.vfat $ISODIR/efiboot.img
+LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT
+LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/BOOTX64.efi ::EFI/BOOT/
+
+ls -la  $ISODIR/efiboot.img
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
    -eltorito-alt-boot \
