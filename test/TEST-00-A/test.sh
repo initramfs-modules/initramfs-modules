@@ -110,23 +110,22 @@ objcopy --verbose  \
 ls -la /tmp/iso/kernel/vmlinuz
 ls -la /boot/alpine.efi
 
-# cp /boot/alpine.efi /tmp/iso/kernel/vmlinuz
-# move the construction of efiboot.img here
-# EFI boot partition - FAT16 disk image
-#dd if=/dev/zero of=$ISODIR/efiboot.img bs=1M count=10 && \
-#mkfs.vfat $ISODIR/efiboot.img && \
-#LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT && \
-#LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/BOOTX64.efi ::EFI/BOOT/
-
-mkfs.vfat
-mmd
-mcopy
-
-
 # move image files out of the cd root dir to not include them two times
 mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
 mv isolinux/efiboot.img /tmp/isotemp/
+
+# cp /boot/alpine.efi /tmp/iso/kernel/vmlinuz
+# move the construction of efiboot.img here
+# EFI boot partition - FAT16 disk image
+
+cp /boot/alpine.efi /efi/EFI/BOOT/BOOTX64.efi
+
+ISODIR=/tmp/isotemp/efiboot.img
+dd if=/dev/zero of=$ISODIR/efiboot.img bs=1M count=10
+mkfs.vfat $ISODIR/efiboot.img
+LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT
+LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/BOOTX64.efi ::EFI/BOOT/
 
 cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
