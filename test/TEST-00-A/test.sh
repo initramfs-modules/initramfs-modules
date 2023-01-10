@@ -21,6 +21,9 @@ test_run() {
     declare -i disk_index=3
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
+    OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
+    rm -rf  /boot/vmlinuz*
+
    # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
