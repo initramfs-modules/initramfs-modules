@@ -3,7 +3,7 @@
 # kernel
 #apk add linux-virt
 
-apk add losetup gummiboot
+apk add losetup gummiboot dosfstools mtools
 
 # dracut
 apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
