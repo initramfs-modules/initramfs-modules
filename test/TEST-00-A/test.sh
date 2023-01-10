@@ -129,6 +129,9 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/ini
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 
+find .
+find /boot
+
 # make unified kernel
 objcopy \
 	--add-section .osrel="/etc/os-release" --change-section-vma .osrel=0x20000 \
