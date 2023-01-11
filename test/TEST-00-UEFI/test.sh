@@ -35,7 +35,7 @@ test_setup() {
 
     "$basedir"/dracut.sh --local --no-hostonly --no-early-microcode --nofscks \
         --modules "dmsquash-live test watchdog" \
-        --drivers "sd_mod" \
+        --drivers "sd_mod squashfs vfat" \
         --uefi \
         --uefi-stub /usr/lib/gummiboot/linuxx64.efi.stub \
         --kernel-cmdline "root=live:/dev/disk/by-id/ata-disk_root rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" \
