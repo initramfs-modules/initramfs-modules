@@ -5,7 +5,6 @@ TEST_DESCRIPTION="UEFI boot"
 
 KVERSION="${KVERSION-$(uname -r)}"
 
-
 test_run() {
     declare -a disk_args=()
     declare -i disk_index=3
@@ -14,22 +13,13 @@ test_run() {
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
     rm -rf  /boot/vmlinuz*
 
-   # ISO UEFI HARDDISK (isohybrid) scsi-hd
+    # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file=fat:rw:"$TESTDIR"/livedir,format=vvfat,label=EFI \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
-
-#    qemu_add_drive_args disk_index disk_args "$TESTDIR"/root.img root
-
-#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-#    "$testdir"/run-qemu \
-#        "${disk_args[@]}" \
-#        -boot order=d \
-#        -append "root=/dev/sdb rootfstype=ext4 console=ttyS0,115200n81 selinux=0 rd.info panic=1 oops=panic softlockup_panic=1 rd.debug rd.shell=0 $DEBUGFAIL" \
-#        -initrd "$TESTDIR"/initramfs.testing
 }
 
 test_setup() {
@@ -43,7 +33,7 @@ test_setup() {
     mkdir -p "$TESTDIR"/livedir/LiveOS
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/LiveOS/squashfs.img -quiet -no-progress
 
-    echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=2" > /tmp/cmdline
+    echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" > /tmp/cmdline
     cat /tmp/cmdline
 
     ls -la "$TESTDIR"/livedir/LiveOS/squashfs.img
