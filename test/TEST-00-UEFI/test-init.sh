@@ -12,8 +12,6 @@ exec > /dev/console 2>&1
 ls -lRa /dev/
 
 echo "made it to the rootfs!"
-echo "test" > /etc/test
-ls -la /etc/test
 echo "Powering down."
 mount -n -o remount,ro /
 echo "dracut-root-block-success" | dd oflag=direct,dsync of=/dev/disk/by-id/ata-disk_marker
