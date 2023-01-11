@@ -40,7 +40,7 @@ test_setup() {
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
-    mkdir "$TESTDIR"/livedir
+    mkdir -p "$TESTDIR"/livedir/LiveOS
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/LiveOS/squashfs.img -quiet -no-progress
 
     echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=2" > /tmp/cmdline
