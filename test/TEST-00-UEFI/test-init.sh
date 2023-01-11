@@ -1,25 +1,20 @@
 #!/bin/sh
+
+# exit when any command fails
+set -e
+
 : > /dev/watchdog
 
-. /lib/dracut-lib.sh
-
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
-command -v plymouth > /dev/null 2>&1 && plymouth --quit
 exec > /dev/console 2>&1
 
-echo "dracut-root-block-success" | dd oflag=direct,dsync of=/dev/sda
 
-export TERM=linux
-export PS1='initramfs-test:\w\$ '
-[ -f /etc/mtab ] || ln -sfn /proc/mounts /etc/mtab
-[ -f /etc/fstab ] || ln -sfn /proc/mounts /etc/fstab
-stty sane
+ls -lRa /dev/
+
 echo "made it to the rootfs!"
-if getargbool 0 rd.shell; then
-    strstr "$(setsid --help)" "control" && CTTY="-c"
-    setsid $CTTY sh -i
-fi
+echo "test" > /etc/test
+ls -la /etc/test
 echo "Powering down."
 mount -n -o remount,ro /
-
+echo "dracut-root-block-success" | dd oflag=direct,dsync of=/dev/disk/by-id/ata-disk_marker
 poweroff -f
