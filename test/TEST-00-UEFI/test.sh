@@ -46,7 +46,7 @@ test_setup() {
     cat /tmp/cmdline
 
     dracut -l -i "$TESTDIR"/overlay / \
-        --modules "90dmsquash-live test watchdog" \
+        --modules "dmsquash-live test watchdog" \
         --drivers "ext4 sd_mod" \
         --no-hostonly \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
