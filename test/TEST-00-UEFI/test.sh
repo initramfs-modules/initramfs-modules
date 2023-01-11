@@ -16,7 +16,7 @@ test_run() {
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -drive file=fat:rw:"$TESTDIR"/livedir,format=vvfat,label=EFI \
+       -drive file=fat:rw:"$TESTDIR"/ESP,format=vvfat,label=EFI \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
@@ -30,13 +30,13 @@ test_setup() {
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
-    mkdir -p "$TESTDIR"/livedir/LiveOS
-    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/LiveOS/squashfs.img -quiet -no-progress
+    mkdir -p "$TESTDIR"/ESP/LiveOS
+    mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/ESP/LiveOS/squashfs.img -quiet -no-progress
 
     echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" > /tmp/cmdline
     cat /tmp/cmdline
 
-    ls -la "$TESTDIR"/livedir/LiveOS/squashfs.img
+    ls -la "$TESTDIR"/ESP/LiveOS/squashfs.img
 
     dracut -l -i "$TESTDIR"/overlay / \
         --modules "dmsquash-live test watchdog" \
@@ -46,7 +46,7 @@ test_setup() {
 
     ls -sh "$TESTDIR"/initramfs.testing
 
-    mkdir -p "$TESTDIR"/livedir/EFI/BOOT
+    mkdir -p "$TESTDIR"/ESP/EFI/BOOT
 
 find /boot
 cp /boot/vmlinuz* /tmp/vmlinuz
@@ -57,7 +57,7 @@ cp /boot/vmlinuz* /tmp/vmlinuz
         --add-section .cmdline="/tmp/cmdline" --change-section-vma .cmdline=0x30000 \
         --add-section .linux="/tmp/vmlinuz" --change-section-vma .linux=0x40000 \
         --add-section .initrd="$TESTDIR"/initramfs.testing --change-section-vma .initrd=0x3000000 \
-        /usr/lib/gummiboot/linuxx64.efi.stub "$TESTDIR"/livedir/EFI/BOOT/BOOTX64.efi
+        /usr/lib/gummiboot/linuxx64.efi.stub "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi
 
 #    rm -rf -- "$TESTDIR"/overlay
 }
