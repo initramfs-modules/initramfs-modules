@@ -43,7 +43,7 @@ test_setup() {
         --kernel-cmdline "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
-find /
+ls -la "$TESTDIR"/initramfs.testing
 
 #    cp /boot/vmlinuz* /tmp/vmlinuz
 
