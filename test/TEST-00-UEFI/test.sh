@@ -56,6 +56,7 @@ test_setup() {
     mkdir -p "$TESTDIR"/livedir/EFI/BOOT
 
 find /boot
+cp /boot/vmlinuz* /tmp/vmlinuz
 
     # make unified kernel
     objcopy --verbose  \
