@@ -34,6 +34,7 @@ test_run() {
 
 test_setup() {
     # Create what will eventually be our root filesystem
+    mkdir -p "$TESTDIR"
     "$basedir"/dracut.sh --quiet --no-hostonly --no-early-microcode --nofscks --nomdadmconf \
         --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
@@ -44,6 +45,8 @@ test_setup() {
 
     echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=2" > /tmp/cmdline
     cat /tmp/cmdline
+
+    ls -la "$TESTDIR"/livedir/LiveOS/squashfs.img
 
     dracut -l -i "$TESTDIR"/overlay / \
         --modules "dmsquash-live test watchdog" \
