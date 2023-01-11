@@ -26,11 +26,21 @@ test_run() {
 
    # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+    "$testdir"/run-qemu "${disk_args[@]}" "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+
+
+
+#   # ISO UEFI HARDDISK (isohybrid) scsi-hd
+#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+#    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+#       -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
+#       -global driver=cfi.pflash01,property=secure,value=on \
+#       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 
 #    # squashfs on scsi drive (no bootloader)
