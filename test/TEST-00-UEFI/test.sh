@@ -32,9 +32,7 @@ test_setup() {
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc "$TESTDIR"/ESP/LiveOS "$TESTDIR"/ESP/EFI/BOOT
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/ESP/LiveOS/squashfs.img -quiet -no-progress
 
-    echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" > /tmp/cmdline
-
-    dracut -l -i "$TESTDIR"/overlay / \
+    dracut --local \
         --modules "dmsquash-live test watchdog" \
         --drivers "sd_mod" \
         --no-hostonly \
@@ -42,20 +40,6 @@ test_setup() {
         --uefi-stub /usr/lib/gummiboot/linuxx64.efi.stub \
         --kernel-cmdline "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" \
         --force "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi "$KVERSION" || return 1
-
-ls -la "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi
-
-find "$TESTDIR"/ESP
-
-#    cp /boot/vmlinuz* /tmp/vmlinuz
-
-    # make unified kernel
-#    objcopy --verbose  \
-#        --add-section .osrel="/etc/os-release" --change-section-vma .osrel=0x20000 \
-#        --add-section .cmdline="/tmp/cmdline" --change-section-vma .cmdline=0x30000 \
-#        --add-section .linux="/tmp/vmlinuz" --change-section-vma .linux=0x40000 \
-#        --add-section .initrd="$TESTDIR"/initramfs.testing --change-section-vma .initrd=0x3000000 \
-#        /usr/lib/gummiboot/linuxx64.efi.stub "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi
 
 #    rm -rf -- "$TESTDIR"/overlay
 }
