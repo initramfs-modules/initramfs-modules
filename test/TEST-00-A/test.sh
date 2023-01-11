@@ -187,14 +187,14 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.
       /EFI/efiboot.img=../isotemp/efiboot.img
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
-}
-
 mkdir -p "$TESTDIR"/iso/LiveOS
 mkdir -p "$TESTDIR"/iso/EFI/BOOT
 
 cp "$TESTDIR"/livedir/squashfs.img "$TESTDIR"/iso/LiveOS/squashfs.img
 cp /efi/EFI/BOOT/BOOTX64.efi "$TESTDIR"/iso/EFI/BOOT/
 find "$TESTDIR"/iso/
+
+}
 
 test_cleanup() {
     return 0
