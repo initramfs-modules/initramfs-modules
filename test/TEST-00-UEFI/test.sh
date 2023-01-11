@@ -16,6 +16,7 @@ test_run() {
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
+       -drive file="$TESTDIR"/ESP/LiveOS/squashfs.img,format=raw,index=0 \
        -drive file=fat:rw:"$TESTDIR"/ESP,format=vvfat,label=EFI \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
@@ -24,18 +25,17 @@ test_run() {
 
 test_setup() {
     # Create what will eventually be our root filesystem
-    mkdir -p "$TESTDIR"
-    "$basedir"/dracut.sh --no-hostonly --no-early-microcode --nofscks --nomdadmconf \
+    mkdir -p "$TESTDIR"/ESP/LiveOS "$TESTDIR"/ESP/EFI/BOOT
+    "$basedir"/dracut.sh --local --no-hostonly --no-early-microcode --nofscks --no-strip \
         --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
-    mkdir -p "$TESTDIR"/dracut.*/initramfs/proc "$TESTDIR"/ESP/LiveOS "$TESTDIR"/ESP/EFI/BOOT
+    mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/ESP/LiveOS/squashfs.img -quiet -no-progress
 
-    dracut --local \
+    "$basedir"/dracut.sh --local --no-hostonly --no-early-microcode --nofscks --no-strip \
         --modules "dmsquash-live test watchdog" \
         --drivers "sd_mod" \
-        --no-hostonly \
         --uefi \
         --uefi-stub /usr/lib/gummiboot/linuxx64.efi.stub \
         --kernel-cmdline "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" \
