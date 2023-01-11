@@ -38,7 +38,7 @@ test_setup() {
         --drivers "sd_mod squashfs" \
         --uefi \
         --uefi-stub /usr/lib/gummiboot/linuxx64.efi.stub \
-        --kernel-cmdline "root=UUID=ata-disk_root panic=1 oops=panic $DEBUGFAIL" \
+        --kernel-cmdline "root=/dev/disk/by-id/ata-disk_root panic=1 oops=panic $DEBUGFAIL" \
         "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi "$KVERSION" || return 1
 }
 
