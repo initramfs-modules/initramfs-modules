@@ -8,6 +8,9 @@ set -e
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 exec > /dev/console 2>&1
 
+
+ls -lRa /dev/
+
 echo "made it to the rootfs!"
 echo "test" > /etc/test
 ls -la /etc/test
