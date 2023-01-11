@@ -26,14 +26,14 @@ test_run() {
 test_setup() {
     # Create what will eventually be our root filesystem
     mkdir -p "$TESTDIR"/ESP/LiveOS "$TESTDIR"/ESP/EFI/BOOT
-    "$basedir"/dracut.sh --local --no-hostonly --no-early-microcode --nofscks --no-strip \
+    "$basedir"/dracut.sh --local --no-hostonly --no-early-microcode --nofscks \
         --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
     mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/ESP/LiveOS/squashfs.img -quiet -no-progress
 
-    "$basedir"/dracut.sh --local --no-hostonly --no-early-microcode --nofscks --no-strip \
+    "$basedir"/dracut.sh --local --no-hostonly --no-early-microcode --nofscks \
         --modules "dmsquash-live test watchdog" \
         --drivers "sd_mod" \
         --uefi \
