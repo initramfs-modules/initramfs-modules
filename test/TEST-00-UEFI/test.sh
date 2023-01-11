@@ -38,7 +38,7 @@ test_setup() {
         --drivers "sd_mod" \
         --uefi \
         --uefi-stub /usr/lib/gummiboot/linuxx64.efi.stub \
-        --kernel-cmdline "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" \
+        --kernel-cmdline "root=live:/dev/disk/by-id/ata-disk_root rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" \
         "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi "$KVERSION" || return 1
 }
 
