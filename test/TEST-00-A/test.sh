@@ -27,12 +27,10 @@ test_run() {
    # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" "${disk_args[@]}" -net none \
-       -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
+       -drive file=fat:rw:"$TESTDIR"/iso,format=vvfat,label=EFI \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
-
-
 
 #   # ISO UEFI HARDDISK (isohybrid) scsi-hd
 #    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -111,7 +109,7 @@ cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
 #echo "root=live:/dev/disk/by-label/ISO $CMD" > /tmp/cmdline
-echo "root=live:/dev/disk/by-label/ISO rd.live.overlay.overlayfs=1 panic=1 oops=panic rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=2" > /tmp/cmdline
+echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=2" > /tmp/cmdline
 cat /tmp/cmdline
 
 # make unified kernel
@@ -190,6 +188,13 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 }
+
+mkdir -p "$TESTDIR"/iso/LiveOS
+mkdir -p "$TESTDIR"/iso/EFI/BOOT
+
+cp "$TESTDIR"/livedir/squashfs.img "$TESTDIR"/iso/LiveOS/squashfs.img
+cp /efi/EFI/BOOT/BOOTX64.efi "$TESTDIR"/iso/EFI/BOOT/
+find "$TESTDIR"/iso/
 
 test_cleanup() {
     return 0
