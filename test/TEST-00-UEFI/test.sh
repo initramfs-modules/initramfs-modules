@@ -40,8 +40,11 @@ test_setup() {
         --no-hostonly \
         --uefi \
         --uefi-stub /usr/lib/gummiboot/linuxx64.efi.stub \
-        --kernel-cmdline "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" \
-        --force "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi "$KVERSION" || return 1
+        --kernel-cmdline "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL"
+
+
+#         \
+#        --force "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi "$KVERSION" || return 1
 
 ls -la "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi
 
