@@ -25,39 +25,35 @@ test_run() {
 test_setup() {
     # Create what will eventually be our root filesystem
     mkdir -p "$TESTDIR"
-    "$basedir"/dracut.sh --quiet --no-hostonly --no-early-microcode --nofscks --nomdadmconf \
+    "$basedir"/dracut.sh --no-hostonly --no-early-microcode --nofscks --nomdadmconf \
         --tmpdir "$TESTDIR" --keep --modules "test-root" -i ./test-init.sh /sbin/init \
         "$TESTDIR"/tmp-initramfs.root "$KVERSION" || return 1
 
-    mkdir -p "$TESTDIR"/dracut.*/initramfs/proc
-    mkdir -p "$TESTDIR"/ESP/LiveOS
+    mkdir -p "$TESTDIR"/dracut.*/initramfs/proc "$TESTDIR"/ESP/LiveOS "$TESTDIR"/ESP/EFI/BOOT
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/ESP/LiveOS/squashfs.img -quiet -no-progress
 
     echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" > /tmp/cmdline
-    cat /tmp/cmdline
-
-    ls -la "$TESTDIR"/ESP/LiveOS/squashfs.img
 
     dracut -l -i "$TESTDIR"/overlay / \
         --modules "dmsquash-live test watchdog" \
-        --drivers "ext4 sd_mod" \
+        --drivers "sd_mod" \
         --no-hostonly \
+        --uefi \
+        --uefi-stub /usr/lib/gummiboot/linuxx64.efi.stub \
+        --kernel-cmdline "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic $DEBUGFAIL" \
         --force "$TESTDIR"/initramfs.testing "$KVERSION" || return 1
 
-    ls -sh "$TESTDIR"/initramfs.testing
+find /
 
-    mkdir -p "$TESTDIR"/ESP/EFI/BOOT
-
-find /boot
-cp /boot/vmlinuz* /tmp/vmlinuz
+#    cp /boot/vmlinuz* /tmp/vmlinuz
 
     # make unified kernel
-    objcopy --verbose  \
-        --add-section .osrel="/etc/os-release" --change-section-vma .osrel=0x20000 \
-        --add-section .cmdline="/tmp/cmdline" --change-section-vma .cmdline=0x30000 \
-        --add-section .linux="/tmp/vmlinuz" --change-section-vma .linux=0x40000 \
-        --add-section .initrd="$TESTDIR"/initramfs.testing --change-section-vma .initrd=0x3000000 \
-        /usr/lib/gummiboot/linuxx64.efi.stub "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi
+#    objcopy --verbose  \
+#        --add-section .osrel="/etc/os-release" --change-section-vma .osrel=0x20000 \
+#        --add-section .cmdline="/tmp/cmdline" --change-section-vma .cmdline=0x30000 \
+#        --add-section .linux="/tmp/vmlinuz" --change-section-vma .linux=0x40000 \
+#        --add-section .initrd="$TESTDIR"/initramfs.testing --change-section-vma .initrd=0x3000000 \
+#        /usr/lib/gummiboot/linuxx64.efi.stub "$TESTDIR"/ESP/EFI/BOOT/BOOTX64.efi
 
 #    rm -rf -- "$TESTDIR"/overlay
 }
