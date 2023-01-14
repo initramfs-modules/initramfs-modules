@@ -7,6 +7,9 @@ KVERSION="${KVERSION-$(uname -r)}"
 
 CMD="rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic $DEBUGFAIL"
 
+DRACUT_ARGS+=(--local --no-hostonly --no-early-microcode --nofscks --modules rootfs-block --modules test)
+KERNEL_ARGS+=(rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic "console=ttyS0,115200n81" "$DEBUGFAIL")
+
 test_marker_reset() {
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
 }
@@ -21,7 +24,7 @@ test_me () {
         -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
-        -append "$CMD $1"
+        -append "${KERNEL_ARGS[*]} $1"
     test_marker_check
 }
 
@@ -112,7 +115,7 @@ mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
-echo "root=live:/dev/disk/by-label/ISO $CMD" > /tmp/cmdline
+echo "root=live:/dev/disk/by-label/ISO ${KERNEL_ARGS[*]}" > /tmp/cmdline
 
 # make unified kernel
 objcopy --verbose  \
@@ -138,7 +141,7 @@ cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
 set timeout_style=hidden
 menuentry linux {
-  linux /kernel/vmlinuz root=live:/dev/disk/by-label/ISO $CMD
+  linux /kernel/vmlinuz root=live:/dev/disk/by-label/ISO ${KERNEL_ARGS[*]}
   initrd /kernel/initrd.img
 }
 EOF
