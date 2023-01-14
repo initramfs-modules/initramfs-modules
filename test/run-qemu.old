@@ -20,7 +20,7 @@ QEMU_CPU="${QEMU_CPU:-max}"
 }
 
 # Provide rng device sourcing the hosts /dev/urandom and other standard parameters
-ARGS+=(-M q35 -smp 2 -m 512 -nodefaults -vga none -display none -no-reboot -device virtio-rng-pci)
+ARGS+=(-M q35 -smp 2 -m 512 -nodefaults -no-reboot -device virtio-rng-pci -no-user-config -nographic)
 
 if ! [[ $* == *-daemonize* ]] && ! [[ $* == *-daemonize* ]]; then
     ARGS+=(-serial stdio)
@@ -40,9 +40,8 @@ if ! [ -f "$VMLINUZ" ]; then
     fi
 fi
 
-# only set -kernel if -initrd is specified
-if [[ $* == *-initrd* ]]; then
-    ARGS+=(-kernel "$VMLINUZ")
+if [ -f "$VMLINUZ" ]; then
+  exec "$BIN" "${ARGS[@]}" -kernel "$VMLINUZ" "$@"
+else
+  exec "$BIN" "${ARGS[@]}" "$@"
 fi
-
-exec "$BIN" "${ARGS[@]}" "$@"
