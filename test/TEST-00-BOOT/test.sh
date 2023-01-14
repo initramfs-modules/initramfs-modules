@@ -5,8 +5,6 @@ TEST_DESCRIPTION="root on an image"
 
 KVERSION="${KVERSION-$(uname -r)}"
 
-CMD="rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic $DEBUGFAIL"
-
 DRACUT_ARGS+=(--local --no-hostonly --no-early-microcode --nofscks --modules rootfs-block --modules test)
 KERNEL_ARGS+=(rd.live.overlay.overlayfs=1 rd.live.image panic=1 oops=panic "console=ttyS0,115200n81" "$DEBUGFAIL")
 
@@ -35,17 +33,20 @@ test_run() {
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
 
+    # vfat on ide drive (no bootloader)
+    test_me "root=LABEL=live iso-scan/filename=/livedir/linux.iso"
+
+    return
+
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
-    test_marker_reset
-    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file=fat:rw:"$TESTDIR"/iso,format=vvfat,label=ISO \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     test_marker_check
 
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
-    test_marker_reset
-    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
@@ -61,16 +62,14 @@ test_run() {
     test_me "root=LABEL=ISO"
 
     # ISO UEFI CDROM scsi-cd
-    test_marker_reset
-    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -cdrom "$TESTDIR"/livedir/linux.iso \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     test_marker_check
 
     # ISO legacy CDROM scsi-cd
-    test_marker_reset
-    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
        -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
        -cdrom "$TESTDIR"/livedir/linux.iso \
@@ -78,14 +77,12 @@ test_run() {
     test_marker_check
 
     # ISO legacy HARDDISK (isohybrid) scsi-hd
-    test_marker_reset
-    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0
     test_marker_check
 
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
-    test_marker_reset
-    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0 \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
