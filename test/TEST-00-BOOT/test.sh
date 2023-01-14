@@ -27,7 +27,7 @@ test_run() {
    # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -drive file=fat:rw:"$TESTDIR"/iso,format=vvfat,label=EFI \
+       -drive file=fat:rw:"$TESTDIR"/iso,format=vvfat,label=ISO \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
@@ -105,7 +105,7 @@ mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
-echo "root=live:/dev/disk/by-label/EFI $CMD" > /tmp/cmdline
+echo "root=live:/dev/disk/by-label/ISO $CMD" > /tmp/cmdline
 
 # make unified kernel
 objcopy --verbose  \
