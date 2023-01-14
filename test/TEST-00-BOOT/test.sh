@@ -33,10 +33,8 @@ test_run() {
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
 
-    # vfat on ide drive (no bootloader)
+    # iso-scan - like linode
     test_me "root=LABEL=ISO iso-scan/filename=/livedir/linux.iso"
-
-    return
 
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
     test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
