@@ -32,43 +32,40 @@ test_run() {
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
     grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-#   # ISO UEFI HARDDISK (isohybrid) scsi-hd
-#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-#    "$testdir"/run-qemu "${disk_args[@]}" -net none \
-#       -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
-#       -global driver=cfi.pflash01,property=secure,value=on \
-#       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+   # ISO UEFI HARDDISK (isohybrid) scsi-hd
+    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+       -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
+       -global driver=cfi.pflash01,property=secure,value=on \
+       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
 
-#    # squashfs on scsi drive (no bootloader)
-#    test_me "root=live:/dev/sda"
+    # squashfs on scsi drive (no bootloader)
+    test_me "root=live:/dev/sda"
 
-#    # vfat on ide drive (no bootloader)
-#    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
+    # vfat on ide drive (no bootloader)
+    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
 
-#    # isofs on cdrom drive (no bootloader)
-#    test_me "root=LABEL=ISO"
+    # isofs on cdrom drive (no bootloader)
+    test_me "root=LABEL=ISO"
 
-#    OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
-#    rm -rf  /boot/vmlinuz*
+    # ISO UEFI CDROM scsi-cd
+    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+       -cdrom "$TESTDIR"/livedir/linux.iso \
+       -global driver=cfi.pflash01,property=secure,value=on \
+       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
-#    # ISO UEFI CDROM scsi-cd
-#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-#    "$testdir"/run-qemu "${disk_args[@]}" -net none \
-#       -cdrom "$TESTDIR"/livedir/linux.iso \
-#       -global driver=cfi.pflash01,property=secure,value=on \
-#       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
-
-#    # ISO legacy CDROM scsi-cd
-#    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
-#    "$testdir"/run-qemu "${disk_args[@]}" -net none \
-#       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
-#       -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
-#       -cdrom "$TESTDIR"/livedir/linux.iso \
-#       -boot order=dc
-#    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    # ISO legacy CDROM scsi-cd
+    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
+    "$testdir"/run-qemu "${disk_args[@]}" -net none \
+       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
+       -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
+       -cdrom "$TESTDIR"/livedir/linux.iso \
+       -boot order=dc
+    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
 
    # ISO legacy HARDDISK (isohybrid) scsi-hd
 #    dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
@@ -109,8 +106,6 @@ cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
 echo "root=live:/dev/disk/by-label/EFI $CMD" > /tmp/cmdline
-#echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=2" > /tmp/cmdline
-cat /tmp/cmdline
 
 # make unified kernel
 objcopy --verbose  \
