@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck disable=SC2034
 TEST_DESCRIPTION="root on an image"
 
 KVERSION="${KVERSION-$(uname -r)}"
@@ -22,7 +23,7 @@ test_run() {
     qemu_add_drive_args disk_index disk_args "$TESTDIR"/marker.img marker
 
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
-    rm -rf  /boot/vmlinuz*
+#    rm -rf  /boot/vmlinuz*
 
    # ISO UEFI HARDDISK (isohybrid) scsi-hd
     dd if=/dev/zero of="$TESTDIR"/marker.img bs=1MiB count=1
