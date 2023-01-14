@@ -22,7 +22,7 @@ test_me () {
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
         -cdrom "$TESTDIR"/livedir/linux.iso \
         -append "$CMD $1"
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    test_marker_check
 }
 
 test_run() {
@@ -38,7 +38,7 @@ test_run() {
        -drive file=fat:rw:"$TESTDIR"/iso,format=vvfat,label=ISO \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    test_marker_check
 
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
     test_marker_reset
@@ -46,7 +46,7 @@ test_run() {
        -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    test_marker_check
 
     # squashfs on scsi drive (no bootloader)
     test_me "root=live:/dev/sda"
@@ -63,7 +63,7 @@ test_run() {
        -cdrom "$TESTDIR"/livedir/linux.iso \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    test_marker_check
 
     # ISO legacy CDROM scsi-cd
     test_marker_reset
@@ -72,13 +72,13 @@ test_run() {
        -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
        -cdrom "$TESTDIR"/livedir/linux.iso \
        -boot order=dc
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    test_marker_check
 
     # ISO legacy HARDDISK (isohybrid) scsi-hd
     test_marker_reset
     "$testdir"/run-qemu "${disk_args[@]}" -net none \
        -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    test_marker_check
 
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
     test_marker_reset
@@ -86,7 +86,7 @@ test_run() {
        -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0 \
        -global driver=cfi.pflash01,property=secure,value=on \
        -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-    grep -U --binary-files=binary -F -m 1 -q dracut-root-block-success -- "$TESTDIR"/marker.img || return 1
+    test_marker_check
 
 # todo - add initramfs into kernel actually, it is not there now   (basically do not have kernel file and initramfs file)
 # first get rid of initramfs file and bake it into kernel - https://github.com/haraldh/mkrescue-uefi/blob/master/mkrescue-uefi.sh change-section-vma .initrd=0x3000000
