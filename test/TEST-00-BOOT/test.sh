@@ -108,7 +108,7 @@ mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
 cd /tmp/iso
 
-echo "root=live:/dev/disk/by-label/ISO $CMD" > /tmp/cmdline
+echo "root=live:/dev/disk/by-label/EFI $CMD" > /tmp/cmdline
 #echo "root=live:/dev/disk/by-label/EFI rd.live.overlay.overlayfs=1 panic=1 oops=panic rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=2" > /tmp/cmdline
 cat /tmp/cmdline
 
