@@ -34,7 +34,7 @@ test_run() {
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
 
     # vfat on ide drive (no bootloader)
-    test_me "root=LABEL=live iso-scan/filename=/livedir/linux.iso"
+    test_me "root=LABEL=ISO iso-scan/filename=/livedir/linux.iso"
 
     return
 
@@ -171,14 +171,11 @@ mkfs.vfat $ISODIR/efiboot.img
 LC_CTYPE=C mmd -i $ISODIR/efiboot.img EFI EFI/BOOT
 LC_CTYPE=C mcopy -i $ISODIR/efiboot.img /efi/EFI/BOOT/BOOTX64.efi ::EFI/BOOT/
 
-ls -la  $ISODIR/efiboot.img
 rm -rf isolinux
 rm -rf kernel
 rm -rf ./EFI/BOOT/grub.cfg
 
 cp -a "$TESTDIR"/dracut.*/initramfs/* .
-
-find .
 
 xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
    -eltorito-alt-boot \
