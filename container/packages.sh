@@ -6,7 +6,7 @@
 apk add losetup gummiboot dosfstools mtools
 
 # dracut
-apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted
+apk add dracut --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/community --allow-untrusted
 
 # Uninstall most mkinitfs files. mkinitfs gets pulled in by linux-virt
 rm -rf /sbin/mkinitfs /usr/share/mkinitfs /etc/mkinitfs /boot/initramfs-*
