@@ -9,7 +9,7 @@ mkdir -p /efi /lib /tmp/dracut
 apk upgrade
 apk update
 
-apk add dracut-modules --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing --allow-untrusted  >/dev/null
+apk add dracut-modules --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/community --allow-untrusted  >/dev/null
 
 # Temporal build dependencies
 apk add git curl xz bzip2 alpine-sdk linux-headers binutils >/dev/null
