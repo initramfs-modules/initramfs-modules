@@ -9,18 +9,15 @@ mkdir -p /efi /lib /tmp/dracut
 apk upgrade
 apk update
 
-apk add dracut-modules
-
-# --update-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/community --allow-untrusted  >/dev/null
-
 # Temporal build dependencies
-apk add git curl xz bzip2 alpine-sdk linux-headers binutils >/dev/null
+apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules
 
 cd /usr/lib/dracut
 
 # patch dmsquash-live from code landed upstream
 cp -av /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
 
+# todo - why is this needed, please check
 cp -av /_tmp/dracut/modules.d/ /usr/lib/dracut/
 
 # pull in a few PRs that are not yet landed
