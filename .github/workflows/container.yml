@@ -43,7 +43,7 @@ jobs:
 #                     - { tag: boot }
 #                     - { tag: kernel-tiny }
 #                     - { tag: alpine-initramfs-kernel-tiny }
-                     - { tag: alpine    }
+#                     - { tag: alpine    }
 #                    - { tag: arch      }
 #                    - { tag: debian    }
 #                    - { tag: fedora    }
