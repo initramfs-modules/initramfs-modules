@@ -154,20 +154,14 @@ rm -rf etc/ld.so.conf
 rm -rf etc/group
 rm -rf etc/mtab
 
-# todo - delete initrd-release
-
-cat usr/lib/initrd-release
-cat usr/lib/os-release
-cat etc/initrd-release
-cat etc/os-release
-
 rm -rf  usr/lib/initrd-release
 rm -rf usr/lib/os-release
 rm -rf etc/initrd-release
 rm -rf etc/os-release
 
-cat etc/udev/udev.conf
-
+rm -rf etc/udev/udev.conf
+rm -rf etc/udev/rules.d/59-persistent-storage-dm.rules
+rm -rf etc/udev/rules.d/61-persistent-storage.rules
 
 # echo 'liveroot=$(getarg root=); rootok=1; wait_for_dev -n /dev/root; return 0' > lib/dracut/hooks/cmdline/30-parse-dmsquash-live.sh
 
@@ -188,8 +182,6 @@ rm -rf ./bin/busybox
 rm -rf ./bin/gzip
 rm -rf ./bin/tar
 rm -rf ./bin/dmesg
-
-#TODO
 rm -rf ./sbin/blkid
 
 # Populate logs with the list of filenames inside initrd.img
