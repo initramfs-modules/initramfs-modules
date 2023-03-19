@@ -34,7 +34,7 @@ strip /lib/libkmod.so*
 
 cd /
 
-wget https://busybox.net/downloads/busybox-1.35.0.tar.bz2
+wget https://busybox.net/downloads/busybox-1.36.0.tar.bz2
 bzip2 -d busybox-*.tar.bz2 && tar -xf busybox-*.tar && cd busybox-*
 cp $REPO/container/busyboxconfig .config
 make oldconfig
@@ -156,17 +156,15 @@ rm -rf etc/mtab
 
 # todo - delete initrd-release
 
-ls -la usr/lib/initrd-release
 cat usr/lib/initrd-release
-
-ls -la usr/lib/os-release
 cat usr/lib/os-release
-
-ls -la etc/initrd-release
 cat etc/initrd-release
-
-ls -la etc/os-release
 cat etc/os-release
+
+rm -rf  usr/lib/initrd-release
+rm -rf usr/lib/os-release
+rm -rf etc/initrd-release
+rm -rf etc/os-release
 
 # echo 'liveroot=$(getarg root=); rootok=1; wait_for_dev -n /dev/root; return 0' > lib/dracut/hooks/cmdline/30-parse-dmsquash-live.sh
 
