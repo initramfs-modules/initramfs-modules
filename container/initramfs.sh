@@ -14,10 +14,7 @@ apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules
 
 cd /usr/lib/dracut
 
-# patch dmsquash-live from code landed upstream
-cp -av /_tmp/dracut/modules.d/90dmsquash-live/* /usr/lib/dracut/modules.d/90dmsquash-live/
-
-# todo - why is this needed, please check
+# grab upstream modules
 cp -av /_tmp/dracut/modules.d/ /usr/lib/dracut/
 
 # pull in a few PRs that are not yet landed
@@ -37,7 +34,7 @@ strip /lib/libkmod.so*
 
 cd /
 
-wget https://busybox.net/downloads/busybox-1.35.0.tar.bz2
+wget https://busybox.net/downloads/busybox-1.36.0.tar.bz2
 bzip2 -d busybox-*.tar.bz2 && tar -xf busybox-*.tar && cd busybox-*
 cp $REPO/container/busyboxconfig .config
 make oldconfig
@@ -135,6 +132,7 @@ rm -rf lib/dracut/hooks/shutdown/25-dm-shutdown.sh
 rm -rf lib/dracut/hooks/initqueue/timeout/99-rootfallback.sh
 rm -rf lib/udev/rules.d/75-net-description.rules
 rm -rf etc/udev/rules.d/11-dm.rules
+rm -rf sbin/rdsosreport
 
 rm -rf usr/sbin/dmsetup
 
@@ -150,11 +148,25 @@ rm -rf var/tmp
 rm -rf root
 
 rm -rf etc/fstab.empty
-rm -rf etc/cmdline.d
+mkdir -p etc/cmdline.d
 rm -rf etc/ld.so.conf.d/libc.conf
 rm -rf etc/ld.so.conf
 rm -rf etc/group
 rm -rf etc/mtab
+
+# todo - delete initrd-release
+
+ls -la usr/lib/initrd-release
+cat usr/lib/initrd-release
+
+ls -la usr/lib/os-release
+cat usr/lib/os-release
+
+ls -la etc/initrd-release
+cat etc/initrd-release
+
+ls -la etc/os-release
+cat etc/os-release
 
 # echo 'liveroot=$(getarg root=); rootok=1; wait_for_dev -n /dev/root; return 0' > lib/dracut/hooks/cmdline/30-parse-dmsquash-live.sh
 
