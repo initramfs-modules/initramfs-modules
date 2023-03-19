@@ -166,6 +166,9 @@ rm -rf usr/lib/os-release
 rm -rf etc/initrd-release
 rm -rf etc/os-release
 
+cat etc/udev/udev.conf
+
+
 # echo 'liveroot=$(getarg root=); rootok=1; wait_for_dev -n /dev/root; return 0' > lib/dracut/hooks/cmdline/30-parse-dmsquash-live.sh
 
 # TODO - why is this needed ?
