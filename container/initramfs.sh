@@ -16,11 +16,11 @@ cd /usr/lib/dracut
 
 # grab upstream modules and tests
 rm -rf /_tmp/dracut/modules.d/* /_tmp/dracut/test/*
-mv /_tmp/dracut/modules.d /usr/lib/dracut/
-mv /_tmp/dracut/test /usr/lib/dracut/
+cp -a /_tmp/dracut/modules.d /usr/lib/dracut/
+cp -a /_tmp/dracut/test /usr/lib/dracut/
 
 # pull in a few PRs that are not yet landed
-# udevadm over of blkid
+# prefer udevadm over of blkid
 curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2130.patch | git apply --verbose
 
 cd /
