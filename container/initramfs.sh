@@ -37,7 +37,7 @@ bzip2 -d busybox-*.tar.bz2 && tar -xf busybox-*.tar && cd busybox-*
 cp $REPO/container/busyboxconfig .config
 make oldconfig
 diff $REPO/container/busyboxconfig .config
-make --help
+make
 strip ./busybox
 mv ./busybox /bin/busybox
 cd /
