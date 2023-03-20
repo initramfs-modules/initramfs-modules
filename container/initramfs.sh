@@ -158,6 +158,7 @@ rm -rf  usr/lib/initrd-release
 rm -rf usr/lib/os-release
 rm -rf etc/initrd-release
 rm -rf etc/os-release
+rm -rf etc/passwd
 
 rm -rf etc/udev/udev.conf
 rm -rf etc/udev/rules.d/59-persistent-storage-dm.rules
@@ -183,9 +184,6 @@ rm -rf ./bin/gzip
 rm -rf ./bin/tar
 rm -rf ./bin/dmesg
 rm -rf ./sbin/blkid
-
-
-cat etc/passwd
 
 # Populate logs with the list of filenames inside initrd.img
 find . -type f -exec ls -la {} \; | sort -k 5,5  -n -r
