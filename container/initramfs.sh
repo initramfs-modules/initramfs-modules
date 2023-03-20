@@ -1,9 +1,5 @@
 #!/bin/sh
 
-if [ -f /etc/os-release ]; then
- . /etc/os-release
-fi
-
 mkdir -p /efi/kernel/ /lib /tmp/dracut
 
 apk upgrade
@@ -12,14 +8,14 @@ apk update
 # Temporal build dependencies
 apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules
 
-cd /usr/lib/dracut
-
 # grab upstream modules and tests
-rm -rf /_tmp/dracut/modules.d/* /_tmp/dracut/test/*
+rm -rf /usr/lib/dracut/modules.d/* /usr/lib/dracut/test/*
 cp -a /_tmp/dracut/modules.d /usr/lib/dracut/
 cp -a /_tmp/dracut/test /usr/lib/dracut/
 
 # pull in a few PRs that are not yet landed
+cd /usr/lib/dracut
+
 # prefer udevadm over of blkid
 curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2130.patch | git apply --verbose
 
