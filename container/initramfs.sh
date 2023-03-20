@@ -4,7 +4,7 @@ if [ -f /etc/os-release ]; then
  . /etc/os-release
 fi
 
-mkdir -p /efi /lib /tmp/dracut
+mkdir -p /efi/kernel/ /lib /tmp/dracut
 
 apk upgrade
 apk update
@@ -14,12 +14,14 @@ apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules
 
 cd /usr/lib/dracut
 
-# grab upstream modules
-cp -av /_tmp/dracut/modules.d/ /usr/lib/dracut/
+# grab upstream modules and tests
+rm -rf /_tmp/dracut/modules.d/* /_tmp/dracut/test/*
+mv /_tmp/dracut/modules.d /usr/lib/dracut/
+mv /_tmp/dracut/test /usr/lib/dracut/
 
 # pull in a few PRs that are not yet landed
 # udevadm over of blkid
-curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2033.patch | git apply --verbose
+curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2130.patch | git apply --verbose
 
 cd /
 
@@ -61,8 +63,6 @@ rm /bin/findmnt /usr/bin/cpio
 
 cd /
 
-# Idea: instead of just going with the alpine default busybox, maybe build it from source, only the modules I need, might be able to save about 0.5M
-
 # TODO
 # make module that mounts squashfs without initqueue
 #rm -rf /sbin/udevd  /bin/udevadm
@@ -96,7 +96,6 @@ cd /
 
 # busybox, udev-rules, base, fs-lib, rootfs-block, img-lib, dm, dmsquash-live
 # --add-drivers "sd_mod ahci unix vfat nls_cp437 nls_iso8859-1 8250 isofs sr_mod cdrom nvme" \
-
 
 # ntfs3
 cat > /tmp/ntfs3.rules << 'EOF'
@@ -164,15 +163,6 @@ rm -rf etc/udev/udev.conf
 rm -rf etc/udev/rules.d/59-persistent-storage-dm.rules
 rm -rf etc/udev/rules.d/61-persistent-storage.rules
 
-# echo 'liveroot=$(getarg root=); rootok=1; wait_for_dev -n /dev/root; return 0' > lib/dracut/hooks/cmdline/30-parse-dmsquash-live.sh
-
-# TODO - why is this needed ?
-# without this file is still does not boot
-# dmsquash-live-root still need to mount the squashfs that is inside .iso file
-
-# TODO
-# can we get rid of /sbin/udevd /bin/udevadm and use mdev or mdevd instead on alpine
-
 rm sbin/switch_root && cp /sbin/switch_root sbin/
 
 rm -rf lib/dracut/modules.txt lib/dracut/build-parameter.txt lib/dracut/dracut-*
@@ -190,9 +180,8 @@ find . -type f -exec ls -la {} \; | sort -k 5,5  -n -r
 
 find .
 
-mkdir -p /efi/kernel/
 find . -print0 | cpio --null --create --format=newc | gzip --best > /efi/kernel/initrd.img
-ls -lha /efi/kernel/initrd*.img
+ls -la /efi/kernel/initrd*.img
 
 apk del util-linux-misc dracut-modules squashfs-tools git util-linux-misc cpio >/dev/null
 
