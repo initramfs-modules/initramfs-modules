@@ -2,7 +2,7 @@ set -x
 
 cp /efi/kernel/initrd.img /tmp/initramfs.cpio.gz
 
-export KERNEL='5.15.76'
+export KERNEL='6.1.10'
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -14,7 +14,7 @@ autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-d
 cd /tmp/
 
 rm -rf linux-*
-wget --no-check-certificate https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$KERNEL.tar.xz
+wget --no-check-certificate https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-$KERNEL.tar.xz
 tar -xf linux-$KERNEL.tar.xz
 
 cd linux-$KERNEL
