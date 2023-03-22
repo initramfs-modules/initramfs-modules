@@ -1,4 +1,4 @@
-FROM ghcr.io/initramfs-modules/kernel as kernel
+FROM ghcr.io/initramfs-modules/kernel-tiny as kernel
 
 FROM docker.io/alpine
 
