@@ -9,16 +9,7 @@ permissions:
 
 jobs:
     push_to_registry:
-        name: container
         runs-on: ubuntu-latest
-        concurrency:
-            group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.config.tag }}
-            cancel-in-progress: true
-        strategy:
-            fail-fast: false
-            matrix:
-                config:
-                     - { tag: initramfs   }
 
         steps:
             -   name: Checkout
@@ -39,10 +30,17 @@ jobs:
             -   name: Set up env
                 run: echo "repository_owner=${GITHUB_REPOSITORY_OWNER,,}" >>${GITHUB_ENV}
 
-            -   name: Build and Push Container
-                uses: docker/build-push-action@v3
+            -   name: initramfs
+                uses: docker/build-push-action@v4
                 with:
-                    context: .
-                    file: container/Dockerfile-${{ matrix.config.tag }}
-                    tags: ghcr.io/${{env.repository_owner}}/${{ matrix.config.tag }}
                     push: true
+                    file: containers/Dockerfile-initramfs
+                    tags: ghcr.io/${{env.repository_owner}}/initramfs
+
+
+            -   name: kernel-tiny
+                uses: docker/build-push-action@v4
+                with:
+                    push: true
+                    file: containers/Dockerfile-kernel-tiny
+                    tags: ghcr.io/${{env.repository_owner}}/kernel-tiny
