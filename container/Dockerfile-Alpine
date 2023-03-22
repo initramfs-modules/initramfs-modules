@@ -1,0 +1,66 @@
+FROM ghcr.io/initramfs-modules/kernel as kernel
+
+FROM docker.io/alpine
+
+RUN apk add --no-cache \
+    alpine-sdk \
+    asciidoc \
+    bash \
+    binutils \
+    blkid \
+    btrfs-progs \
+    busybox \
+    bzip2 \
+    coreutils \
+    cpio \
+    cryptsetup \
+    curl \
+    dash \
+    dhclient \
+    dmraid \
+    dosfstools \
+    e2fsprogs \
+    eudev \
+    findmnt \
+    git \
+    gpg \
+    grep \
+    gummiboot \
+    iputils \
+    kbd \
+    kmod-dev \
+    libnfsidmap \
+    linux-virt \
+    losetup \
+    lvm2 \
+    make \
+    mdadm \
+    mtools \
+    multipath-tools \
+    musl-fts-dev \
+    nbd \
+    nfs-utils \
+    ntfs-3g \
+    open-iscsi \
+    openssh \
+    ovmf \
+    parted \
+    partx \
+    pigz \
+    procps \
+    qemu-img \
+    qemu-system-x86_64 \
+    sed \
+    sfdisk \
+    squashfs-tools \
+    sudo \
+    util-linux-misc \
+    xorriso \
+    xz
+
+COPY --from=kernel /boot /boot
+
+RUN ln -sf /sbin/poweroff /sbin/shutdown && \
+  ln -sf /usr/bin/dash /bin/dash && \
+  ln -sf /bin/sh /usr/bin/sh && \
+  rm -rf /boot/vmlinuz-virt
