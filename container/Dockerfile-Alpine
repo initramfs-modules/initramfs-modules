@@ -1,6 +1,6 @@
 FROM ghcr.io/initramfs-modules/kernel-tiny as kernel
 
-FROM docker.io/alpine:edge
+FROM docker.io/alpine
 
 RUN apk add --no-cache \
     alpine-sdk \
@@ -56,18 +56,11 @@ RUN apk add --no-cache \
     sudo \
     util-linux-misc \
     xorriso \
-    xz \
-    dracut-modules
+    xz
 
 RUN ln -sf /sbin/poweroff /sbin/shutdown && \
   ln -sf /usr/bin/dash /bin/dash && \
   ln -sf /bin/sh /usr/bin/sh && \
-  rm -rf /boot/* && \
-  rm -rf /usr/lib/dracut/modules.d/* /usr/lib/dracut/test/* && \
-  find /home/runner/work/ && \
-  cp -a /home/runner/work/initramfs-modules/initramfs-modules/dracut/modules.d /usr/lib/dracut/ && \
-  cp -a /home/runner/work/initramfs-modules/initramfs-modules/dracut/test /usr/lib/dracut/ && \
-  cd /usr/lib/dracut && \
-  curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2130.patch | git apply --verbose
+  rm -rf /boot/*
 
 COPY --from=kernel /boot /boot

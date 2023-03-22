@@ -50,4 +50,4 @@ jobs:
                 with:
                     push: true
                     file: container/Dockerfile-Alpine
-                    tags: ghcr.io/${{env.repository_owner}}/alpine
+                    tags: ghcr.io/${{env.repository_owner}}/alpine-kernel-tiny
