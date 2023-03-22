@@ -34,7 +34,7 @@ jobs:
                 uses: docker/build-push-action@v4
                 with:
                     push: true
-                    file: containers/Dockerfile-initramfs
+                    file: container/Dockerfile-initramfs
                     tags: ghcr.io/${{env.repository_owner}}/initramfs
 
 
@@ -42,5 +42,5 @@ jobs:
                 uses: docker/build-push-action@v4
                 with:
                     push: true
-                    file: containers/Dockerfile-kernel-tiny
+                    file: container/Dockerfile-kernel-tiny
                     tags: ghcr.io/${{env.repository_owner}}/kernel-tiny
