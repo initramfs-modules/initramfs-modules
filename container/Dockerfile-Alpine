@@ -1,6 +1,6 @@
 FROM ghcr.io/initramfs-modules/kernel-tiny as kernel
 
-FROM docker.io/alpine
+FROM docker.io/alpine:edge
 
 RUN apk add --no-cache \
     alpine-sdk \
@@ -56,7 +56,8 @@ RUN apk add --no-cache \
     sudo \
     util-linux-misc \
     xorriso \
-    xz
+    xz \
+    dracut-modules
 
 RUN ln -sf /sbin/poweroff /sbin/shutdown && \
   ln -sf /usr/bin/dash /bin/dash && \
