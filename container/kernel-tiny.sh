@@ -123,35 +123,35 @@ CONFIG_ISO9660_FS=y
 # modules
 
 # ntfs3
-CONFIG_NTFS3_FS=m
+#CONFIG_NTFS3_FS=m
 
 # exfat
-CONFIG_EXFAT_FS=m
-CONFIG_EXFAT_DEFAULT_IOCHARSET="iso8859-1"
+#CONFIG_EXFAT_FS=m
+#CONFIG_EXFAT_DEFAULT_IOCHARSET="iso8859-1"
 
 # nvme_core
-CONFIG_NVME_CORE=m
+#CONFIG_NVME_CORE=m
 
 # nvme
-CONFIG_BLK_DEV_NVME=m
+#CONFIG_BLK_DEV_NVME=m
 
 # mmc_core
-CONFIG_MMC=m
+#CONFIG_MMC=m
 
 # mmc_block
-CONFIG_MMC_BLOCK=m
+#CONFIG_MMC_BLOCK=m
 
 # uas
-CONFIG_USB_UAS=m
+#CONFIG_USB_UAS=m
 
 # fuse
-CONFIG_FUSE_FS=m
+#CONFIG_FUSE_FS=m
 
 # btrfs
-CONFIG_BTRFS_FS=m
+#CONFIG_BTRFS_FS=m
 
 # device mapper
-CONFIG_BLK_DEV_DM=m
+#CONFIG_BLK_DEV_DM=m
 
 # EFI
 CONFIG_EFI=y
@@ -168,20 +168,12 @@ make ARCH=x86 allnoconfig KCONFIG_ALLCONFIG=x86_64.miniconf
 
 cat .config
 make -j$(nproc) bzImage
-make -j$(nproc) modules
+#make -j$(nproc) modules
 
 #make clean
 rm -rf /boot/* /lib/modules/*
 
 make install
-make INSTALL_MOD_STRIP=1 modules_install
-
-#make headers_install
-#apt-mark hold  linux-headers*
-#apt-get purge -y -o Dpkg::Use-Pty=0 autoconf build-essential libssl-dev gawk openssl libssl-dev libelf-dev libudev-dev libpci-dev flex bison cpio zstd wget bc kmod git squashfs-tools cpio dracut-core ca-certificates apt-utils ca-certificates git fakeroot wget libelf1 python3 dkms build-essential rsync
-
-apt-get autoremove -y -o Dpkg::Use-Pty=0
-apt-get clean
+#make INSTALL_MOD_STRIP=1 modules_install
 
 find /boot/ /lib/modules/ /efi
-# /usr/include/
