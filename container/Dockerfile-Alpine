@@ -64,8 +64,8 @@ RUN ln -sf /sbin/poweroff /sbin/shutdown && \
   ln -sf /bin/sh /usr/bin/sh && \
   rm -rf /boot/* && \
   rm -rf /usr/lib/dracut/modules.d/* /usr/lib/dracut/test/* && \
-  cp -a /_tmp/dracut/modules.d /usr/lib/dracut/ && \
-  cp -a /_tmp/dracut/test /usr/lib/dracut/ && \
+  cp -a /_tmp/initramfs-modules/dracut/modules.d /usr/lib/dracut/ && \
+  cp -a /_tmp/initramfs-modules/dracut/test /usr/lib/dracut/ && \
   cd /usr/lib/dracut && \
   curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2130.patch | git apply --verbose
 
