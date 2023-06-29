@@ -20,7 +20,7 @@ cd /usr/lib/dracut
 # merge or unlanded upstream parches uploaded by me
 
 # prefer udevadm over of blkid
-curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2130.patch | git apply --verbose
+#curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2130.patch | git apply --verbose
 
 cd /
 
