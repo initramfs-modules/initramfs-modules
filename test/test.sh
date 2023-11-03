@@ -9,6 +9,8 @@ cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
 RUN_ID="$1"
 TESTS=$2
 
+find /usr/lib/dracut/
+
 # shellcheck disable=SC2012
 time basedir="/usr/lib/dracut/" LOGTEE_TIMEOUT_MS=590000 make \
   enable_documentation=no \
