@@ -39,6 +39,7 @@ apk add nfs-utils libnfsidmap dhclient open-iscsi nbd curl
 # additional dependencies to run tests for networking
 # RUN apk add qemu-block-nfs qemu-modules
 
-cp /sbin/poweroff /sbin/shutdown
-cp /usr/bin/dash /bin/dash
-cp /bin/sh /usr/bin/sh
+ln -sf /sbin/poweroff /sbin/shutdown
+ln -sf /usr/bin/dash /bin/dash
+ln -sf /bin/sh /usr/bin/sh
+ln -sf /boot/vmlinuz-virt /boot/vmlinuz-$(cd /lib/modules; ls -1 | tail -1)

@@ -62,6 +62,6 @@ RUN apk add --no-cache \
 RUN ln -sf /sbin/poweroff /sbin/shutdown && \
   ln -sf /usr/bin/dash /bin/dash && \
   ln -sf /bin/sh /usr/bin/sh && \
-  rm -rf /boot/*
+  ln -sf /boot/vmlinuz-virt /boot/vmlinuz-$(cd /lib/modules; ls -1 | tail -1)
 
 COPY --from=kernel /boot /boot
