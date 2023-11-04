@@ -52,10 +52,10 @@ test_run() {
 #    test_marker_check
 
     # squashfs on scsi drive (no bootloader)
-#    test_me "root=live:/dev/sda"
+    test_me "root=live:/dev/sda rd.debug"
 
     # vfat on ide drive (no bootloader)
-    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
+#    test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
 
     # isofs on cdrom drive (no bootloader)
 #    test_me "root=LABEL=ISO"
