@@ -14,7 +14,7 @@ on:
             container:
                 type: choice
                 description: distro
-                default: debian
+                default: alpine-kernel-tiny
                 options:
                     - alpine-kernel-tiny
                     - debian

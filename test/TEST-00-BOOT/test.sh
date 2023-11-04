@@ -102,6 +102,8 @@ test_setup() {
     mkdir "$TESTDIR"/livedir
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/squashfs.img -quiet -no-progress
 
+ls -la /boot/
+
 mkdir /tmp/iso/
 cp -a /efi/* /tmp/iso
 cp /boot/vmlinuz* /tmp/iso/kernel/vmlinuz
@@ -121,6 +123,7 @@ objcopy --verbose  \
     /usr/lib/gummiboot/linuxx64.efi.stub /boot/alpine.efi
 
 ls -la /tmp/iso/kernel/vmlinuz
+cp /usr/lib/gummiboot/linuxx64.efi.stub /boot/alpine.efi
 ls -la /boot/alpine.efi
 
 # move image files out of the cd root dir to not include them two times
