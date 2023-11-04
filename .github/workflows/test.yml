@@ -65,4 +65,4 @@ jobs:
 #                run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
 
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
-                run: cd /__w/initramfs-modules/initramfs-modules/dracut/test/  && ls -la && ./test-github.sh "TEST-${{ matrix.test }}" ${{ matrix.test }}
+                run: cd /__w/initramfs-modules/initramfs-modules/dracut/  && ls -la && .tools/test-github.sh "TEST-${{ matrix.test }}" ${{ matrix.test }}
