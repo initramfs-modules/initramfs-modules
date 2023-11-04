@@ -46,14 +46,14 @@ jobs:
                    ls -la /__w/initramfs-modules/initramfs-modules/test/
                    #cp -a /__w/initramfs-modules/initramfs-modules/test/* /usr/lib/dracut/test/
 
-#            -   name: "Uninstall systemd dependent dracut modules"
-#                run: |
-#                  rm -rf /usr/lib/dracut/modules.d/*systemd*
-#                  for f in 06rngd 06dbus-broker 06dbus-daemon 09dbus 35connman \
-#                    35network-manager 35network-wicked 62bluetooth 80lvmmerge \
-#                    91fido2 91pcsc 91pkcs11 91tpm2-tss 99memstrack 99squash; do
-#                    rm -rf /usr/lib/dracut/modules.d/$f
-#                  done
+            -   name: "Uninstall systemd dependent dracut modules"
+                run: |
+                  rm -rf /usr/lib/dracut/modules.d/*systemd*
+                  for f in 06rngd 06dbus-broker 06dbus-daemon 09dbus 35connman \
+                    35network-manager 35network-wicked 62bluetooth 80lvmmerge \
+                    91fido2 91pcsc 91pkcs11 91tpm2-tss 99memstrack 99squash; do
+                    rm -rf /usr/lib/dracut/modules.d/$f
+                  done
 #
 #            -   name: "Setup running tests"
 #                run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
