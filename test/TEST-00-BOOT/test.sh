@@ -157,6 +157,7 @@ xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/ini
       /boot/grub/bios.img=../isotemp/bios.img \
       /EFI/efiboot.img=../isotemp/efiboot.img
 
+find /boot/
 cp /boot/alpine.efi /efi/EFI/BOOT/BOOTX64.efi
 
 ls -la /efi/EFI/BOOT/BOOTX64.efi

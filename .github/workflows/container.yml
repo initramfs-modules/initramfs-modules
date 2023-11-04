@@ -37,17 +37,23 @@ jobs:
                     file: container/Dockerfile-initramfs
                     tags: ghcr.io/${{env.repository_owner}}/initramfs
 
+            -   name: kernel-tiny
+                uses: docker/build-push-action@v4
+                with:
+                    push: true
+                    file: container/Dockerfile-kernel-tiny
+                    tags: ghcr.io/${{env.repository_owner}}/kernel-tiny
 
-#            -   name: kernel-tiny
-#                uses: docker/build-push-action@v4
-#                with:
-#                    push: true
-#                    file: container/Dockerfile-kernel-tiny
-#                    tags: ghcr.io/${{env.repository_owner}}/kernel-tiny
+            -   name: alpine
+                uses: docker/build-push-action@v4
+                with:
+                    push: true
+                    file: container/Dockerfile-Alpine
+                    tags: ghcr.io/${{env.repository_owner}}/alpine
 
-#            -   name: alpine
-#                uses: docker/build-push-action@v4
-#                with:
-#                    push: true
-#                    file: container/Dockerfile-Alpine
-#                    tags: ghcr.io/${{env.repository_owner}}/alpine-kernel-tiny
+            -   name: alpine-kernel-tiny
+                uses: docker/build-push-action@v4
+                with:
+                    push: true
+                    file: container/Dockerfile-alpine-initramfs-kernel-tiny
+                    tags: ghcr.io/${{env.repository_owner}}/alpine-kernel-tiny
