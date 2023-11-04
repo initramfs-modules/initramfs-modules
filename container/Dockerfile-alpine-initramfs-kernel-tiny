@@ -1,6 +1,6 @@
 FROM ghcr.io/initramfs-modules/kernel-tiny as kernel
 
-FROM ghcr.io/initramfs-modules/boot as boot
+FROM ghcr.io/initramfs-modules/initramfs:latest as initrd
 
 FROM docker.io/alpine
 
@@ -11,6 +11,6 @@ RUN --mount=target=$REPO $REPO/container/packages.sh
 COPY --from=kernel /boot /boot
 COPY --from=kernel /lib/modules /lib/modules
 COPY --from=kernel /efi /efi
-COPY --from=boot /efi /efi
+COPY --from=initrd /efi /efi
 
 RUN find /lib/modules/ /boot/ /efi/
