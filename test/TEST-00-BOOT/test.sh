@@ -102,11 +102,11 @@ test_setup() {
     mkdir "$TESTDIR"/livedir
     mksquashfs "$TESTDIR"/dracut.*/initramfs/ "$TESTDIR"/livedir/squashfs.img -quiet -no-progress
 
-ls -la /boot/
+ls -la /boot/vmlinuz-6.1.10
 
-mkdir /tmp/iso/
+mkdir -p /tmp/iso/kernel
 cp -a /efi/* /tmp/iso
-cp /boot/vmlinuz* /tmp/iso/kernel/vmlinuz
+cp /boot/vmlinuz-6.1.10 /tmp/iso/kernel/vmlinuz
 
 mkdir -p /tmp/iso/LiveOS
 cp "$TESTDIR"/livedir/squashfs.img /tmp/iso/LiveOS/squashfs.img
