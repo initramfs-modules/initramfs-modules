@@ -14,9 +14,10 @@ on:
             container:
                 type: choice
                 description: distro
-                default: alpine-kernel-tiny
+                default: debian
                 options:
                     - alpine-kernel-tiny
+                    - debian
 
 env:
     DEBUGFAIL: "${{ secrets.ACTIONS_STEP_DEBUG && 'rd.debug rd.udev.debug rd.live.debug rd.info console=ttyS0,115200n81 rd.retry=2' }}"
