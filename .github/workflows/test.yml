@@ -42,6 +42,7 @@ jobs:
             -   name: "Install dracut tests"
                 run: |
                    cp -a /__w/initramfs-modules/initramfs-modules/dracut/test/* /__w/initramfs-modules/initramfs-modules/test/
+                   ls -la /__w/initramfs-modules/initramfs-modules/test/
                    #cp -a /__w/initramfs-modules/initramfs-modules/test/* /usr/lib/dracut/test/
 
 #            -   name: "Uninstall systemd dependent dracut modules"
@@ -57,4 +58,4 @@ jobs:
 #                run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
 
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
-                run: cd /__w/initramfs-modules/initramfs-modules/ && ./test/test.sh "TEST-${{ matrix.test }}" ${{ matrix.test }}
+                run: cd /__w/initramfs-modules/initramfs-modules/test/ && ./test.sh "TEST-${{ matrix.test }}" ${{ matrix.test }}
