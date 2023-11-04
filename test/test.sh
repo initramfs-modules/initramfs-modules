@@ -9,7 +9,7 @@ cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
 RUN_ID="$1"
 TESTS=$2
 
-ls -la /lib/modules
+ls -la /usr/lib/dracut/modules.d
 
 
 # shellcheck disable=SC2012
