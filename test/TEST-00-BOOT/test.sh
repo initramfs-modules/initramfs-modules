@@ -127,6 +127,7 @@ cp /usr/lib/gummiboot/linuxx64.efi.stub /boot/alpine.efi
 ls -la /boot/alpine.efi
 
 # todo
+mkdir -p isolinux
 touch isolinux/bios.img
 touch isolinux/efiboot.img
 
