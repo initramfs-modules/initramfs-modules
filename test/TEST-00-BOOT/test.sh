@@ -126,6 +126,10 @@ ls -la /tmp/iso/kernel/vmlinuz
 cp /usr/lib/gummiboot/linuxx64.efi.stub /boot/alpine.efi
 ls -la /boot/alpine.efi
 
+# todo
+touch isolinux/bios.img
+touch isolinux/efiboot.img
+
 # move image files out of the cd root dir to not include them two times
 mkdir /tmp/isotemp
 mv isolinux/bios.img /tmp/isotemp/
