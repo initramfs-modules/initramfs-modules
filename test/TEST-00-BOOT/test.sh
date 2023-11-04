@@ -18,6 +18,7 @@ test_marker_check() {
 
 test_me () {
     test_marker_reset
+    touch "$TESTDIR"/livedir/linux.iso
     "$testdir"/run-qemu "${disk_args[@]}" -initrd /efi/kernel/initrd.img -net none \
         -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
         -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
@@ -140,6 +141,7 @@ mv isolinux/efiboot.img /tmp/isotemp/
 # move the construction of efiboot.img here
 # EFI boot partition - FAT16 disk image
 
+mkdir -p /tmp/iso/EFI/BOOT/
 cat > /tmp/iso/EFI/BOOT/grub.cfg <<EOF
 set timeout=1
 set timeout_style=hidden
@@ -166,6 +168,7 @@ EOF
 #      /EFI/efiboot.img=../isotemp/efiboot.img
 
 find /boot/
+mkdir -p /efi/EFI/BOOT/
 cp /boot/alpine.efi /efi/EFI/BOOT/BOOTX64.efi
 
 ls -la /efi/EFI/BOOT/BOOTX64.efi
