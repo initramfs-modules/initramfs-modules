@@ -39,9 +39,9 @@ jobs:
                   submodules: true
 
                 # patch the dracut installation with dracut submodule and initramfs-modules repo
-            -   name: "Install dracut test modules"
+            -   name: "Install dracut tests"
                 run: |
-                   #cp -a /__w/initramfs-modules/initramfs-modules/dracut/modules.d/* /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/modules.d/*systemd*
+                   cp -a /__w/initramfs-modules/initramfs-modules/dracut/test /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/
                    cp -a /__w/initramfs-modules/initramfs-modules/test/* /usr/lib/dracut/test/
 
 #            -   name: "Uninstall systemd dependent dracut modules"
