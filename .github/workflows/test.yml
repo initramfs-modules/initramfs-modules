@@ -9,11 +9,7 @@ on:
         inputs:
             test:
                 description: "Array of tests to run, such as [11,12]"
-                # 50 NFS MULTIINC - runs too long
-                # 30 ISCS - debian bug ?
-                # 20 NFS - debian bug ?
                 default: "['00']"
-                # "['00','01','03',10,11,12,13,14,15,16,17,98,35,40]"
                 required: true
             container:
                 type: choice
@@ -42,15 +38,11 @@ jobs:
                 with:
                   submodules: true
 
-            -   name: "Add initramfs test cases"
-                run: cp -av /__w/initramfs-modules/initramfs-modules/test/* /__w/initramfs-modules/initramfs-modules/dracut/test/
-
-#            -   name: "Install dracut test modules"
-#                run: cp -a /__w/initramfs-modules/initramfs-modules/dracut/modules.d/80test* /usr/lib/dracut/modules.d/
-#                # rm -rf /usr/lib/dracut/modules.d/* && cp -a /__w/initramfs-modules/initramfs-modules/dracut/modules.d/* /usr/lib/dracut/modules.d/
-
-#            -   name: "Install initramfs dracut modules overlay"
-#                run: cp -a /__w/initramfs-modules/initramfs-modules/modules.d/* /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/modules.d/*systemd*
+                # patch the dracut installation with dracut submodule and initramfs-modules repo
+            -   name: "Install dracut test modules"
+                run: |
+                   #cp -a /__w/initramfs-modules/initramfs-modules/dracut/modules.d/* /usr/lib/dracut/modules.d/ && rm -rf /usr/lib/dracut/modules.d/*systemd*
+                   cp -a /__w/initramfs-modules/initramfs-modules/test/* /usr/lib/dracut/test/
 
 #            -   name: "Uninstall systemd dependent dracut modules"
 #                run: |
@@ -65,4 +57,4 @@ jobs:
 #                run: cp /usr/bin/dracut /usr/lib/dracut/dracut.sh
 
             -   name: "${{ inputs.container }} ${{ inputs.test }}"
-                run: cd /__w/initramfs-modules/initramfs-modules/dracut/ && ./tools/test-github.sh "TEST-${{ matrix.test }}" ${{ matrix.test }}
+                run: cd /__w/initramfs-modules/initramfs-modules/ && ./test/test.sh "TEST-${{ matrix.test }}" ${{ matrix.test }}
