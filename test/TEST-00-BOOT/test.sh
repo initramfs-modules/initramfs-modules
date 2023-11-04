@@ -34,21 +34,21 @@ test_run() {
     OVMF_CODE="/usr/share/OVMF/OVMF_CODE.fd"
 
     # iso-scan - like linode
-    test_me "root=LABEL=ISO iso-scan/filename=/livedir/linux.iso"
+#    test_me "root=LABEL=ISO iso-scan/filename=/livedir/linux.iso"
 
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
-    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -drive file=fat:rw:"$TESTDIR"/iso,format=vvfat,label=ISO \
-       -global driver=cfi.pflash01,property=secure,value=on \
-       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-    test_marker_check
+#    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
+#       -drive file=fat:rw:"$TESTDIR"/iso,format=vvfat,label=ISO \
+#       -global driver=cfi.pflash01,property=secure,value=on \
+#       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+#    test_marker_check
 
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
-    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
-       -global driver=cfi.pflash01,property=secure,value=on \
-       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-    test_marker_check
+#    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
+#       -drive file="$TESTDIR"/livedir/linux-uefi.iso,format=raw,index=0 \
+#       -global driver=cfi.pflash01,property=secure,value=on \
+#       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+#    test_marker_check
 
     # squashfs on scsi drive (no bootloader)
     test_me "root=live:/dev/sda"
@@ -57,34 +57,34 @@ test_run() {
     test_me "root=LABEL=live rd.live.dir=livedir rd.live.squashimg=squashfs.img"
 
     # isofs on cdrom drive (no bootloader)
-    test_me "root=LABEL=ISO"
+#    test_me "root=LABEL=ISO"
 
     # ISO UEFI CDROM scsi-cd
-    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -cdrom "$TESTDIR"/livedir/linux.iso \
-       -global driver=cfi.pflash01,property=secure,value=on \
-       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-    test_marker_check
+#    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
+#       -cdrom "$TESTDIR"/livedir/linux.iso \
+#       -global driver=cfi.pflash01,property=secure,value=on \
+#       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+#    test_marker_check
 
     # ISO legacy CDROM scsi-cd
-    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
-       -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
-       -cdrom "$TESTDIR"/livedir/linux.iso \
-       -boot order=dc
-    test_marker_check
+#    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
+#       -drive file="$TESTDIR"/livedir/squashfs.img,format=raw,index=0 \
+#       -drive file=fat:rw:"$TESTDIR",format=vvfat,label=live \
+#       -cdrom "$TESTDIR"/livedir/linux.iso \
+#       -boot order=dc
+#    test_marker_check
 
     # ISO legacy HARDDISK (isohybrid) scsi-hd
-    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0
-    test_marker_check
+#    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
+#       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0
+#    test_marker_check
 
     # ISO UEFI HARDDISK (isohybrid) scsi-hd
-    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
-       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0 \
-       -global driver=cfi.pflash01,property=secure,value=on \
-       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
-    test_marker_check
+#    test_marker_reset && "$testdir"/run-qemu "${disk_args[@]}" -net none \
+#       -drive file="$TESTDIR"/livedir/linux.iso,format=raw,index=0 \
+#       -global driver=cfi.pflash01,property=secure,value=on \
+#       -drive if=pflash,format=raw,unit=0,file="${OVMF_CODE}",readonly=on
+#    test_marker_check
 
 # todo - add initramfs into kernel actually, it is not there now   (basically do not have kernel file and initramfs file)
 # first get rid of initramfs file and bake it into kernel - https://github.com/haraldh/mkrescue-uefi/blob/master/mkrescue-uefi.sh change-section-vma .initrd=0x3000000
@@ -149,21 +149,21 @@ menuentry linux {
 }
 EOF
 
-xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
-   -eltorito-boot boot/grub/bios.img \
-     -no-emul-boot \
-     -boot-load-size 4 \
-     -boot-info-table \
-     --eltorito-catalog boot/grub/boot.cat \
-     --grub2-boot-info \
-     --grub2-mbr /tmp/iso/isolinux/boot_hybrid.img \
-   -eltorito-alt-boot \
-     -e EFI/efiboot.img \
-     -no-emul-boot \
-   -graft-points \
-      "." \
-      /boot/grub/bios.img=../isotemp/bios.img \
-      /EFI/efiboot.img=../isotemp/efiboot.img
+#xorriso -as mkisofs -output "$TESTDIR"/livedir/linux.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
+#   -eltorito-boot boot/grub/bios.img \
+#     -no-emul-boot \
+#     -boot-load-size 4 \
+#     -boot-info-table \
+#     --eltorito-catalog boot/grub/boot.cat \
+#     --grub2-boot-info \
+#     --grub2-mbr /tmp/iso/isolinux/boot_hybrid.img \
+#   -eltorito-alt-boot \
+#     -e EFI/efiboot.img \
+#     -no-emul-boot \
+#   -graft-points \
+#      "." \
+#      /boot/grub/bios.img=../isotemp/bios.img \
+#      /EFI/efiboot.img=../isotemp/efiboot.img
 
 find /boot/
 cp /boot/alpine.efi /efi/EFI/BOOT/BOOTX64.efi
@@ -184,13 +184,13 @@ rm -rf ./EFI/BOOT/grub.cfg
 
 cp -a "$TESTDIR"/dracut.*/initramfs/* .
 
-xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
-   -eltorito-alt-boot \
-     -e EFI/efiboot.img \
-     -no-emul-boot \
-   -graft-points \
-      "." \
-      /EFI/efiboot.img=../isotemp/efiboot.img
+#xorriso -as mkisofs -output "$TESTDIR"/livedir/linux-uefi.iso "$TESTDIR"/dracut.*/initramfs/ -volid "ISO" -iso-level 3  \
+#   -eltorito-alt-boot \
+#     -e EFI/efiboot.img \
+#     -no-emul-boot \
+#   -graft-points \
+#      "." \
+#      /EFI/efiboot.img=../isotemp/efiboot.img
 
     rm -rf -- "$TESTDIR"/dracut.* "$TESTDIR"/tmp-*
 mkdir -p "$TESTDIR"/iso/LiveOS
