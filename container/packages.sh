@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # kernel
-#apk add linux-virt
+apk add linux-virt
 
 apk add losetup gummiboot dosfstools mtools
 
