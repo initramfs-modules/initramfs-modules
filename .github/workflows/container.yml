@@ -44,12 +44,12 @@ jobs:
 #                    file: container/Dockerfile-kernel-tiny
 #                    tags: ghcr.io/${{env.repository_owner}}/kernel-tiny
 
-#            -   name: alpine
-#                uses: docker/build-push-action@v4
-#                with:
-#                    push: true
-#                    file: container/Dockerfile-Alpine
-#                    tags: ghcr.io/${{env.repository_owner}}/alpine
+            -   name: debian
+                uses: docker/build-push-action@v4
+                with:
+                    push: true
+                    file: container/Dockerfile-debian
+                    tags: ghcr.io/${{env.repository_owner}}/debian
 
             -   name: alpine-kernel-tiny
                 uses: docker/build-push-action@v4
