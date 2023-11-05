@@ -9,12 +9,23 @@ apk update
 apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules
 
 # grab dracut modules from git submodule
-rm -rf /usr/lib/dracut/modules.d/* /usr/lib/dracut/test/*
+rm -rf /usr/lib/dracut/modules.d/*
 cp -av /_tmp/dracut/modules.d /usr/lib/dracut/
-cp -av /_tmp/dracut/test /usr/lib/dracut/
+
+rm -rf /usr/lib/dracut/modules.d/*systemd*
+for f in 06rngd 06dbus-broker 06dbus-daemon 09dbus 35connman \
+         35network-manager 62bluetooth 80lvmmerge \
+         45ifcfg 40network 01systemd-networkd \
+         91fido2 91pcsc 91pkcs11 91tpm2-tss 99memstrack 99squash; do
+  rm -rf /usr/lib/dracut/modules.d/$f
+done
+
+#cp -av /_tmp/dracut/test /usr/lib/dracut/
 
 # pull in a few PRs that are not yet landed
 cd /usr/lib/dracut
+
+ls -la modules.d
 
 # idea - gh pr list --search "author:@me reviewed-by:aafeijoo-suse"
 # merge or unlanded upstream parches uploaded by me
