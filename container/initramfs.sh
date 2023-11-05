@@ -102,9 +102,14 @@ SUBSYSTEM=="block", ENV{ID_FS_TYPE}=="ntfs", ENV{ID_FS_TYPE}="ntfs3"
 EOF
 
 dracut --nofscks --force --no-hostonly --no-early-microcode --no-compress --tmpdir /tmp/dracut --keep --no-kernel \
-  --modules 'dmsquash-live busybox' \
+  --modules 'rootfs-block img-lib overlayfs busybox' \
   --include /_tmp/container/infra-init.sh /lib/dracut/hooks/pre-pivot/01-init.sh \
-  --include /usr/lib/dracut/modules.d/90kernel-modules/parse-kernel.sh /lib/dracut/hooks/cmdline/01-parse-kernel.sh \
+  --include /usr/lib/dracut/modules.d/90kernel-modules/parse-kernel.sh          /lib/dracut/hooks/cmdline/01-parse-kernel.sh \
+  --include /usr/lib/dracut/modules.d/90dmsquash-live/parse-dmsquash-live.sh    /lib/dracut/hooks/cmdline/30-parse-dmsquash-live.sh \
+  --include /usr/lib/dracut/modules.d/90dmsquash-live/dmsquash-live-root.sh     /sbin/dmsquash-live-root \
+  --include /usr/lib/dracut/modules.d/90dmsquash-live/parse-iso-scan.sh         /lib/dracut/hooks/cmdline/31-parse-iso-scan.sh \
+  --include /usr/lib/dracut/modules.d/90dmsquash-live/dmsquash-live-genrules.sh /lib/dracut/hooks/pre-udev/30-dmsquash-live-genrules.sh \
+  --include /usr/lib/dracut/modules.d/90dmsquash-live/apply-live-updates.sh     /lib/dracut/hooks/pre-pivot/20-apply-live-updates.sh \
   --include /tmp/ntfs3.rules /lib/udev/rules.d/ntfs3.rules \
   initrd.img $KERNEL
 
