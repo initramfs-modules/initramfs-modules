@@ -10,8 +10,8 @@ apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules
 
 # grab dracut modules from git submodule
 rm -rf /usr/lib/dracut/modules.d/* /usr/lib/dracut/test/*
-cp -a /_tmp/dracut/modules.d /usr/lib/dracut/
-cp -a /_tmp/dracut/test /usr/lib/dracut/
+cp -av /_tmp/dracut/modules.d /usr/lib/dracut/
+cp -av /_tmp/dracut/test /usr/lib/dracut/
 
 # pull in a few PRs that are not yet landed
 cd /usr/lib/dracut
@@ -156,6 +156,11 @@ rm -rf etc/ld.so.conf.d/libc.conf
 rm -rf etc/ld.so.conf
 rm -rf etc/group
 rm -rf etc/mtab
+
+
+# todo
+#try mv etc/udev/rules.d/59-persistent-storage.rules lib/udev/rules.d/
+#try rm -rf etc
 
 rm -rf usr/lib/initrd-release
 rm -rf usr/lib/os-release
