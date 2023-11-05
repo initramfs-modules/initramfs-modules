@@ -26,8 +26,8 @@ cd /
 
 # udev depends on libkmod
 # rebuild libkmod without openssl lib (libkmod will be dependent on musl and libzstd)
-wget https://mirrors.edge.kernel.org/pub/linux/utils/kernel/kmod/kmod-30.tar.xz
-xz -d *.xz && tar -xf *.tar && cd kmod-30
+wget https://mirrors.edge.kernel.org/pub/linux/utils/kernel/kmod/kmod-31.tar.xz
+xz -d *.xz && tar -xf *.tar && cd kmod-31
 ./configure --prefix=/usr --bindir=/bin --sysconfdir=/etc --with-rootlibdir=/lib --disable-test-modules --disable-tools --disable-manpages
 make
 rm -rf /lib/libkmod.so* && make install && make clean 2>&1 > /dev/null
@@ -127,17 +127,17 @@ rm -rf usr/lib/dracut/dracut-*
 rm -rf usr/lib/dracut/modules.txt
 
 # when the initrd image contains the whole CD ISO - see https://github.com/livecd-tools/livecd-tools/blob/main/tools/livecd-iso-to-pxeboot.sh
-rm -rf lib/dracut/hooks/pre-udev/30-dmsquash-liveiso-genrules.sh
+#rm -rf lib/dracut/hooks/pre-udev/30-dmsquash-liveiso-genrules.sh
 
 # todo - ideally dm dracut module is not included instead of this hack
-rm -rf lib/dracut/hooks/pre-udev/30-dm-pre-udev.sh
-rm -rf lib/dracut/hooks/shutdown/25-dm-shutdown.sh
+#rm -rf lib/dracut/hooks/pre-udev/30-dm-pre-udev.sh
+#rm -rf lib/dracut/hooks/shutdown/25-dm-shutdown.sh
 rm -rf lib/dracut/hooks/initqueue/timeout/99-rootfallback.sh
 rm -rf lib/udev/rules.d/75-net-description.rules
-rm -rf etc/udev/rules.d/11-dm.rules
+#rm -rf etc/udev/rules.d/11-dm.rules
 rm -rf sbin/rdsosreport
 
-rm -rf usr/sbin/dmsetup
+#rm -rf usr/sbin/dmsetup
 
 # optimize - Remove empty (fake) binaries
 find usr/bin usr/sbin -type f -empty -delete -print
@@ -157,7 +157,7 @@ rm -rf etc/ld.so.conf
 rm -rf etc/group
 rm -rf etc/mtab
 
-rm -rf  usr/lib/initrd-release
+rm -rf usr/lib/initrd-release
 rm -rf usr/lib/os-release
 rm -rf etc/initrd-release
 rm -rf etc/os-release
