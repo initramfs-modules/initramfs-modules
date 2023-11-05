@@ -32,9 +32,6 @@ install() {
     fi
 
     inst_rules \
-        40-redhat.rules \
-        50-firmware.rules \
-        50-udev.rules \
         50-udev-default.rules \
         55-scsi-sg3_id.rules \
         58-scsi-sg3_symlink.rules \
@@ -43,7 +40,6 @@ install() {
         60-cdrom_id.rules \
         60-pcmcia.rules \
         60-persistent-storage.rules \
-        61-persistent-storage-edd.rules \
         64-btrfs.rules \
         70-uaccess.rules \
         71-seat.rules \
@@ -51,15 +47,9 @@ install() {
         75-net-description.rules \
         80-drivers.rules 95-udev-late.rules \
         80-net-name-slot.rules 80-net-setup-link.rules \
-        95-late.rules \
         "$moddir/59-persistent-storage.rules" \
         "$moddir/61-persistent-storage.rules"
 
-    prepare_udev_rules 59-persistent-storage.rules 61-persistent-storage.rules
-    # debian udev rules
-    inst_rules 91-permissions.rules
-    # eudev rules
-    inst_rules 80-drivers-modprobe.rules
     # legacy persistent network device name rules
     [[ $hostonly ]] && inst_rules 70-persistent-net.rules
 
@@ -82,11 +72,6 @@ install() {
         "${udevdir}"/ata_id \
         "${udevdir}"/cdrom_id \
         "${udevdir}"/create_floppy_devices \
-        "${udevdir}"/edd_id \
-        "${udevdir}"/firmware.sh \
-        "${udevdir}"/firmware \
-        "${udevdir}"/firmware.agent \
-        "${udevdir}"/hotplug.functions \
         "${udevdir}"/fw_unit_symlinks.sh \
         "${udevdir}"/hid2hci \
         "${udevdir}"/path_id \
@@ -99,4 +84,5 @@ install() {
     inst_multiple -o /etc/pcmcia/config.opts
 
     inst_libdir_file "libnss_files*"
+
 }
