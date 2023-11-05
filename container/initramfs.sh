@@ -118,6 +118,7 @@ dracut --nofscks --force --no-hostonly --no-early-microcode --no-compress --tmpd
   --include /usr/lib/dracut/modules.d/90kernel-modules/parse-kernel.sh          /lib/dracut/hooks/cmdline/01-parse-kernel.sh \
   --include /usr/lib/dracut/modules.d/90dmsquash-live/parse-dmsquash-live.sh    /lib/dracut/hooks/cmdline/30-parse-dmsquash-live.sh \
   --include /usr/lib/dracut/modules.d/90dmsquash-live/dmsquash-live-root.sh     /sbin/dmsquash-live-root \
+  --include /usr/lib/dracut/modules.d/90dmsquash-live/iso-scan.sh               /sbin/iso-scan \
   --include /usr/lib/dracut/modules.d/90dmsquash-live/parse-iso-scan.sh         /lib/dracut/hooks/cmdline/31-parse-iso-scan.sh \
   --include /usr/lib/dracut/modules.d/90dmsquash-live/dmsquash-live-genrules.sh /lib/dracut/hooks/pre-udev/30-dmsquash-live-genrules.sh \
   --include /usr/lib/dracut/modules.d/90dmsquash-live/apply-live-updates.sh     /lib/dracut/hooks/pre-pivot/20-apply-live-updates.sh \
