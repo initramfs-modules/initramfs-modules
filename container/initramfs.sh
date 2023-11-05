@@ -147,26 +147,14 @@ rm -rf bin/dmesg
 rm -rf var/tmp
 rm -rf root
 
-rm -rf etc/fstab.empty
-mkdir -p etc/cmdline.d
-rm -rf etc/ld.so.conf.d/libc.conf
-rm -rf etc/ld.so.conf
-rm -rf etc/group
-rm -rf etc/mtab
-
-# todo
+# cleanup etc
 mv etc/udev/rules.d/59-persistent-storage.rules lib/udev/rules.d/
-rm -rf etc/*
+rm -rf etc
+# these directories need to exists during the execution of initramfs
+mkdir -p etc/udev/rules.d etc/cmdline.d
 
 rm -rf usr/lib/initrd-release
 rm -rf usr/lib/os-release
-rm -rf etc/initrd-release
-rm -rf etc/os-release
-rm -rf etc/passwd
-
-rm -rf etc/udev/udev.conf
-rm -rf etc/udev/rules.d/59-persistent-storage-dm.rules
-rm -rf etc/udev/rules.d/61-persistent-storage.rules
 
 rm sbin/switch_root && cp /sbin/switch_root sbin/
 
