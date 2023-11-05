@@ -12,13 +12,13 @@ apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules
 rm -rf /usr/lib/dracut/modules.d/*
 cp -av /_tmp/dracut/modules.d /usr/lib/dracut/
 
-rm -rf /usr/lib/dracut/modules.d/*systemd*
-for f in 06rngd 06dbus-broker 06dbus-daemon 09dbus 35connman \
-         35network-manager 62bluetooth 80lvmmerge \
-         45ifcfg 40network 01systemd-networkd \
-         91fido2 91pcsc 91pkcs11 91tpm2-tss 99memstrack 99squash; do
-  rm -rf /usr/lib/dracut/modules.d/$f
-done
+#rm -rf /usr/lib/dracut/modules.d/*systemd*
+#for f in 06rngd 06dbus-broker 06dbus-daemon 09dbus 35connman \
+#         35network-manager 62bluetooth 80lvmmerge \
+#         45ifcfg 40network 01systemd-networkd \
+#         91fido2 91pcsc 91pkcs11 91tpm2-tss 99memstrack 99squash; do
+#  rm -rf /usr/lib/dracut/modules.d/$f
+#done
 
 #cp -av /_tmp/dracut/test /usr/lib/dracut/
 
@@ -72,12 +72,6 @@ rm /bin/findmnt /usr/bin/cpio
 > /bin/tar
 
 cd /
-
-# TODO
-# make module that mounts squashfs without initqueue
-#rm -rf /sbin/udevd  /bin/udevadm
-#> /sbin/udevd
-#> /bin/udevadm
 
 # todo - mount the modules file earlier instead of duplicating them
 # this probably need to be done on udev stage (pre-mount is too late)
@@ -138,18 +132,9 @@ rm -rf usr/lib/dracut/build-parameter.txt
 rm -rf usr/lib/dracut/dracut-*
 rm -rf usr/lib/dracut/modules.txt
 
-# when the initrd image contains the whole CD ISO - see https://github.com/livecd-tools/livecd-tools/blob/main/tools/livecd-iso-to-pxeboot.sh
-#rm -rf lib/dracut/hooks/pre-udev/30-dmsquash-liveiso-genrules.sh
-
-# todo - ideally dm dracut module is not included instead of this hack
-#rm -rf lib/dracut/hooks/pre-udev/30-dm-pre-udev.sh
-#rm -rf lib/dracut/hooks/shutdown/25-dm-shutdown.sh
 rm -rf lib/dracut/hooks/initqueue/timeout/99-rootfallback.sh
 rm -rf lib/udev/rules.d/75-net-description.rules
-#rm -rf etc/udev/rules.d/11-dm.rules
 rm -rf sbin/rdsosreport
-
-#rm -rf usr/sbin/dmsetup
 
 # optimize - Remove empty (fake) binaries
 find usr/bin usr/sbin -type f -empty -delete -print
@@ -169,10 +154,9 @@ rm -rf etc/ld.so.conf
 rm -rf etc/group
 rm -rf etc/mtab
 
-
 # todo
-#try mv etc/udev/rules.d/59-persistent-storage.rules lib/udev/rules.d/
-#try rm -rf etc
+mv etc/udev/rules.d/59-persistent-storage.rules lib/udev/rules.d/
+rm -rf etc/*
 
 rm -rf usr/lib/initrd-release
 rm -rf usr/lib/os-release
