@@ -6,7 +6,7 @@ apk upgrade
 apk update
 
 # Temporal build dependencies
-apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules
+apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules intel-ucode
 
 # grab dracut modules from git submodule
 rm -rf /usr/lib/dracut/modules.d/*
