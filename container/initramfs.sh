@@ -106,7 +106,7 @@ cat > /tmp/ntfs3.rules << 'EOF'
 SUBSYSTEM=="block", ENV{ID_FS_TYPE}=="ntfs", ENV{ID_FS_TYPE}="ntfs3"
 EOF
 
-dracut --early-microcode --nofscks --force --no-hostonly --no-compress --tmpdir /tmp/dracut --keep --no-kernel \
+dracut --no-early-microcode --nofscks --force --no-hostonly --no-compress --tmpdir /tmp/dracut --keep --no-kernel \
   --modules 'rootfs-block img-lib overlayfs busybox' \
   --include /_tmp/container/infra-init.sh /lib/dracut/hooks/pre-pivot/01-init.sh \
   --include /usr/lib/dracut/modules.d/90kernel-modules/parse-kernel.sh          /lib/dracut/hooks/cmdline/01-parse-kernel.sh \
@@ -173,7 +173,10 @@ find . -type f -exec ls -la {} \; | sort -k 5,5  -n -r
 
 find .
 
-find . -print0 | cpio --null --create --format=newc | gzip --best > /efi/kernel/initrd.img
+find . -print0 | cpio --null --create --format=newc > initrd_orig.img
+
+cat /boot/intel-ucode.img initrd_orig.img | gzip --best > /efi/kernel/initrd.img
+
 ls -la /efi/kernel/initrd*.img
 
 apk del util-linux-misc dracut-modules squashfs-tools git util-linux-misc cpio >/dev/null
