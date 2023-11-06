@@ -106,7 +106,7 @@ cat > /tmp/ntfs3.rules << 'EOF'
 SUBSYSTEM=="block", ENV{ID_FS_TYPE}=="ntfs", ENV{ID_FS_TYPE}="ntfs3"
 EOF
 
-dracut --early-microcode --nofscks --force --no-hostonly --no-early-microcode --no-compress --tmpdir /tmp/dracut --keep --no-kernel \
+dracut --early-microcode --nofscks --force --no-hostonly --no-compress --tmpdir /tmp/dracut --keep --no-kernel \
   --modules 'rootfs-block img-lib overlayfs busybox' \
   --include /_tmp/container/infra-init.sh /lib/dracut/hooks/pre-pivot/01-init.sh \
   --include /usr/lib/dracut/modules.d/90kernel-modules/parse-kernel.sh          /lib/dracut/hooks/cmdline/01-parse-kernel.sh \
