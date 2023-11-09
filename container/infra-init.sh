@@ -64,3 +64,5 @@ if [ -f "$RDEXEC" ]; then
   ( cd $configdir && . "./$scriptname" )
   printf "[rd.exec] stop executing $RDEXEC \n"
 fi
+
+ln -sf /run/initramfs/live/extensions /run/extensions
