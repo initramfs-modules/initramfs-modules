@@ -28,15 +28,14 @@ fi
 if [ -f "$mp/kernel/modules"  ]; then
   mkdir -p "$NEWROOT/lib/modules" /run/initramfs/modules
   mount "$mp/kernel/modules" /run/initramfs/modules
-  #mount "$mp/kernel/modules" "$NEWROOT/lib/modules"
   mount --bind /run/initramfs/modules "$NEWROOT/lib/modules"
 fi
 
 # Make the firmware available to boot
 if [ -f "$mp/kernel/firmware"  ]; then
-  mkdir -p "$NEWROOT/lib/firmware"
-  mount "$mp/kernel/firmware" "$NEWROOT/lib/firmware"
-  mount --bind "$mp/kernel" "$NEWROOT/boot"
+  mkdir -p "$NEWROOT/lib/firmware" /run/initramfs/firmware
+  mount "$mp/kernel/firmware" /run/initramfs/firmware
+  mount --bind /run/initramfs/firmware "$NEWROOT/lib/firmware"
 fi
 
 # Make the kernel available for kexec
