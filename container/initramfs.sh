@@ -173,9 +173,10 @@ find . -type f -exec ls -la {} \; | sort -k 5,5  -n -r
 
 find .
 
-find . -print0 | cpio --null --create --format=newc > initrd_orig.img
+find . -print0 | cpio --null --create --format=newc | gzip --best > /efi/kernel/initrd.img
 
-cat /boot/intel-ucode.img initrd_orig.img | gzip --best > /efi/kernel/initrd.img
+#find . -print0 | cpio --null --create --format=newc > initrd_orig.img
+#cat /boot/intel-ucode.img initrd_orig.img | gzip --best > /efi/kernel/initrd.img
 
 ls -la /efi/kernel/initrd*.img
 
