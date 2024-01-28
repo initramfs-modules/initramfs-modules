@@ -1,4 +1,4 @@
-ARG BASE=docker.io/alpine:edge
+ARG BASE=docker.io/alpine:latest
 
 FROM $BASE as builder
 
