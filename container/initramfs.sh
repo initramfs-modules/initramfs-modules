@@ -8,21 +8,6 @@ apk update
 # Temporal build dependencies
 apk add git curl xz bzip2 alpine-sdk linux-headers binutils dracut-modules intel-ucode --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community
 
-# grab dracut modules from git submodule
-#rm -rf /usr/lib/dracut/modules.d/*
-#cp -av /_tmp/dracut/modules.d /usr/lib/dracut/
-
-# pull in a few PRs that are not yet landed
-cd /usr/lib/dracut
-
-ls -la modules.d
-
-# idea - gh pr list --search "author:@me reviewed-by:aafeijoo-suse"
-# merge or unlanded upstream parches uploaded by me
-
-# prefer udevadm over of blkid
-#curl https://patch-diff.githubusercontent.com/raw/dracutdevs/dracut/pull/2130.patch | git apply --verbose
-
 cd /
 
 # udev depends on libkmod
@@ -35,7 +20,6 @@ rm -rf /lib/libkmod.so* && make install && make clean 2>&1 > /dev/null
 strip /lib/libkmod.so*
 
 cd /
-
 wget https://busybox.net/downloads/busybox-1.36.1.tar.bz2
 bzip2 -d busybox-*.tar.bz2 && tar -xf busybox-*.tar && cd busybox-*
 cp $REPO/container/busyboxconfig .config
