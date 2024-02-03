@@ -83,6 +83,7 @@ EOF
 dracut --no-early-microcode --nofscks --force --no-hostonly --no-compress --tmpdir /tmp/dracut --keep --no-kernel \
   --modules 'rootfs-block img-lib overlayfs busybox' \
   --include /_tmp/container/infra-init.sh /lib/dracut/hooks/pre-pivot/01-init.sh \
+  --include /_tmp/container/infra-cmdline.sh /lib/dracut/hooks/cmdline/01-cmdline.sh \
   --include /usr/lib/dracut/modules.d/90kernel-modules/parse-kernel.sh          /lib/dracut/hooks/cmdline/01-parse-kernel.sh \
   --include /usr/lib/dracut/modules.d/90dmsquash-live/parse-dmsquash-live.sh    /lib/dracut/hooks/cmdline/30-parse-dmsquash-live.sh \
   --include /usr/lib/dracut/modules.d/90dmsquash-live/dmsquash-live-root.sh     /sbin/dmsquash-live-root \

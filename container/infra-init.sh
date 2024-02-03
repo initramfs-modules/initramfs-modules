@@ -15,15 +15,6 @@ chmod g+w /run/media
 # maybe instead of hardcoding the label, have a deterministi logic as default
 # e.g on linode there is actually only one directory under /dev/disk/by-label
 
-#debug
-mkdir -p /run/initramfs/gombi
-
-if [ -e /sys/firmware/qemu_fw_cfg/by_name/opt/io.dracut/cmdline/raw ]; then
-  mkdir -p /etc/cmdline.d/
-  cat /sys/firmware/qemu_fw_cfg/by_name/opt/io.dracut/cmdline/raw >> "/etc/cmdline.d/qemu.conf"
-  cp /etc/cmdline.d/qemu.conf /run/initramfs/gombi/
-fi
-
 if [ -e /dev/disk/by-label/EFI ]; then
   mkdir -p /run/media/efi
   mount -o ro,noexec,nosuid,nodev /dev/disk/by-label/EFI /run/media/efi
